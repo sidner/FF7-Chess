@@ -1,0 +1,376 @@
+<lsf>
+
+    <!-- configuracoes globais -->
+    <globals>
+
+        <!-- a declaracao dos atributos deste bloco e' obrigatoria -->
+
+        <background r="0.0" g="0.0" b="0.0" a="1.0" />
+
+        <!-- Configuracao de desenho de poligonos e shading -->
+        <!-- Valores para mode: "fill", "line", "point" -->
+        <!-- Valores para shading: "flat", "gouraud") -->
+        <polygon mode="fill" shading="gouraud" /> 
+
+        <!-- Configuracao de culling -->
+        <!-- Valores para frontfaceorder: "CCW" ou "CW" -->
+        <!-- Valores para cullface: "back", "front" ou "both" -->
+        
+        <culling frontfaceorder="CCW" cullface="back" enabled="true" />
+    </globals>
+
+
+    <!-- informacao de camaras: o atributo "initial" identifica a camara/ponto de vista inicial -->
+    <cameras initial="camera1" >
+        <!-- tem de existir, pelo menos uma camara dos tipos seguintes (perspective ou ortho) -->
+
+		<perspective id="camera1" near="0.1" far="1000.0" angle="50.0">
+            <from x="5.0" y="10.0" z="5.0" />
+            <to x="4.0" y="4.0" z="4.0" />
+        </perspective>
+		
+		<ortho id="camera2" near="0.1" far="1000.0" left="-5.0" right="5.0" top="5.0" bottom="-5.0" />
+
+    </cameras>
+   
+
+    <!-- informacao geral de iluminacao; segue os parametros do OpenGL -->
+    <lighting doublesided="false" local="false" enabled="true" >
+        <!-- luz ambiente da cena -->
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+
+        <!-- informacao de fontes de luz -->
+        <lights>
+            <!-- Deve existir um ou mais blocos "light" -->
+            <!-- Os identificadores "id" nao podem ser repetidos -->
+            <light id="light1" enabled="true">
+                <location x="4.0" y="6.0" z="5.0" />
+                <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+                <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+                <specular r="1.0" g="1.0" b="1.0" a="0.1" />
+            </light>
+        </lights>
+    </lighting>
+
+    <!-- informacao de materiais; -->
+    <appearances>
+
+        <!-- deve existir um ou mais blocos "appearance" -->
+        <appearance id="red">
+            <emissive r="0.0" g="0.0" b="0.0" a="0.0" />
+            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <shininess value="30.0" />
+        </appearance>
+        <appearance id="blue">
+            <emissive r="0.0" g="0.0" b="0.0" a="0.0" />
+            <ambient r="0.0" g="0.0" b="1.0" a="1.0" />
+            <diffuse r="0.0" g="0.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <shininess value="30.0" />
+        </appearance>
+		<appearance id="yellow">
+            <emissive r="0.0" g="0.0" b="0.0" a="0.0" />
+            <ambient r="1.0" g="1.0" b="0.0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="0.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <shininess value="30.0" />
+        </appearance>
+		
+		
+		<appearance id="ivory">
+            <emissive r="0.0" g="0.0" b="0.0" a="0.0" />
+            <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
+            <diffuse r="0.8" g="0.8" b="0.8" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <shininess value="20.0" />
+			<texture file="../textures/ivory.jpg" length_s="1.0" length_t="1.0" />
+        </appearance>
+		
+		
+		<appearance id="ebony">
+            <emissive r="0.0" g="0.0" b="0.0" a="0.0" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
+            <diffuse r="0.3" g="0.3" b="0.3" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <shininess value="20.0" />
+			<texture file="../textures/ebony.jpg" length_s="1.0" length_t="1.0" />
+        </appearance>
+		
+		<appearance id="coverTex">
+            <emissive r="0.0" g="0.0" b="0.0" a="0.0" />
+            <ambient r="0.8" g="0.8" b="0.0" a="1.0" />
+            <diffuse r="0.8" g="0.8" b="0.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <shininess value="20.0" />
+			<texture file="../textures/cover.jpg" length_s="1.0" length_t="1.0" />
+        </appearance>
+    </appearances>
+
+	
+    <graph rootid="root">
+        <node id="root">
+            <transforms>
+                <!-- deve conter transformacoes explicitas usando as instrucoes seguintes sem limite nem ordem -->
+                <!-- ex: bloco transforms pode ficar sem conteudo -->
+                <!-- ex: bloco transforms pode ser R,T (nao tem S) -->
+                <!-- ex: bloco transforms pode ser R,S,T,S -->
+                <translate x="0.0" y="0.0" z="0.0" />
+                <rotate axis="x" angle="0.0" />
+                <scale x="1.0" y="1.0" z="1.0" />
+            </transforms>
+
+           
+            <!-- declaracao obrigatoria de aparencia a utilizar: -->
+            <!-- se id="inherit", mantem (herda) a aparencia recebida do "pai" -->
+            <!-- se nao, a aparencia declarada sobrepoe a recebida do "pai" -->
+
+            <appearanceref id="inherit" />
+            <children>
+                <noderef id="board" />
+                <noderef id="piece1" />
+                <noderef id="piece2" />
+                <noderef id="piece3" />
+				<noderef id="piece4" />
+				<noderef id="piece5" /> 
+				<noderef id="piece6" />
+            </children>
+        </node>
+		<node id ="board">
+			<transforms>
+				<translate x="0.0" y="-0.2" z="0.0" />
+				<scale x ="10.0" y="0.1" z="10.0" />
+			</transforms>
+			<appearanceref id = "coverTex" />
+			<children>
+				<noderef id = "cube" />
+			</children>
+		</node>
+		
+		<node id ="piece1">
+			<transforms>
+				<translate x="4.0" y="0.0" z="0.0" />
+			</transforms>
+			<appearanceref id = "ebony" />
+			<children>
+				<noderef id ="piece" />
+			</children>
+		</node>
+		<node id ="piece2">
+			<transforms>
+				<translate x="-4.0" y="0.0" z="0.0" />
+			</transforms>
+			<appearanceref id = "ivory" />
+			<children>
+				<noderef id ="piece" />
+			</children>
+		</node>
+		<node id ="piece3">
+			<transforms>
+				<translate x="0.0" y="0.0" z="-4.0" />
+			</transforms>
+			<appearanceref id = "ivory" />
+			<children>
+				<noderef id ="piece" />
+			</children>
+		</node>
+		<node id ="piece4">
+			<transforms>
+				<translate x="0.0" y="0.0" z="4.0" />
+			</transforms>
+			<appearanceref id = "ebony" />
+			<children>
+				<noderef id ="piece" />
+			</children>
+		</node>
+		<node id ="piece5">
+			<transforms>
+				<translate x="0.0" y="0.1" z="0.0"/>
+				<scale x="1.0" y="1.4" z="1.0" />
+			</transforms>
+			<appearanceref id = "ivory" />
+			<children>
+				<noderef id ="piece" />
+			</children>
+		</node>
+		<node id ="piece6">
+			<transforms>
+				<translate x="-1.0" y="0.0" z="0.0" />
+			</transforms>
+			<appearanceref id = "ebony" />
+			<children>
+				<noderef id ="piece" />
+			</children>
+		</node>
+		<node id ="piece">
+			<transforms>
+				<translate x="5" y="0" z="5" />
+			</transforms>
+			<appearanceref id = "inherit" />
+			<children>
+				<noderef id = "pieceBase" />
+				<noderef id = "pieceTop" />
+			</children>
+		</node>
+		<node id ="pieceBase">
+			<transforms>
+				<rotate axis="x" angle="-90.0" />
+			</transforms>
+			<appearanceref id = "inherit" />
+			<children>
+				<torus inner="0.2" outer="0.3" slices="50" loops="50" />
+				<cylinder base="0.3" top="0.3" height="0.8" slices="50" stacks="50" />
+			</children>
+		</node>
+		<node id ="pieceTop">
+			<transforms>
+				<translate x="-0.05" y="0.8" z="-0.05" />
+				<scale x="0.1" y="0.1" z="0.1" />
+			</transforms>
+			<appearanceref id = "inherit" />
+			<children>
+				<noderef id = "cubefront" />
+				<noderef id = "cubeback" />
+				<noderef id = "cuberight" />
+				<noderef id = "cubeleft" />
+			</children>
+		</node>
+		
+		<node id ="cubeback">
+			<transforms>
+				<translate x="-1.4" y="0.0" z="-1.4" />
+			</transforms>
+			<appearanceref id = "inherit" />
+			<children>
+				<noderef id= "cube" />
+			</children>
+		</node>
+
+		<node id ="cuberight">
+			<transforms>
+				<translate x="1.4" y="0.0" z="-1.4" />
+			</transforms>
+			<appearanceref id = "inherit" />
+			<children>
+				<noderef id= "cube" />
+			</children>
+		</node>
+		
+		<node id ="cubeleft">
+			<transforms>
+				<translate x="-1.4" y="0.0" z="1.4" />
+			</transforms>
+			<appearanceref id = "inherit" />
+			<children>
+				<noderef id= "cube" />
+			</children>
+		</node>
+		
+		<node id ="cubefront">
+			<transforms>
+				<translate x="1.4" y="0.0" z="1.4" />
+			</transforms>
+			<appearanceref id = "inherit" />
+			<children>
+				<noderef id= "cube" />
+			</children>
+		</node>
+		
+		<node id ="cube">
+			<transforms>
+			</transforms>
+			<appearanceref id = "inherit" />
+			<children>
+				<noderef id= "topCube" />
+				<noderef id= "bottomCube" />
+				<noderef id= "frontCube" />
+				<noderef id= "backCube" />
+				<noderef id= "leftCube" />
+				<noderef id= "rightCube" />
+			</children>
+		</node>
+		
+		<node id ="bottomCube">
+			<transforms>
+				<rotate axis = "x" angle="90.0" />
+			</transforms>
+			<appearanceref id = "inherit" />
+			<children>
+				<noderef id = "rect" />
+			</children>
+		</node>
+		
+		<node id ="backCube">
+			<transforms>
+				<translate x= "0.0" y = "1.0" z ="0.0" />
+				<rotate axis = "x" angle="180.0" />
+			</transforms>
+			<appearanceref id = "inherit" />
+			<children>
+				<noderef id = "rect"/>
+			</children>
+		</node>
+		
+		<node id ="topCube">
+			<transforms>
+				<translate x= "0.0" y = "1.0" z ="1.0" />
+				<rotate axis = "x" angle="270.0" />
+			</transforms>
+			<appearanceref id = "inherit" />
+			<children>
+				<noderef id = "rect"/>
+			</children>
+		</node>
+		
+		<node id ="frontCube">
+			<transforms>
+				<translate x= "0.0" y = "0.0" z ="1.0" />
+			</transforms>
+			<appearanceref id = "inherit" />
+			<children>
+				<noderef id = "rect"/>
+			</children>
+		</node>
+		
+		<node id ="leftCube">
+			<transforms>
+				<rotate axis = "y" angle="-90.0" />
+			</transforms>
+			<appearanceref id = "inherit" />
+			<children>
+				<noderef id = "rect"/>
+			</children>
+		</node>
+		
+		<node id ="rightCube">
+			<transforms>
+				<translate x= "1.0" y = "0.0" z = "1.0" />
+				<rotate axis = "y" angle="90.0" />
+			</transforms>
+			<appearanceref id = "inherit" />
+			<children>
+				<noderef id = "rect" />
+			</children>
+		</node>
+		
+		<node id="rect">
+            <transforms>
+            </transforms>
+            <appearanceref id="inherit" />
+            <children>
+                <rectangle x1="0.0" y1="0.0" x2="1.0" y2="1.0" />
+            </children>
+        </node>
+        <node id="triangle">
+            <transforms>
+            </transforms>
+            <appearanceref id="inherit" />
+            <children>
+                <triangle x1="-1.0" y1="0.0" z1="0.0" x2="1.0" y2="0.0" z2="0.0" x3="0.0" y3="2.0" z3="0.0" /> 
+            </children>
+        </node>
+    </graph>
+</lsf>
+	
+	

@@ -1,0 +1,27 @@
+#ifndef PADS_H
+#define PADS_H
+
+#include "Animation.h"
+#include "Primitive.h"
+#include "Appearance.h"
+#include "myTextureCube.h"
+
+class Pads : public Primitive {
+public:
+	float posx,posy,posz;
+	float angle,angulo;
+	Animation * animacao;
+	Animation * animacao2;
+	Animation * animacao3;
+	Animation * animacao4;
+	Animation * animacao5;
+	Animation * animacao6;
+	Animation * poly;
+    Pads(Appearance* pads_app);
+    Appearance* pads_app;
+    myTextureCube* cube;
+    void draw();
+    void update();
+};
+
+#endif

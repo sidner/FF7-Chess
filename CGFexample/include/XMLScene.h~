@@ -1,0 +1,41 @@
+#ifndef _XMLSCENE_H_
+#define _XMLSCENE_H_
+
+#include "tinyxml.h"
+#include <map>
+#include "No.h"
+#include "Rectangle.h"
+#include "Triangle.h"
+#include "Cylinder.h"
+#include "Sphere.h"
+#include "Torus.h"
+#include "CGFappearance.h"
+#include "CGFlight.h"
+
+//#include "Light.h"
+
+//#include "Global.h"
+
+class XMLScene
+{
+public:
+	XMLScene(char *filename);
+	~XMLScene();
+	map<string,No*> nodes;
+	map<string,CGFappearance*> appearances;
+	map<string,CGFlight*> lights;
+	static TiXmlElement *findChildByAttribute(TiXmlElement *parent,const char * attr, const char *val);
+	No* root;
+protected:
+
+	TiXmlDocument* doc;
+
+	TiXmlElement* globalElement; 
+	TiXmlElement* camerasElement;
+	TiXmlElement* lightElement;
+	TiXmlElement* appElement;
+	TiXmlElement* graphElement;
+	
+};
+
+#endif

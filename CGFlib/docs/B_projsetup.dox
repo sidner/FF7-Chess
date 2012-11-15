@@ -1,0 +1,84 @@
+/*! 
+\page projsetup_page Project setup in different IDE's
+\tableofcontents
+
+\section projstruct_sec Common project structure
+
+IMPORTANT: It is assumed that you have installed the dependencies as explained in the \ref deps_page page and downloaded the source package available at the \ref downloads_page page.
+
+The library and example project provided in the \ref downloads_page page comprise a series of folders for organizing code, compilation output and runtime assets such as shaders and textures:
+
+ - *include* - header files for your project. Includes also a CGF folder in which CGFlib headers must be present
+ - *src* - source files for your project
+ - *lib* - library files to be used; CGFlib.lib must be here
+
+ - *bin* - folder where the executable will be placed
+ - *obj* - folder where compilation object files will be placed
+
+ - *shaders* - folder reserved for placing shaders (when providing a file name in code, it should be relative to the working directory when executing (e.g. if working dir is 'bin', path for shader should be '../shaders/myshader.vert').
+ - *textures* - folder reserved for placing textures. Same path remarks as in shaders
+
+Additionally, project files for Visual Studio and Eclipse are provided, as well as makefiles for GNU Make.
+
+The following sections provide details to take into account when setting up a project in each of these environments.
+
+\section vsproj_sec Visual Studio
+
+The source package includes a solution containing two projects, one for building the library, 
+and another for building the example. Rebuilding the whole solution will:
+
+ - compile the library
+ - copy the CGFlib.lib and the library headers respectively to the 'lib' and 'include/CGF' folders of the example
+ - compile and link the example
+
+In the pre-compiled package, there will be only the example project, and the CGFlib.lib and header files will be already placed 
+in the corresponding folders of that project.
+
+*Important:* If you later use VS Class Wizard to create new classes, make sure you set the '.h' file to be in the 'include' folder, and the '.cpp' file to be in the 'src' folder 
+
+\section eclipseproj_sec Eclipse
+
+For both Windows and Linux, it is necessary to have the Eclipse CDT plugin installed - http://www.eclipse.org/cdt/. 
+
+You should import both projects (CGFlib and CGFExample) into the workspace, build the library, 
+copy it to the example project, and then build the example, as described below:
+
+  - Right-Click in the Project Explorer and select 'Import' -> 'General' -> 'Existing Projects into Workspace'
+  - Browse and select the folder "CGFexample", followed by 'Finish'
+  - IMPORTANT: Right-click on the project and select "Build Configurations"->"Set Active" and select "DebugLinux" or "DebugWin" depending on your OS.
+  - Repeat the previous steps for the project "CGFlib"
+  - Right-click on the "CGFlib" project and select "Build Project". This will build the library. (Note: in some Eclipse Juno setups, an error is reported at the end of build, but the build succeeds anyway. Press 'Ok')
+  - Copy the 'libCGF.a' file in CGFlib/lib to CGFexample/lib (this step should be automated in the future)
+  - FOR WINDOWS: Right click the project and go to "Properties => C/C++ Build => Settings => Tool Settings => GCC C++ Linker => Libraries" and make sure that the libraries are in the following order:
+		- CGF
+		- glew32
+		- glui32
+		- freeglut
+		- glu32
+		- opengl32
+  - Right-click on the "CGFexample" project and select "Build Project". This will build the example.
+  - Click Run (Note: in the Juno setup with the error described above, a warning may come up here, click 'Yes')
+
+After initial setup, new builds of the example only require the last steps: build and Run, or just run if the automatic building before running is enabled
+
+\subsection eclipsenotes_sec Notes
+
+If you have customised paths for your compilation tools, update the project properties according to those paths:
+
+ - includes: 
+  - Project properties -> C/C++ Build -> Settings -> GCC C++ Compiler -> Includes   
+ - libs: 
+  - Windows: Project properties  -> C/C++ Build -> Settings -> MinGW C++ Linker-> Libraries
+  - Linux: Project properties -> C/C++ Build -> Settings -> GCC++ Linker-> Libraries
+
+\section makefileproj_sec Makefile
+
+Makefiles are also provided for GNU Make/GCC environments. Executing 'make' on the corresponding folders should 
+compile and build the library and/or example. Executing 'make' on the parent directory of both projects will 
+build the library, copy the files to the example, and build the example.
+
+  - run the command "make"
+  - change directory to CGFexample/bin
+  - run the command "./CGFexample"
+
+*/

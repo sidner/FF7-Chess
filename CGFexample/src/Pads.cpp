@@ -1,0 +1,60 @@
+#include "Pads.h"
+#include <iostream>
+
+using namespace std;
+Pads::Pads (Appearance* pads_app)
+{
+	float posx=0;
+	float posy=0;
+	float posz=0;
+	float angle=0;
+	float angulo=0;
+	
+	animacao = new LineAnimation(0,0,0,0,5,0,100);
+	animacao2 = new LineAnimation(0,0,0,15,0,15,100);
+	animacao3 = new LineAnimation(0,0,0,0,20,0,200);
+	animacao4 = new LineAnimation(0,0,0,-20,0,-20,100);
+	animacao5 = new LineAnimation(0,0,0,50,0,50,100);
+	animacao6 = new LineAnimation(0,0,0,0,80,80,100);
+	
+	vector<Animation*> teste;
+	teste.push_back(animacao);
+	teste.push_back(animacao2);
+	teste.push_back(animacao3);
+	teste.push_back(animacao4);
+	teste.push_back(animacao5);
+	teste.push_back(animacao6);
+	poly= new  PolyAnimation(teste,100);
+
+
+
+    this->pads_app = pads_app;
+    
+    cube = new myTextureCube();
+}
+
+void Pads::draw ()
+{
+    glPushMatrix ();
+	glTranslated(posx,posy,posz);
+	glRotated(angulo,0,1,0);
+    glPushMatrix ();
+    
+    pads_app->apply ();
+    glTranslatef(0,2,0);
+    glScalef(12,0.05,0.5);
+    
+    cube->draw ();
+    
+    glPopMatrix();
+    glPopMatrix();
+angulo+=50;
+}
+
+
+
+void Pads::update(){
+//angle = animacao->angulo;
+poly->update(posx,posy,posz, angle);
+//cout << angle << endl;
+}

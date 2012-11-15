@@ -1,0 +1,566 @@
+<!-- Ficheiro .lsf que descreve a cena toda. -->
+<!-- Copyright Pedro Cunha / Rui Batista. -->
+<lsf>
+    <!-- configuracoes globais -->
+    <globals>
+        <!--
+a declaração dos atributos deste bloco e' obrigatoria
+-->
+        <background r="00" g="00" b="00" a="1" />
+        <!-- Configuracao de desenho de poligonos e shading -->
+        <!-- Valores para mode: "fill", "line", "point" -->
+        <!-- Valores para shading: "flat", "gouraud") -->
+        <polygon mode="front" shading="gouraud" />
+        <!-- Configuracao de culling -->
+        <!-- Valores para frontfaceorder: "CCW") ou "CW" -->
+        <!-- Valores para cullface: "back", "front" ou "both" -->
+        <culling frontfaceorder="CCW" cullface="back" enabled="true" />
+    </globals>
+    <!--
+informacao de camaras: o atributo "initial" identifica a camara/ponto de vista inicial
+-->
+    <cameras initial="per1">
+        <!--
+tem de existir, pelo menos uma camara dos tipos seguintes (perspective ou ortho)
+-->
+		<perspective id="per2" near="0.001" far="100" angle="50.0">
+            <from x="50	" y="15" z="50" />
+            <to x="0" y="0" z="0" />
+        </perspective>
+        
+        <perspective id="per1" near="0.001" far="100" angle="30.0">
+            <from x="30	" y="10" z="10" />
+            <to x="0" y="0" z="0" />
+        </perspective>
+        
+       <ortho id="or" near="50.0" far="-50.0" left="-50.0" right="50.0" top="50.0" bottom="-50.0" />-->
+    </cameras>
+  
+    <lighting doublesided="true" local="true" enabled="true">
+        <!-- luz ambiente da cena -->
+        <ambient r="0.7" g="0.7" b="0.7" a="1" />
+        <!-- informacao de fontes de luz -->
+        <lights>
+            <!-- Deve existir um ou mais blocos "light" -->
+            <!-- Os identificadores "id" nao podem ser repetidos -->
+            <light id="zero" enabled="true">
+                <location x="5" y="7" z="5" />
+                <ambient r="1" g="1" b="1" a="0" />
+                <diffuse r="1" g="1" b="1" a="0" />
+                <specular r="1" g="1" b="1" a="0" />
+                <!-- No caso de uma ser uma spotlight, incluir os dados abaixo; se for uma omnilight, omitir -->
+              
+                <spot angle="20" exponent="2" dirx="-5.0" diry="-5.0" dirz="-5.0" />
+            </light>
+            <light id="one" enabled="false">
+                <location x="5.0" y="20.0" z="5.0" />
+                <ambient r="0.5" g="0.5" b="0.5" a="1" />
+                <diffuse r="0.5" g="0.5" b="0.5" a="1" />
+                <specular r="0.5" g="0.5" b="0.5" a="1" />
+                <!--
+No caso de uma ser uma spotlight, incluir os dados abaixo; se for uma omnilight, omitir
+-->
+            </light>
+        </lights>
+    </lighting>
+    <!-- informacao de materiais; -->
+    <appearances>
+        <!-- deve existir um ou mais blocos "appearance" -->
+        <appearance id="floor">
+            <emissive r="0" g="0" b="0" a="0" />
+            <ambient r="0.4" g="0.4" b="0.4" a="0.4" />
+            <diffuse r="0.4" g="0.4" b="0.4" a="0.4" />
+            <specular r="0.4" g="0.4" b="0.4" a="0.4" />
+            <shininess value="1" />
+            <!--
+informacao opcional de textura (ver nota no enunciado sobre os parametros length_...
+-->
+        </appearance>
+        <appearance id="neutro">
+            <emissive r="0" g="0" b="0" a="0" />
+            <ambient r="0.4" g="0" b="0" a="1" />
+            <diffuse r="0.4" g="0" b="0" a="1" />
+            <specular r="0.4" g="0" b="0" a="1" />
+            <shininess value="1" />
+        </appearance>
+        <appearance id="castelo">
+            <emissive r="0.2" g="0.5" b="0.5" a="0.5" />
+            <ambient r="0.3" g="0.3" b="0.3" a="0.7" />
+            <diffuse r="0.7" g="0.7" b="0.3" a="1" />
+            <specular r="0.5" g="0.5" b="0.75" a="0.9" />
+            <shininess value="0.7" />
+            <texture file="../textures/wall2.jpg" length_s="1.0" length_t="1.0" />	
+        </appearance>
+        <appearance id="skybox_left">
+            <emissive r="0" g="0" b="0" a="0" />
+            <ambient r="0.2" g="0.2" b="0.2" a="0.3" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="0.3" />
+            <specular r="0.2" g="0.2" b="0.2" a="0.3" />
+            <shininess value="0" />
+        </appearance>
+        <appearance id="grass">
+            <emissive r="0" g="0" b="0" a="0" />
+            <ambient r="0.05" g="0.8" b="0.2" a="0.3" />
+            <diffuse r="0.05" g="0.8" b="0.2" a="0.3" />
+            <specular r="0.05" g="0.8" b="0.2" a="0.3" />
+            <shininess value="0" />
+            <texture file="../textures/grass.jpg" length_s="1.0" length_t="1.0" />
+        </appearance>
+        <appearance id="skybox">
+            <emissive r="0" g="0" b="0" a="0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1" />
+            <diffuse r="1" g="1" b="1" a="1" />
+            <specular r="1" g="1" b="1" a="1" />
+            <shininess value="0" />
+			<texture file="../textures/estrelas.jpg" length_s="1" length_t="1" />
+        </appearance>
+
+<appearance id="terra" >
+            <emissive r="0" g="0" b="0" a="0" />
+            <ambient r="0.4" g="0" b="0" a="1" />
+            <diffuse r="0.4" g="0" b="0" a="1" />
+            <specular r="0.4" g="0.4" b="0.4" a="0.4" />
+            <shininess value="1" />
+           <texture file="../textures/terra.jpg" length_s="1" length_t="1" />
+        </appearance>
+
+        <appearance id="heli">
+            <emissive r="0.5" g="0.5" b="0.5" a="0" />
+            <ambient r="0.5" g="0.5" b="0.5" a="1" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1" />
+            <specular r="0.5" g="0.5" b="0.5" a="1" />
+            <shininess value="0" />
+            <texture file="../textures/heli3.jpg" length_s="0.25" length_t="0.25" />
+        </appearance>
+
+ <appearance id="pads">
+            <emissive r="0.5" g="0.5" b="0.5" a="0" />
+            <ambient r="0.5" g="0.5" b="0.5" a="1" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1" />
+            <specular r="0.5" g="0.5" b="0.5" a="1" />
+            <shininess value="0" />
+            <texture file="../textures/pads.jpg" length_s="1" length_t="1" />
+        </appearance>
+
+    </appearances>
+    <!--
+informacao do grafo; "rootid" identifica o no de raiz
+-->
+    <graph rootid="raiz">
+        <node id="raiz">
+        	<transforms>
+            </transforms>
+            <appearanceref id="neutro" />
+            <children>
+            	<noderef id="skybox_right" />
+            	<noderef id="skybox_left" />
+                <noderef id="tenda" />
+                <!--<noderef id="castelo" />-->
+                <noderef id="floor" />
+               
+            </children>
+        </node>
+        <node id="tenda">
+            <transforms>
+                <translate x="3" y="0" z="3" />
+                <scale x="2" y="2" z="2" />
+            </transforms>
+            <appearanceref id="heli" />
+            <children>
+                <patch orderU="4" orderV="4" partsU="30" partsV="30" control="fill">
+                    <controlpoint x="1.0" y="0" z="1.0" />
+                    <controlpoint x="0.66" y="1.0" z="1.0" />
+                    <controlpoint x="0.33" y="1.0" z="1.0" />
+                    <controlpoint x="0.0" y="0.0" z="1.0" />
+
+                    <controlpoint x="1.0" y="0.8" z="0.66" />
+                    <controlpoint x="0.66" y="1.0" z="0.66" />
+                    <controlpoint x="0.33" y="1.0" z="0.66" />
+                    <controlpoint x="0.0" y="0.8" z="0.66" />
+
+                    <controlpoint x="1.0" y="0.8" z="0.33" />
+                    <controlpoint x="0.66" y="1.0" z="0.33" />
+                    <controlpoint x="0.33" y="1.0" z="0.33" />
+                    <controlpoint x="0.0" y="0.8" z="0.33" />
+
+                    <controlpoint x="1.0" y="0" z="0.0" />
+                    <controlpoint x="0.66" y="1.0" z="0.0" />
+                    <controlpoint x="0.33" y="1.0" z="0.0" />
+                    <controlpoint x="0.0" y="0.0" z="0.0" />
+                </patch>
+            </children>
+        </node>
+       
+
+        <node id="skybox_right" displaylist="true">
+            <transforms>
+                <translate x="25" y="10" z="0" />
+                <scale x="50" y="25" z="0" />
+                <translate x="0" y="0" z="-0.5" />
+            </transforms>
+            <appearanceref id="skybox" />
+            <children>
+                <noderef id="cubo_face" />
+            </children>
+        </node>
+        <node id="skybox_left" displaylist="false">
+            <transforms>
+                <translate x="0" y="10" z="25" />
+                <scale x="0" y="25" z="50" />
+                <rotate axis="y" angle="90" />
+                <translate x="0" y="0" z="-0.5" />
+            </transforms>
+            <appearanceref id="skybox" />
+            <children>
+                <noderef id="cubo_face" />
+            </children>
+        </node>
+        <node id="arqueiro" displaylist="true">
+            <!-- Arqueiro cujos filhos são corpo, cabeça, pernas e braços -->
+            <transforms>
+                <translate x="18" y="2.89" z="18" />
+                <scale x="0.5" y="0.5" z="0.5" />
+            </transforms>
+            <!-- <appearanceref id="arqueiro_geral" /> -->
+            <appearanceref id="inherit" />
+            <children>
+                <noderef id="arqueiro_cabeca" />
+                <noderef id="arqueiro_perna" />
+                <!-- <noderef id="arqueiro_braco" /> -->
+                <noderef id="arqueiro_corpo" />
+            </children>
+        </node>
+        <node id="castelo" displaylist="true">
+            <transforms>
+                <translate x="8" y="3" z="8" />
+               <!-- <scale x="5" y="5" z="5" />-->
+            </transforms>
+            <appearanceref id="castelo" />
+            <children>
+                <noderef id="torres" />
+                <noderef id="torre_central" />
+                <noderef id="paredes" />
+            </children>
+        </node>
+        <node id="floor">
+            <transforms>
+                <translate x="25" y="0" z="25" />
+                <scale x="50" y="1.5" z="50" />
+            </transforms>
+            <appearanceref id="grass" />
+            <children>
+                <plane parts="10" />
+            </children>
+        </node>
+        <node id="arqueiro_cabeca" displaylist="true">
+            <transforms>
+                <translate x="0" y="2.9" z="0" />
+                <scale x="1" y="1" z="1" />
+            </transforms>
+            <!-- <appearanceref id="appeareance_arqueiro_cabeca" /> -->
+            <appearanceref id="terra" />
+            <children>
+                <sphere radius="1" slices="24" stacks="12" />
+            </children>
+        </node>
+        <!-- Perna genérica -->
+        <node id="arqueiro_perna">
+            <transforms>
+            </transforms>
+            <!-- <appearanceref id="perna_geral"/> -->
+            <appearanceref id="inherit" />
+            <children>
+                <noderef id="arqueiro_perna_direita" />
+                <noderef id="arqueiro_perna_esquerda" />
+            </children>
+        </node>
+        <node id="arqueiro_corpo">
+            <transforms>
+                <scale x="3" y="4" z="3" />
+            </transforms>
+            <!-- <appearanceref id="arqueiro_corpo" /> -->
+            <appearanceref id="inherit" />
+            <children>
+                <noderef id="cubo" />
+            </children>
+        </node>
+        <node id="torres">
+            <transforms>
+            	<translate x="0" y="1" z="0"/>
+            </transforms>
+            <appearanceref id="inherit" />
+            <children>
+                <noderef id="torre1" />
+                <noderef id="torre2" />
+                <noderef id="torre3" />
+                <noderef id="torre4" />
+            </children>
+        </node>
+        <node id="torre_central">
+            <transforms>
+                <scale x="0.5" y="0.5" z="0.5" />
+            </transforms>
+            <appearanceref id="inherit" />
+            <children>
+                <noderef id="base" />
+                <noderef id="cone" />
+                <noderef id="bola" />
+            </children>
+        </node>
+        <node id="paredes">
+            <transforms>
+            </transforms>
+            <appearanceref id="inherit" />
+            <children>
+                <noderef id="parede1" />
+                <noderef id="parede2" />
+                <noderef id="parede3" />
+                <noderef id="parede4" />
+            </children>
+        </node>
+        <node id="arqueiro_perna_esquerda">
+            <transforms>
+                <rotate axis="z" angle="20" />
+                <translate x="0" y="-4" z="0" />
+                <!-- 4 Porque é metade da perna mais metada da do corpo -->
+                <scale x="1" y="4" z="1.5" />
+            </transforms>
+            <appearanceref id="inherit" />
+            <children>
+                <noderef id="cubo" />
+            </children>
+        </node>
+        <node id="arqueiro_perna_direita">
+            <transforms>
+                <scale x="-1" y="1" z="1" />
+            </transforms>
+            <appearanceref id="inherit" />
+            <children>
+                <noderef id="arqueiro_perna_esquerda" />
+            </children>
+        </node>
+        <node id="torre1">
+            <transforms>
+                <translate x="-5" y="0" z="5" />
+            </transforms>
+            <appearanceref id="inherit" />
+            <children>
+                <noderef id="torre" />
+            </children>
+        </node>
+        <node id="torre2">
+            <transforms>
+                <translate x="5" y="0" z="5" />
+            </transforms>
+            <appearanceref id="inherit" />
+            <children>
+                <noderef id="torre" />
+            </children>
+        </node>
+        <node id="torre3">
+            <transforms>
+                <translate x="5" y="0" z="-5" />
+            </transforms>
+            <appearanceref id="inherit" />
+            <children>
+                <noderef id="torre" />
+            </children>
+        </node>
+        <node id="torre4">
+            <transforms>
+                <translate x="-5" y="0" z="-5" />
+            </transforms>
+            <appearanceref id="inherit" />
+            <children>
+                <noderef id="torre" />
+            </children>
+        </node>
+        <node id="base">
+            <transforms>
+            	<translate x="0" y="2" z="0"/>
+                <rotate axis="x" angle="90" />
+            </transforms>
+            <appearanceref id="inherit" />
+            <children>
+                <cylinder base="4" top="4" height="8" slices="12" stacks="12" />
+            </children>
+        </node>
+        <node id="cone">
+            <transforms>
+                <translate x="0" y="2" z="0" />
+                <rotate axis="x" angle="-90" />
+            </transforms>
+            <appearanceref id="inherit" />
+            <children>
+                <cylinder base="4" top="1" height="4" slices="12" stacks="12" />
+            </children>
+        </node>
+        <node id="bola">
+            <transforms>
+                <translate x="0" y="7" z="0" />
+            </transforms>
+            <appearanceref id="inherit" />
+            <children>
+                <sphere radius="2" slices="12" stacks="12" />
+            </children>
+        </node>
+        <node id="parede1">
+            <transforms>
+                <translate x="0" y="0" z="5" />
+            </transforms>
+            <appearanceref id="inherit" />
+            <children>
+                <noderef id="parede" />
+            </children>
+        </node>
+        <node id="parede2">
+            <transforms>
+                <translate x="0" y="0" z="-5" />
+            </transforms>
+            <appearanceref id="inherit" />
+            <children>
+               <noderef id="parede" />
+            </children>
+        </node>
+        <node id="parede3">
+            <transforms>
+                <translate x="5" y="0" z="0" />
+                <rotate axis="y" angle="90" />
+            </transforms>
+            <appearanceref id="inherit" />
+            <children>
+                <noderef id="parede" />
+            </children>
+        </node>
+        <node id="parede4">
+            <transforms>
+                <translate x="-5" y="0" z="0" />
+                <rotate axis="y" angle="90" />
+            </transforms>
+            <appearanceref id="inherit" />
+            <children>
+                <noderef id="parede" />
+            </children>
+        </node>
+        <node id="torre">
+            <transforms>
+                <scale x="2" y="8" z="2" />
+            </transforms>
+            <appearanceref id="inherit" />
+            <children>
+                <noderef id="cubo" />
+            </children>
+        </node>
+        <node id="parede">
+            <transforms>
+                <scale x="8" y="6" z="1.25" />
+            </transforms>
+            <appearanceref id="inherit" />
+            <children>
+                <noderef id="cubo" />
+            </children>
+        </node>
+        <!-- Cubo -->
+        <node id="cubo">
+            <transforms>
+            </transforms>
+            <appearanceref id="inherit" />
+            <children>
+                <noderef id="cubo_face1" />
+                <noderef id="cubo_face2" />
+                <noderef id="cubo_face3" />
+                <noderef id="cubo_face4" />
+                <noderef id="cubo_face5" />
+                <noderef id="cubo_face6" />
+            </children>
+        </node>
+        <node id="cubo_face1">
+            <!-- Face virada para +z -->
+            <transforms>
+                <translate x="0" y="0" z="0.5" />
+            </transforms>
+            <appearanceref id="inherit" />
+            <!-- bloco "children" obrigatorio -->
+            <children>
+                <!-- Primitivas -->
+                <noderef id="cubo_face" />
+            </children>
+        </node>
+        <node id="cubo_face2">
+            <!-- Face virada para -z -->
+            <transforms>
+                <translate x="0" y="0" z="-0.5" />
+                <rotate axis="y" angle="180.0" />
+            </transforms>
+            <appearanceref id="inherit" />
+            <!-- bloco "children" obrigatorio -->
+            <children>
+                <!-- Primitivas -->
+                <noderef id="cubo_face" />
+            </children>
+        </node>
+        <node id="cubo_face3">
+            <transforms>
+                <!-- Face virada para +y-->
+                <translate x="0" y="0.5" z="0" />
+                <rotate axis="x" angle="-90" />
+            </transforms>
+            <appearanceref id="inherit" />
+            <!-- bloco "children" obrigatorio -->
+            <children>
+                <!-- Primitivas -->
+                <noderef id="cubo_face" />
+            </children>
+        </node>
+        <node id="cubo_face4">
+            <!-- Face virada para -y -->
+            <transforms>
+                <translate x="0" y="-0.5" z="0" />
+                <rotate axis="x" angle="90" />
+            </transforms>
+            <appearanceref id="inherit" />
+            <!-- bloco "children" obrigatorio -->
+            <children>
+                <!-- Primitivas -->
+                <noderef id="cubo_face" />
+            </children>
+        </node>
+        <node id="cubo_face5">
+            <!-- Face virada para +x -->
+            <transforms>
+                <translate x="0.5" y="0" z="0" />
+                <rotate axis="y" angle="90" />
+            </transforms>
+            <appearanceref id="inherit" />
+            <!-- bloco "children" obrigatorio -->
+            <children>
+                <!-- Primitivas -->
+                <noderef id="cubo_face" />
+            </children>
+        </node>
+        <node id="cubo_face6">
+            <!-- Face virada para -x -->
+            <transforms>
+                <translate x="-0.5" y="0" z="0" />
+                <rotate axis="y" angle="-90" />
+            </transforms>
+            <appearanceref id="inherit" />
+            <!-- bloco "children" obrigatorio -->
+            <children>
+                <!-- Primitivas -->
+                <noderef id="cubo_face" />
+            </children>
+        </node>
+        <node id="cubo_face">
+            <!-- bloco "transforms" obrigatorio -->
+            <transforms>
+            </transforms>
+            <appearanceref id="inherit" />
+            <!-- bloco "children" obrigatorio -->
+            <children>
+                <!-- Primitivas -->
+                <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+            </children>
+        </node>
+    </graph>
+</lsf>
