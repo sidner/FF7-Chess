@@ -19,7 +19,7 @@ DemoShader::DemoShader()
 	// Store Id for the uniform "normScale", new value will be stored on bind()
 	scaleLoc = glGetUniformLocation(id(), "normScale");
 
-	baseTexture=new CGFtexture("../textures/VolcanoTex.png");
+	baseTexture=new CGFtexture("../textures/VolcanoTex1.png");
 	secTexture=new CGFtexture("../textures/volcano.png");
 
 	// get the uniform location for the sampler

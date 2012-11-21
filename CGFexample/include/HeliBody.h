@@ -21,7 +21,7 @@ public:
     HeliBody(Appearance* app, Appearance* app2);
     Appearance* heli_app;
     Appearance* pads_app;
-    GLuint disptop,dispbot;
+    GLuint disptop,dispbot,feet;
     Cylinder* horizontal;
     Cylinder* vertical1;
     Cylinder* vertical2;

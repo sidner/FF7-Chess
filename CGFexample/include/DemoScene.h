@@ -33,6 +33,7 @@ private:
         HeliBody* heli_body;
         Pads* pads;
 	Plane * terrain; 
+        char nome[40];
 };
 
 #endif

@@ -28,6 +28,9 @@ HeliBody::HeliBody (Appearance* heli_app, Appearance* pads_app)
     this->heli_app = heli_app;
     this->pads_app = pads_app;
     
+   //heli_app->setTexture("../textures/heli3.jpg");
+   // pads_app->setTexture("../textures/pads.jpg");
+    
     horizontal = new Cylinder (0.5, 0.5, 40, 12, 12);
 
     vertical1 = new Cylinder (0.5, 0.5, 5, 12, 12);
@@ -35,7 +38,7 @@ HeliBody::HeliBody (Appearance* heli_app, Appearance* pads_app)
     vertical2 = new Cylinder (0.5, 0.5, 5, 12, 12);
 
 
-    GLfloat controlpointsTop[40][3] = {
+    GLfloat controlpointsTop[32][3] = {
         {0.2, 0.0, 1.0},
         {0.1, 0.0, 1.0},
         {-0.1, 0.0, 1.0},
@@ -66,28 +69,18 @@ HeliBody::HeliBody (Appearance* heli_app, Appearance* pads_app)
         {-0.15, 0.5, -2.5},
         {-0.5, 0.0, -2.5},
 
-        {0.5, 0.0, -2.75},
-        {0.15, 0.5, -2.75},
-        {-0.15, 0.5, -2.75},
-        {-0.5, 0.0, -2.75},
-
         {0.5, 0.0, -3.0},
         {0.15, 0.5, -3.0},
         {-0.15, 0.5, -3.0},
         {-0.5, 0.0, -3.0},
 
-        {0.5, 0.0, -3.25},
-        {0.15, 0.5, -3.25},
-        {-0.15, 0.5, -3.25},
-        {-0.5, 0.0, -3.25},
-
-        {0.5, 1.0, -3.5},
-        {0.15, 0.0, -3.5},
-        {-0.15, 0.0, -3.5},
+        {0.5, 0.0, -3.5},
+        {0.0, 1.0, -3.5},
+        {0.0, 1.0, -3.5},
         {-0.5, 0.0, -3.5}
     };
     
-    GLfloat controlpointsBot[40][3] = {
+    GLfloat controlpointsBot[32][3] = {
         {-0.2, 0.0, 1.0},
         {-0.1, 0.0, 1.0},
         {0.1, 0.0, 1.0},
@@ -118,20 +111,10 @@ HeliBody::HeliBody (Appearance* heli_app, Appearance* pads_app)
         {0.15, 0.0, -2.5},
         {0.5, 0.0, -2.5},
 
-        {-0.5, 0.0, -2.75},
-        {-0.15, 0.0, -2.75},
-        {0.15, 0.0, -2.75},
-        {0.5, 0.0, -2.75},
-
         {-0.5, 0.0, -3.0},
         {-0.15, 0.0, -3.0},
         {0.15, 0.0, -3.0},
         {0.5, 0.0, -3.0},
-
-        {-0.5, 0.0, -3.25},
-        {-0.15, 0.0 -3.25},
-        {0.15, 0.0, -3.25},
-        {0.5, 0.0, -3.25},
 
         {-0.2, 0.0, -3.5},
         {-0.15, 0.0, -3.5},
@@ -171,6 +154,8 @@ HeliBody::HeliBody (Appearance* heli_app, Appearance* pads_app)
 
     disptop = glGenLists (2);
     dispbot = glGenLists (2);
+    
+    feet = glGenLists(2);
 
 
     //top part
@@ -180,7 +165,7 @@ HeliBody::HeliBody (Appearance* heli_app, Appearance* pads_app)
     glPushMatrix ();
 
 
-    glMap2f (GL_MAP2_VERTEX_3, 0.0, 1.0, 3, 4, 0.0, 1.0, 12, 10, &controlpointsTop[0][0]);
+    glMap2f (GL_MAP2_VERTEX_3, 0.0, 1.0, 3, 4, 0.0, 1.0, 12, 8, &controlpointsTop[0][0]);
     glMap2f (GL_MAP2_COLOR_4, 0.0, 1.0, 4, 2, 0.0, 1.0, 8, 2, &colorpoints[0][0]);
     glMap2f (GL_MAP2_TEXTURE_COORD_2, 0.0, 1.0, 2, 2, 0.0, 1.0, 4, 2, &textpoints[0][0]);
 
@@ -210,7 +195,7 @@ HeliBody::HeliBody (Appearance* heli_app, Appearance* pads_app)
     
     glScalef(1,0,1);
 
-    glMap2f (GL_MAP2_VERTEX_3, 0.0, 1.0, 3, 4, 0.0, 1.0, 12, 10, &controlpointsBot[0][0]);
+    glMap2f (GL_MAP2_VERTEX_3, 0.0, 1.0, 3, 4, 0.0, 1.0, 12, 8, &controlpointsBot[0][0]);
     glMap2f (GL_MAP2_COLOR_4, 0.0, 1.0, 4, 2, 0.0, 1.0, 8, 2, &colorpoints[0][0]);
     glMap2f (GL_MAP2_TEXTURE_COORD_2, 0.0, 1.0, 2, 2, 0.0, 1.0, 4, 2, &textpoints[0][0]);
 
@@ -228,27 +213,8 @@ HeliBody::HeliBody (Appearance* heli_app, Appearance* pads_app)
     glPopMatrix ();
 
     glEndList ();
-}
-void
-HeliBody::draw ()
-{
- glPushMatrix ();
-glTranslated(posx,posy,posz);
-	glRotated(angle,0,1,0);
-
-    glPushMatrix();
-
-    glScalef (2.0, 2.0, 2.0);
-
-    heli_app->apply ();
-
-  glCallList (disptop);
-   glCallList (dispbot);
-
-    glPopMatrix ();
-
-    //FEET
-    //left part
+    
+    glNewList (feet,GL_COMPILE);
     glPushMatrix();
     pads_app->apply();
     
@@ -314,6 +280,29 @@ glTranslated(posx,posy,posz);
     horizontal->draw ();
     glPopMatrix ();
     glPopMatrix ();
+    glEndList();
+}
+void
+HeliBody::draw ()
+{
+ glPushMatrix ();
+    glTranslated(posx,posy,posz);
+   
+	glRotated(angle,0,1,0);
+    //glTranslatef(-12,0,0);
+    glPushMatrix();
+    
+    glScalef (2.0, 2.0, 2.0);
+
+    heli_app->apply ();
+
+  glCallList (disptop);
+   glCallList (dispbot);
+
+    glPopMatrix ();
+
+	glCallList(feet);
+    
     glPopMatrix();
 }
 

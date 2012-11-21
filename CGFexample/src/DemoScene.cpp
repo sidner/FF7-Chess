@@ -7,7 +7,7 @@
 
 DemoScene::DemoScene(char* nome)
 {
-	lsf = new XMLScene(nome);
+	strcpy(this->nome, nome);
 }
 
 void DemoScene::activateCamera(int i)
@@ -17,7 +17,7 @@ void DemoScene::activateCamera(int i)
 
 void DemoScene::init() 
 {
-    
+    lsf = new XMLScene(nome);
 	//Globals
 	glFrontFace(lsf->frontfaceorder);
 	glCullFace(lsf->cullface);
@@ -63,7 +63,7 @@ void DemoScene::init()
 	//shader=new CGFshader("../shaders/texshader.vert","../shaders/texshader.frag");
 
 	lsf->GenerateList(lsf->root);
-
+//lsf->appearances["skybox"]->setTexture("../textures/estrelas.jpg");
 	setUpdatePeriod(30);
 }
 
@@ -109,7 +109,7 @@ void DemoScene::display()
 	}
 
 	// Draw axis
-	axis.draw();
+	//axis.draw();
 
 
 	// ---- END Background, camera and axis setup
@@ -122,7 +122,9 @@ void DemoScene::display()
 	
     glPushMatrix();
     //    glTranslatef(10,5,10);
-     //  glRotatef (-90,0,1,0);
+          
+         glTranslated(1,2,1);
+         //glRotatef (45,0,1,0);
         heli_body->draw ();
         pads->draw ();
     glPopMatrix();
@@ -138,7 +140,7 @@ void DemoScene::display()
 
 	glPushMatrix();
         
-		//lsf->root->draw(); //Calls drawing of the root node which, by itself, calls every other draw.
+		lsf->root->draw(); //Calls drawing of the root node which, by itself, calls every other draw.
 	glPopMatrix();
 	
     

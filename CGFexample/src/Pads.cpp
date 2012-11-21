@@ -38,6 +38,7 @@ void Pads::draw ()
     glPushMatrix ();
 	glTranslated(posx,posy,posz);
 	glRotated(angulo,0,1,0);
+    
     glPushMatrix ();
     
     pads_app->apply ();
@@ -48,7 +49,7 @@ void Pads::draw ()
     
     glPopMatrix();
     glPopMatrix();
-angulo+=50;
+angulo+=20;
 }
 
 

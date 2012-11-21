@@ -30,6 +30,10 @@ class CGFtexture
 
 		int texWidth, texHeight;
 
+                static unsigned int counter;
+                
+                void myGenTexture(unsigned int *ID);
+                
 		unsigned int texID;
 };
 
