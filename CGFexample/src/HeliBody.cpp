@@ -9,9 +9,9 @@ HeliBody::HeliBody (Appearance* heli_app, Appearance* pads_app)
 	float angle=0;
 	
 	animacao = new LineAnimation(0,0,0,0,5,0,100);
-	animacao2 = new LineAnimation(0,0,0,15,0,15,100);
+	animacao2 = new LineAnimation(0,0,0,15,0,10,100);
 	animacao3 = new LineAnimation(0,0,0,0,20,0,200);
-	animacao4 = new LineAnimation(0,0,0,-20,0,-20,100);
+	animacao4 = new LineAnimation(0,0,0,20,0,20,100);
 	animacao5 = new LineAnimation(0,0,0,50,0,50,100);
 	animacao6 = new LineAnimation(0,0,0,0,80,80,100);
 	
