@@ -4,8 +4,6 @@
 #include "CGFscene.h"
 #include "CGFshader.h"
 #include "XMLScene.h"
-#include "HeliBody.h"
-#include "Pads.h"
 
 class DemoScene : public CGFscene
 {
@@ -30,9 +28,6 @@ private:
 	CGFcamera* def;
 	CGFcamera* active;
 	vector<CGFcamera*> vec_cameras;
-        HeliBody* heli_body;
-        Pads* pads;
-	Plane * terrain; 
         char nome[40];
 };
 

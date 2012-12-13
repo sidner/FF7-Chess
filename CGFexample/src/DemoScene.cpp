@@ -56,24 +56,11 @@ void DemoScene::init()
 	// Defines a default normal
 	glNormal3f(0,0,1);
 
-    //Helicopter
-    pads = new Pads(lsf->pads_app);
-    heli_body = new HeliBody(lsf->heli_app,lsf->pads_app);
-	terrain= new Plane(100);
-	//shader=new CGFshader("../shaders/texshader.vert","../shaders/texshader.frag");
-
-	lsf->GenerateList(lsf->root);
-//lsf->appearances["skybox"]->setTexture("../textures/estrelas.jpg");
 	setUpdatePeriod(30);
 }
 
 void DemoScene::update(long t)
 {
-	 heli_body->update();
-	pads->update();
-	//shader->bind();
-	//shader->update(t/400.0);
-	//shader->unbind();
 	
 }
 	
@@ -120,29 +107,8 @@ void DemoScene::display()
     
     // ---- BEGIN drawing
 	
-    glPushMatrix();
-    //    glTranslatef(10,5,10);
-          
-         glTranslated(1,2,1);
-         //glRotatef (45,0,1,0);
-        heli_body->draw ();
-        pads->draw ();
-    glPopMatrix();
     
-		terrain->vulcao->bind();
-		
-		terrain->draw();
-
-		terrain->vulcao->unbind();
-
-
-
-
-	glPushMatrix();
-        
-		lsf->root->draw(); //Calls drawing of the root node which, by itself, calls every other draw.
-	glPopMatrix();
-	
+    
     
     
 	// ---- END drawing
