@@ -52,6 +52,9 @@ onfootP2(['r','s1','s2','a','l1','l2']).
 
 
 %**************** SERVER *****************
+
+init:-create_server(5000).
+
 create_server(Port) :-
         tcp_socket(Socket),
         tcp_bind(Socket, Port),
@@ -81,8 +84,8 @@ handle_service(In, Out) :-
 	(   
 		(
 			Int == 'disconnect',
-			Term = 'Goodbye.',
-			format(Out, '~q.~n~n',[Term]),
+			call_request(Int,Term),
+			format(Out, '~q.~n',[Term]),
 			flush_output(Out),
 			true
 		);   
@@ -93,6 +96,10 @@ handle_service(In, Out) :-
 	).
 
 call_request(hello,'hello').
+
+call_request(disconnect,'Goodbye').
+
+call_request(test,Term):-Term='teste'.
 
 call_request(validate_move(Board,Piece,Xf,Yf),Result):-
 	((validate_move(Board,Piece,Xf,Yf),Result = 'true');

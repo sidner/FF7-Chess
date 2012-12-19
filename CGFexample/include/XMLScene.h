@@ -19,36 +19,37 @@
 
 using namespace std;
 
-class XMLScene
-{
+class XMLScene {
 public:
-	XMLScene(char *filename);
-	~XMLScene(){}
-	GLclampf colors[4];
-	map<string,No*> nodes;
-	map<string,Appearance*> appearances;
-	map<string,CGFlight*> luzes;
-	static TiXmlElement *findChildByAttribute(TiXmlElement *parent,const char * attr, const char *val);
-	No* root;
-	GLenum mode,shade,frontfaceorder,cullface;
-	bool cull_enable;
-	map<string,CGFcamera*> cameras;
-	CGFcamera* camera_init;
-	bool Verifica(No* node);
-	vector<pair<No*,bool> > temp;
-	void GenerateList(No*);
-        Appearance* heli_app;
-        Appearance* pads_app;
+    XMLScene(char *filename);
+
+    ~XMLScene() {
+    }
+    GLclampf colors[4];
+    map<string, No*> nodes;
+    map<string, Appearance*> appearances;
+    map<string, CGFlight*> luzes;
+    static TiXmlElement *findChildByAttribute(TiXmlElement *parent, const char * attr, const char *val);
+    No* root;
+    GLenum mode, shade, frontfaceorder, cullface;
+    bool cull_enable;
+    map<string, CGFcamera*> cameras;
+    CGFcamera* camera_init;
+    bool Verifica(No* node);
+    vector<pair<No*, bool> > temp;
+    void GenerateList(No*);
+    Appearance* heli_app;
+    Appearance* pads_app;
 protected:
 
-	TiXmlDocument* doc;
+    TiXmlDocument* doc;
 
-	TiXmlElement* globalElement; 
-	TiXmlElement* camerasElement;
-	TiXmlElement* lightElement;
-	TiXmlElement* appElement;
-	TiXmlElement* graphElement;
-	
+    TiXmlElement* globalElement;
+    TiXmlElement* camerasElement;
+    TiXmlElement* lightElement;
+    TiXmlElement* appElement;
+    TiXmlElement* graphElement;
+
 };
 
 #endif
