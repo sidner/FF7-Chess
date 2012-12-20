@@ -4,6 +4,7 @@
 #include "CGFscene.h"
 #include "CGFshader.h"
 #include "XMLScene.h"
+#include "Appearance.h"
 
 class DemoScene : public CGFscene
 {
@@ -23,6 +24,8 @@ private:
 	CGFobject* obj;
 	CGFappearance* materialAppearance;
 	CGFappearance* textureAppearance;
+        Appearance* argonathFront;
+        Plane* skyboxFront;
 	CGFshader* shader;
 	XMLScene* lsf;
 	CGFcamera* def;
