@@ -14,66 +14,50 @@
 
 CGFappearance::CGFappearance()
 {
-	try {
-		color[0] = 0.5;
-		color[1] = 0.5;
-		color[2] = 0.5;
-		color[3] = 1;
+	color[0] = 0.5;
+	color[1] = 0.5;
+	color[2] = 0.5;
+	color[3] = 1;
 
-		materialType = CG_GLMAT_COLOR;
+	materialType = CG_GLMAT_COLOR;
 
-		texture=NULL;
-	}
-	catch(std::exception&) {
-		throw GLexception("CGFappearance::constructor failed");
-	}
-
+	texture=NULL;
 }
 
 CGFappearance::CGFappearance(float* a, float* d, float* sp, float sh) 
 {
-	try {
-		ambient[0] = a[0];
-		ambient[1] = a[1];
-		ambient[2] = a[2];
-		ambient[3] = a[3];
+	ambient[0] = a[0];
+	ambient[1] = a[1];
+	ambient[2] = a[2];
+	ambient[3] = a[3];
 
-		diffuse[0] = d[0];
-		diffuse[1] = d[1];
-		diffuse[2] = d[2];
-		diffuse[3] = d[3];
+	diffuse[0] = d[0];
+	diffuse[1] = d[1];
+	diffuse[2] = d[2];
+	diffuse[3] = d[3];
 		
-		specular[0] = sp[0];
-		specular[1] = sp[1];
-		specular[2] = sp[2];
-		specular[3] = sp[3];
+	specular[0] = sp[0];
+	specular[1] = sp[1];
+	specular[2] = sp[2];
+	specular[3] = sp[3];
 
-		shininess = sh;
+	shininess = sh;
 
-		materialType = CG_GLMAT_MATERIAL;
+	materialType = CG_GLMAT_MATERIAL;
 
-		texture=NULL;
-	}
-	catch(std::exception&) {
-		throw GLexception("CGFappearance::constructor failed");
-	}
+	texture=NULL;
 }
 
 CGFappearance::CGFappearance(float* c) 
 {
-	try {
-		color[0] = c[0];
-		color[1] = c[1];
-		color[2] = c[2];
-		color[3] = c[3];
+	color[0] = c[0];
+	color[1] = c[1];
+	color[2] = c[2];
+	color[3] = c[3];
 
-		materialType = CG_GLMAT_COLOR;
+	materialType = CG_GLMAT_COLOR;
 
-		texture=NULL;
-	}
-	catch(std::exception&) {
-		throw GLexception("CGFappearance::constructor failed");
-	}
+	texture=NULL;
 }
 
 CGFappearance::~CGFappearance() 
@@ -154,17 +138,22 @@ void CGFappearance::setTextureWrap(int s, int t)
 
 CGFappearance::CGFappearance(string tex, int s, int t)
 {
+	color[0] = 0.5;
+	color[1] = 0.5;
+	color[2] = 0.5;
+	color[3] = 1;
+
+	materialType = CG_GLMAT_COLOR;
+
+	texture=NULL;
 	try {
-		CGFappearance();
-
 		setTexture(tex);
-
 		setTextureWrap(s,t);
 	}
 	catch (GLexception& ex) {
 		throw ex;
 	}
 	catch (std::exception&) {
-		throw GLexception("CGFappearence::constructor for texture failed");
+		throw GLexception("CGFappearance::constructor for texture failed");
 	}
 }

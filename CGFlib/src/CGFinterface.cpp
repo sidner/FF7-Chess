@@ -44,7 +44,6 @@ void CGFinterface::init(int parent) {
 
 void CGFinterface::initGUI()
 {
-	
 };
 
 

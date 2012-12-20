@@ -4,6 +4,7 @@
 #include <iostream>
 #include <stdlib.h>
 
+#ifndef CGF_NO_SHADERS
 #include <GL/glew.h>
 #include <GL/gl.h>
 #include <GL/glut.h>
@@ -34,6 +35,7 @@ static char* textFileRead(const char *fileName) {
 	}
 	return text;
 }
+
 
 static void validateShader(GLuint shader, const char* file = 0) {
 	const unsigned int BUFFER_SIZE = 512;
@@ -134,3 +136,48 @@ void CGFshader::update(float time)
 		glUniform1f(timeloc, time);
 }
 
+#else
+#include "CGFapplication.h"
+
+
+static void validateShader(GLuint shader, const char* file = 0) {}
+
+static void validateProgram(GLuint program) {}
+
+
+CGFshader::CGFshader(void)
+{
+	cerr << "CGF compiled without shaders. Shaders disabled." << endl;
+}
+CGFshader::CGFshader(const char *vsFile, const char *fsFile) 
+{
+	init(vsFile,fsFile);
+}
+
+void CGFshader::init(const char *vsFile, const char *fsFile) {
+	cerr << "CGF compiled without shaders. Shaders disabled." << endl;
+}
+
+CGFshader::~CGFshader() {
+}
+
+unsigned int CGFshader::id() {
+	return -1;
+}
+
+void CGFshader::bind() {
+}
+
+void CGFshader::unbind() {
+}
+
+void CGFshader::update() 
+{
+}
+void CGFshader::update(float time) 
+{
+}
+
+
+
+#endif

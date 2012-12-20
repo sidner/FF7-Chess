@@ -17,7 +17,7 @@ class CGFinterface
 {
 	public:
 		CGFinterface();		///< Base constructor
-		~CGFinterface();	///< Base destructor
+		virtual ~CGFinterface();	///< Base destructor
 
 		// Initialization methods
 

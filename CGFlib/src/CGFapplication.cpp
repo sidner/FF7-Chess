@@ -1,5 +1,4 @@
-#define CGF_USE_SHADERS
-#ifdef CGF_USE_SHADERS
+#ifndef CGF_NO_SHADERS
 #include <GL/glew.h>
 #endif
 #include "CGFapplication.h"
@@ -104,7 +103,7 @@ void CGFapplication::init(int* argc, char** argv) {
 
 		environmentInit();
 
-#ifdef CGF_USE_SHADERS
+#ifndef CGF_NO_SHADERS
 		glewInit();
 #endif
 	}
@@ -186,6 +185,13 @@ void CGFapplication::reshape(int w, int h)
 
 	glutPostRedisplay();
 }
+
+void CGFapplication::forceRefresh()
+{
+	reshape(CGFapplication::width, CGFapplication::height );
+	display();
+}
+
 
 void CGFapplication::snapshot() {
 	takeSnapshot(CGFapplication::width, CGFapplication::height);

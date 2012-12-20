@@ -16,7 +16,7 @@ class CGFcamera
 {
 	public:
 		CGFcamera();		///< Base constructor
-		~CGFcamera();		///< Base destructor
+		virtual ~CGFcamera();		///< Base destructor
 
 		virtual void applyView();			///< Applies View transformation (typically used in the beginning of a scene render, in CGFscene::display() )
 		virtual void updateProjectionMatrix(int width, int height);		///< Updates the projection matrix. Typically invoked after viewport change, e.g. as a result of a window reshape that triggers CGFapplication::reshape()
@@ -27,9 +27,7 @@ class CGFcamera
 		virtual void setX(float value);		///< Sets camera X coordinate
 		virtual void setY(float value);		///< Sets camera Y coordinate
 		virtual void setZ(float value);		///< Sets camera Z coordinate
-		
-		virtual float* get_target(){return target;}
-		
+
 		/** @name Utility functions for relative/incremental camera movement */
 		//@{
 		virtual bool rotateTo(int axis, float angle, float increment = 0.5f);	///< Rotates the camera around _axis_ by _increment_ degrees, unless it has reached _angle_ degrees. Useful for stepping a rotation in an animation.
@@ -38,6 +36,7 @@ class CGFcamera
 		virtual bool moveTo(int axis, float value, float increment=0.5f);		///< Moves the camera along _axis_ by _increment_ units, unless _value_ has been reached.
 		virtual bool translate(int axis, float value);							///< Moves the camera along _axis_ by _value_ units.
 		//@}
+
 	private:
 		float position[3]; //= {0.0,0.0,-25.0};
 		float target[3]; //= {0.0,0.0,0.0};
