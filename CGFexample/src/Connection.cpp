@@ -12,7 +12,7 @@ Connection::Connection (string serverAddress_, unsigned int port_)
     
     port = (char*) malloc (sizeof (unsigned int) * sizeof (char));
 
-    sprintf (port, "%ud", port_);
+    sprintf (port, "%u", port_);
 
     memset (&hints, 0, sizeof (hints));
     hints.ai_family = AF_INET;
