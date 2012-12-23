@@ -141,6 +141,13 @@ void interface::processHits (GLint hits, GLuint buffer[])
 	// if there were hits, the one selected is in "selected", and it consist of nselected "names" (integer ID's)
 	if (selected!=NULL)
 	{
+        if(!((DemoScene*) scene)->cloud->isPicked)
+       ((DemoScene*) scene)-> cloud->isPicked = true;
+    else
+    {
+            ((DemoScene*) scene)->cloud->isPicked = false;
+            ((DemoScene*) scene)->cloud->pos[1] = 0;
+    }
 		// this should be replaced by code handling the picked object's ID's (stored in "selected"), 
 		// possibly invoking a method on the scene class and passing "selected" and "nselected"
 		printf("Picked ID's: ");

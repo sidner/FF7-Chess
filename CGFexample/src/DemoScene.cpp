@@ -5,9 +5,7 @@
 #include "CGFappearance.h"
 DemoScene::DemoScene (char* nome)
 {
-    strcpy (this->nome, nome);
-    cloud = NULL;
-    mat = NULL;
+    strcpy (this->nome, nome);  
 }
 void
 DemoScene::activateCamera (int i)
@@ -67,7 +65,10 @@ DemoScene::init ()
    
     nr = scene_lights.size ();
 
-
+//MODELS
+    
+    cloud = new Model("Cloud.obj");
+    
     //Argonath
 
     //argonathFront = new Appearance (emissiv, difuse, specular, shi_value);
@@ -80,28 +81,7 @@ DemoScene::init ()
     // Defines a default normal
     glNormal3f (0, 0, 1);
 
-    setUpdatePeriod (30);
-
-
-
-    //Model
-
-    if (!cloud)
-    {
-        // this is the call that actualy reads the OBJ and creates the model object
-        cloud = glmReadOBJ ("Cloud.obj");
-
-        if (!cloud) exit (0);
-        // This will rescale the object to fit into the unity matrix
-        // Depending on your project you might want to keep the original size and positions you had in 3DS Max or GMAX so you may have to comment this.
-        glmUnitize (cloud);
-        // These 2 functions calculate triangle and vertex normals from the geometry data.
-        // To be honest I had some problem with very complex models that didn't look to good because of how vertex normals were calculated
-        // So if you can export these directly from you modeling tool do it and comment these line
-        // 3DS Max can calculate these for you and GLM is perfectly capable of loading them
-        glmFacetNormals (cloud);
-        glmVertexNormals (cloud, 90.0);
-    }
+    setUpdatePeriod (30); 
 }
 void
 DemoScene::update (long t) { }
@@ -151,13 +131,11 @@ DemoScene::display ()
     glPolygonMode (GL_FRONT_AND_BACK, lsf->mode);
 
     // ---- BEGIN drawing
-
-
+    
     glPushMatrix();
-    glCullFace (GL_FRONT);
-    glScaled (2,2,2);
-    glmDraw(cloud, GLM_MATERIAL);
-    glCullFace (lsf->cullface);
+    if(cloud->isPicked)
+        cloud->animate ();
+    cloud->draw ();
     glPopMatrix();
     
     glPushMatrix ();
@@ -196,12 +174,12 @@ DemoScene::display_select ()
     glPolygonMode (GL_FRONT_AND_BACK, lsf->mode);
 
     //Draw here the parts of the scene that we want to have picked.
-    glPushName(5);
-    glPushMatrix();
-    glScaled (2,2,2);
-    glmDraw(cloud, GLM_MATERIAL); 
+    glPushName(cloud->name);
+    glPushMatrix();    
+    cloud->draw ();
     glPopMatrix();
     glPopName();
+    
 }
 DemoScene::~DemoScene ()
 {
