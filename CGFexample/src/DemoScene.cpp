@@ -78,6 +78,9 @@ DemoScene::init ()
     //skyboxFront->terrainAppearance = argonathFront;
 
     coiso = new Sphere (0.5, 12, 12);
+    
+    board = new Board();
+    
     // Defines a default normal
     glNormal3f (0, 0, 1);
 
@@ -121,7 +124,7 @@ DemoScene::display ()
     }
 
     // Draw axis
-   // axis.draw();
+   //axis.draw();
 
 
     // ---- END Background, camera and axis setup
@@ -131,6 +134,11 @@ DemoScene::display ()
     glPolygonMode (GL_FRONT_AND_BACK, lsf->mode);
 
     // ---- BEGIN drawing
+    
+    
+    glPushMatrix();
+    board->draw ();
+    glPopMatrix();
     
     glPushMatrix();
     if(cloud->isPicked)
@@ -175,7 +183,7 @@ DemoScene::display_select ()
 
     //Draw here the parts of the scene that we want to have picked.
     glPushName(cloud->name);
-    glPushMatrix();    
+    glPushMatrix(); 
     cloud->draw ();
     glPopMatrix();
     glPopName();

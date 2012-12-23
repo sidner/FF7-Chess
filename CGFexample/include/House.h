@@ -17,11 +17,13 @@ using namespace std;
 
 class House: public CGFobject
 {
-    House();
+public:
+    House(GLuint name);
+    House(GLuint name,float pos[3]);
     void draw();    
     float pos[3];
     GLuint name;
-    string getCoords();
+    string getString();
     Rectangle * h;
     Model* model;
     char terrain;

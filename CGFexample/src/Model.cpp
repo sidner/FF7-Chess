@@ -41,7 +41,9 @@ void Model::draw ()
     glPushMatrix();
     glCullFace (GL_FRONT);
     glTranslatef (pos[0],abs(sin(pos[1])),pos[2]);
-    glScaled (2,2,2);
+    glTranslatef(0.6,0.755,0.6);
+    glScaled (0.75,0.75,0.75);
+    glRotatef(90,0,1,0);
     glmDraw(model, GLM_MATERIAL);
     glCullFace (GL_BACK);
     glPopMatrix();

@@ -7,6 +7,7 @@
 #include "Appearance.h"
 #include "interface.h"
 #include "Model.h"
+#include "Board.h"
 
 class DemoScene : public CGFscene
 {
@@ -39,7 +40,7 @@ private:
         char nome[40];
         Sphere* coiso;
         Model* cloud;
-        CGFlight* light0;
+        Board* board;
 };
 
 #endif
