@@ -9,8 +9,8 @@
 
 class Plane : public Primitive {
 public:
-    CGFappearance* terrainAppearance;
-    Plane(int parts);
+    Appearance* terrainAppearance;
+    Plane(int parts, string text);
     GLfloat controlpoints[4][3];
     int parts;
     GLfloat textpoints[4][2];

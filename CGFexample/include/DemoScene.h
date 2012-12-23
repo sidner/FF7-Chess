@@ -5,12 +5,16 @@
 #include "CGFshader.h"
 #include "XMLScene.h"
 #include "Appearance.h"
+#include "interface.h"
 
 class DemoScene : public CGFscene
 {
+    friend class interface;
+    
 public:
 	void init();
 	void display();
+        void display_select();
 	void update(long t);
 	void activateCamera(int i);
 	DemoScene(char* nome);
@@ -32,6 +36,7 @@ private:
 	CGFcamera* active;
 	vector<CGFcamera*> vec_cameras;
         char nome[40];
+        Sphere* coiso;
 };
 
 #endif

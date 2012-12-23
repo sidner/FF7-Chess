@@ -1,6 +1,6 @@
 
 #include "Plane.h"
-Plane::Plane (int parts)
+Plane::Plane (int parts,string texture)
 {
     this->parts = parts;
 
@@ -52,7 +52,7 @@ Plane::Plane (int parts)
 
 
     terrainAppearance = new CGFappearance (ambA, difA, specA, shininessA);
-    terrainAppearance->setTexture ("../textures/argonathFront.bmp");
+    terrainAppearance->setTexture (texture);
 
 }
 void

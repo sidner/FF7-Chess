@@ -1016,7 +1016,7 @@ XMLScene::XMLScene (char *filename)
                                     int parts;
                                     if(tag->QueryIntAttribute ("parts",&parts) == TIXML_SUCCESS)
                                     {
-                                        Prim.push_back (new Plane(parts));
+                                        Prim.push_back (new Plane(parts, "../textures/grass.jpg"));
                                     }
                                     else
                                     {

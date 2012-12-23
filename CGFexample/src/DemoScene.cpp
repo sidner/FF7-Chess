@@ -15,6 +15,9 @@ DemoScene::activateCamera (int i)
 void
 DemoScene::init ()
 {
+    
+    coiso = new Sphere (5,12,12);
+    
     lsf = new XMLScene (nome);
     //Globals
     glFrontFace (lsf->frontfaceorder);
@@ -62,11 +65,11 @@ DemoScene::init ()
 
 
     //argonathFront = new Appearance (emissiv, difuse, specular, shi_value);
-   // argonathFront->setTexture ("../textures/argonathFront.jpg");
+    // argonathFront->setTexture ("../textures/argonathFront.jpg");
 
-    skyboxFront = new Plane (100);
+    skyboxFront = new Plane (100, "../textures/argonathFront.bmp");
     //skyboxFront->terrainAppearance = argonathFront;
-    
+
     // Defines a default normal
     glNormal3f (0, 0, 1);
 
@@ -122,15 +125,18 @@ DemoScene::display ()
     // ---- BEGIN drawing
 
 
+    glPushMatrix();
+     coiso->draw ();
+     glPopMatrix();
     glPushMatrix ();
-    
-    glTranslatef (-50.0,0,0);
-    glRotatef (-90.0,0,0,1);
-    glTranslatef(-25.0,0,-25.0);
-    skyboxFront->draw ();
-    
-    glPopMatrix ();
 
+    
+    glTranslatef (-50.0, 0, 0);
+    glRotatef (-90.0, 0, 0, 1);
+    glTranslatef (-25.0, 0, -25.0);
+    skyboxFront->draw ();
+   
+    glPopMatrix ();
 
     // ---- END drawing
 
@@ -139,6 +145,40 @@ DemoScene::display ()
     // glutSwapBuffers() will swap pointers so that the back buffer becomes the front buffer and vice-versa
     glutSwapBuffers ();
 }
+
+void
+DemoScene::display_select ()
+{
+    
+    
+    // Initialize Model-View matrix as identity (no transformation
+    glMatrixMode (GL_MODELVIEW);
+    glLoadIdentity ();
+
+    // Apply transformations corresponding to the camera position relative to the origin
+     active->applyView ();
+    
+    
+    glShadeModel (lsf->shade);
+    glPolygonMode (GL_FRONT_AND_BACK, lsf->mode);
+  glPushName(4);
+    
+    glPushMatrix();
+     coiso->draw ();
+     glPopMatrix();
+    glPopName();
+    //Draw here the parts of the scene that we want to have picked.
+     glPushName (2);
+    glTranslatef (-50.0, 0, 0);
+    glRotatef (-90.0, 0, 0, 1);
+    glTranslatef (-25.0, 0, -25.0);
+    skyboxFront->draw ();
+    glPopName();
+    
+  
+}
+
+
 DemoScene::~DemoScene ()
 {
     for (list<CGFlight*>::iterator it = scene_lights.begin (); it != scene_lights.end (); it++)
