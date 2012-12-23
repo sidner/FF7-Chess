@@ -125,19 +125,17 @@ DemoScene::display ()
     // ---- BEGIN drawing
 
 
-    glPushMatrix();
-     coiso->draw ();
-     glPopMatrix();
-    glPushMatrix ();
-
     
+    glPushMatrix ();  
     glTranslatef (-50.0, 0, 0);
     glRotatef (-90.0, 0, 0, 1);
     glTranslatef (-25.0, 0, -25.0);
     skyboxFront->draw ();
-   
     glPopMatrix ();
 
+    glPushMatrix();
+     coiso->draw ();
+     glPopMatrix();
     // ---- END drawing
 
     // We have been drawing in a memory area that is not visible - the back buffer, 
@@ -161,21 +159,22 @@ DemoScene::display_select ()
     
     glShadeModel (lsf->shade);
     glPolygonMode (GL_FRONT_AND_BACK, lsf->mode);
+  
+    //Draw here the parts of the scene that we want to have picked.
+    glPushName (2);
+    glPushMatrix();
+    glTranslatef (-50.0, 0, 0);
+    glRotatef (-90.0, 0, 0, 1);
+    glTranslatef (-25.0, 0, -25.0);
+    skyboxFront->draw ();
+    glPopMatrix();
+    glPopName();
   glPushName(4);
     
     glPushMatrix();
      coiso->draw ();
      glPopMatrix();
     glPopName();
-    //Draw here the parts of the scene that we want to have picked.
-     glPushName (2);
-    glTranslatef (-50.0, 0, 0);
-    glRotatef (-90.0, 0, 0, 1);
-    glTranslatef (-25.0, 0, -25.0);
-    skyboxFront->draw ();
-    glPopName();
-    
-  
 }
 
 
