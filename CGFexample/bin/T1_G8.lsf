@@ -10,7 +10,7 @@ a declaração dos atributos deste bloco e' obrigatoria
         <!-- Configuracao de desenho de poligonos e shading -->
         <!-- Valores para mode: "fill", "line", "point" -->
         <!-- Valores para shading: "flat", "gouraud") -->
-        <polygon mode="front" shading="gouraud" />
+        <polygon mode="fill" shading="gouraud" />
         <!-- Configuracao de culling -->
         <!-- Valores para frontfaceorder: "CCW") ou "CW" -->
         <!-- Valores para cullface: "back", "front" ou "both" -->
@@ -43,24 +43,19 @@ tem de existir, pelo menos uma camara dos tipos seguintes (perspective ou ortho)
         <lights>
             <!-- Deve existir um ou mais blocos "light" -->
             <!-- Os identificadores "id" nao podem ser repetidos -->
-            <light id="zero" enabled="true">
+            <light id="zero" enabled="false">
                 <location x="5" y="7" z="5" />
-                <ambient r="1" g="1" b="1" a="0" />
-                <diffuse r="1" g="1" b="1" a="0" />
-                <specular r="1" g="1" b="1" a="0" />
-                <!-- No caso de uma ser uma spotlight, incluir os dados abaixo; se for uma omnilight, omitir -->
-              
+                <ambient r="0.2" g="0.2" b="0.2" a="0" />
+                <diffuse r="0.2" g="0.2" b="0.2" a="0" />	
+                <specular r="0.2" g="0.2" b="0.2" a="0" />
                 <spot angle="20" exponent="2" dirx="-5.0" diry="-5.0" dirz="-5.0" />
             </light>
-            <light id="one" enabled="false">
+            <light id="one" enabled="true">
                 <location x="5.0" y="20.0" z="5.0" />
-                <ambient r="0.5" g="0.5" b="0.5" a="1" />
-                <diffuse r="0.5" g="0.5" b="0.5" a="1" />
-                <specular r="0.5" g="0.5" b="0.5" a="1" />
-                <!--
-No caso de uma ser uma spotlight, incluir os dados abaixo; se for uma omnilight, omitir
--->
-            </light>
+                <ambient r="0.2" g="0.2" b="0.2" a="0" />
+                <diffuse r="0.2" g="0.2" b="0.2" a="0" />	
+                <specular r="0.2" g="0.2" b="0.2" a="0" />
+             </light>
         </lights>
     </lighting>
     <!-- informacao de materiais; -->

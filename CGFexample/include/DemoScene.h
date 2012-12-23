@@ -6,6 +6,7 @@
 #include "XMLScene.h"
 #include "Appearance.h"
 #include "interface.h"
+#include "glm.h"
 
 class DemoScene : public CGFscene
 {
@@ -37,6 +38,9 @@ private:
 	vector<CGFcamera*> vec_cameras;
         char nome[40];
         Sphere* coiso;
+        GLMmodel* cloud;
+        GLMmaterial* mat;
+        CGFlight* light0;
 };
 
 #endif

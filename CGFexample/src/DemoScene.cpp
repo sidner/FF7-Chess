@@ -6,6 +6,8 @@
 DemoScene::DemoScene (char* nome)
 {
     strcpy (this->nome, nome);
+    cloud = NULL;
+    mat = NULL;
 }
 void
 DemoScene::activateCamera (int i)
@@ -16,8 +18,7 @@ void
 DemoScene::init ()
 {
     
-    coiso = new Sphere (5,12,12);
-    
+   
     lsf = new XMLScene (nome);
     //Globals
     glFrontFace (lsf->frontfaceorder);
@@ -41,7 +42,7 @@ DemoScene::init ()
     number = vec_cameras.size ();
     // Enables lighting computations
     glEnable (GL_LIGHTING);
-
+  
     // Sets up some lighting parameters
     glLightModelf (GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
     glLightModelfv (GL_LIGHT_MODEL_AMBIENT, CGFlight::background_ambient); // Define ambient light
@@ -52,17 +53,22 @@ DemoScene::init ()
         scene_lights.push_back ((*it).second);
     }
 
+    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+   GLfloat mat_shininess[] = { 50.0 };
+   GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };
+   glClearColor (0.0, 0.0, 0.0, 0.0);
+
+   glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+   glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+   glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
+   glEnable(GL_LIGHT0);
+   glEnable(GL_DEPTH_TEST);
+   
     nr = scene_lights.size ();
 
 
     //Argonath
-
-    float emissiv[4] = {0.5, 0.5, 0.5, 1};
-    float ambient[4] = {0.5, 0.5, 0.5, 1};
-    float difuse[4] = {0.5, 0.5, 0.5, 1};
-    float specular[4] = {0.5, 0.5, 0.5, 1};
-    float shi_value = 1.0;
-
 
     //argonathFront = new Appearance (emissiv, difuse, specular, shi_value);
     // argonathFront->setTexture ("../textures/argonathFront.jpg");
@@ -70,10 +76,32 @@ DemoScene::init ()
     skyboxFront = new Plane (100, "../textures/argonathFront.bmp");
     //skyboxFront->terrainAppearance = argonathFront;
 
+    coiso = new Sphere (0.5, 12, 12);
     // Defines a default normal
     glNormal3f (0, 0, 1);
 
     setUpdatePeriod (30);
+
+
+
+    //Model
+
+    if (!cloud)
+    {
+        // this is the call that actualy reads the OBJ and creates the model object
+        cloud = glmReadOBJ ("Cloud.obj");
+
+        if (!cloud) exit (0);
+        // This will rescale the object to fit into the unity matrix
+        // Depending on your project you might want to keep the original size and positions you had in 3DS Max or GMAX so you may have to comment this.
+        glmUnitize (cloud);
+        // These 2 functions calculate triangle and vertex normals from the geometry data.
+        // To be honest I had some problem with very complex models that didn't look to good because of how vertex normals were calculated
+        // So if you can export these directly from you modeling tool do it and comment these line
+        // 3DS Max can calculate these for you and GLM is perfectly capable of loading them
+        glmFacetNormals (cloud);
+        glmVertexNormals (cloud, 90.0);
+    }
 }
 void
 DemoScene::update (long t) { }
@@ -96,10 +124,10 @@ DemoScene::display ()
 
     // Apply transformations corresponding to the camera position relative to the origin
     active->applyView ();
-
+    
     // Draw (and update) lights
     int x = 0;
-    for (list<CGFlight*>::iterator it = scene_lights.begin (); it != scene_lights.end (); it++, x++)
+   for (list<CGFlight*>::iterator it = scene_lights.begin (); it != scene_lights.end (); it++, x++)
     {
         if (lz[x])
         {
@@ -113,7 +141,7 @@ DemoScene::display ()
     }
 
     // Draw axis
-    //axis.draw();
+   // axis.draw();
 
 
     // ---- END Background, camera and axis setup
@@ -125,17 +153,25 @@ DemoScene::display ()
     // ---- BEGIN drawing
 
 
+    glPushMatrix();
+    glCullFace (GL_FRONT);
+    glScaled (2,2,2);
+    glmDraw(cloud, GLM_MATERIAL);
+    glCullFace (lsf->cullface);
+    glPopMatrix();
     
-    glPushMatrix ();  
+    glPushMatrix ();
     glTranslatef (-50.0, 0, 0);
     glRotatef (-90.0, 0, 0, 1);
     glTranslatef (-25.0, 0, -25.0);
     skyboxFront->draw ();
     glPopMatrix ();
 
-    glPushMatrix();
-     coiso->draw ();
-     glPopMatrix();
+    glPushMatrix ();
+    //coiso->draw ();
+    glPopMatrix ();
+
+    
     // ---- END drawing
 
     // We have been drawing in a memory area that is not visible - the back buffer, 
@@ -143,41 +179,30 @@ DemoScene::display ()
     // glutSwapBuffers() will swap pointers so that the back buffer becomes the front buffer and vice-versa
     glutSwapBuffers ();
 }
-
 void
 DemoScene::display_select ()
 {
-    
-    
+
+
     // Initialize Model-View matrix as identity (no transformation
     glMatrixMode (GL_MODELVIEW);
     glLoadIdentity ();
 
     // Apply transformations corresponding to the camera position relative to the origin
-     active->applyView ();
-    
-    
+    active->applyView ();
+
+
     glShadeModel (lsf->shade);
     glPolygonMode (GL_FRONT_AND_BACK, lsf->mode);
-  
+
     //Draw here the parts of the scene that we want to have picked.
-    glPushName (2);
+    glPushName(5);
     glPushMatrix();
-    glTranslatef (-50.0, 0, 0);
-    glRotatef (-90.0, 0, 0, 1);
-    glTranslatef (-25.0, 0, -25.0);
-    skyboxFront->draw ();
+    glScaled (2,2,2);
+    glmDraw(cloud, GLM_MATERIAL); 
     glPopMatrix();
     glPopName();
-  glPushName(4);
-    
-    glPushMatrix();
-     coiso->draw ();
-     glPopMatrix();
-    glPopName();
 }
-
-
 DemoScene::~DemoScene ()
 {
     for (list<CGFlight*>::iterator it = scene_lights.begin (); it != scene_lights.end (); it++)

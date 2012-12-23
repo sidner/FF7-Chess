@@ -16,8 +16,6 @@ public:
     GLfloat textpoints[4][2];
     GLfloat colorpoints[4][4];
     void draw();
-    DemoShader * vulcao;
-    void update();
 };
 
 #endif

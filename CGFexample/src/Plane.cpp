@@ -42,16 +42,14 @@ Plane::Plane (int parts,string texture)
     textpoints[2][1] = 0.0;
     textpoints[3][0] = 1.0;
     textpoints[3][1] = 1.0;
-
-    vulcao = new DemoShader ();
-
+    
     float ambA[3] = {0.2, 0.2, 0.2};
     float difA[3] = {0.6, 0.6, 0.6};
     float specA[3] = {0.2, 0.2, 0.2};
-    float shininessA = 120.f;
+    float shininessA = 1.f;
 
 
-    terrainAppearance = new CGFappearance (ambA, difA, specA, shininessA);
+    terrainAppearance = new Appearance (ambA, difA, specA, shininessA);
     terrainAppearance->setTexture (texture);
 
 }
@@ -79,14 +77,6 @@ Plane::draw ()
     glEvalMesh2 (GL_FILL, 0, parts, 0, parts);
     //glDisable(GL_TEXTURE_2D);
     glPopMatrix ();
-
-}
-void
-Plane::update ()
-{
-    vulcao->bind ();
-    vulcao->update (10);
-    //vulcao->unbind();
 
 }
 
