@@ -16,7 +16,7 @@ Board::Board ()
             pos[0] = 1.1*i;
             pos[1] = 1.1*j;
             pos[2] = 0;
-            temp.push_back (new House (name++,pos));
+            temp.push_back (new House (++name,pos));
         }
         board.push_back (temp);
         cout << temp.size();
@@ -24,6 +24,9 @@ Board::Board ()
     
     cout << " " << board.size() << endl;
     
+    board[5][5]->model = new Model("Cloud.obj");
+    
+  
 }
 void
 Board::draw ()

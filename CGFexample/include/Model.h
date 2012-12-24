@@ -20,7 +20,7 @@ class Model {
 public:
     Model(string path);
     ~Model();
-    void draw();
+    void draw(float pos[3]);
     void animate();
     GLMmodel* model;
     float pos[3];

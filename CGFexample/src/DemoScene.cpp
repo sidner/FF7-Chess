@@ -67,8 +67,6 @@ DemoScene::init ()
 
 //MODELS
     
-    cloud = new Model("Cloud.obj");
-    
     //Argonath
 
     //argonathFront = new Appearance (emissiv, difuse, specular, shi_value);
@@ -140,11 +138,6 @@ DemoScene::display ()
     board->draw ();
     glPopMatrix();
     
-    glPushMatrix();
-    if(cloud->isPicked)
-        cloud->animate ();
-    cloud->draw ();
-    glPopMatrix();
     
     glPushMatrix ();
     glTranslatef (-50.0, 0, 0);
@@ -182,11 +175,10 @@ DemoScene::display_select ()
     glPolygonMode (GL_FRONT_AND_BACK, lsf->mode);
 
     //Draw here the parts of the scene that we want to have picked.
-    glPushName(cloud->name);
-    glPushMatrix(); 
-    cloud->draw ();
+    
+    glPushMatrix();
+    board->draw ();
     glPopMatrix();
-    glPopName();
     
 }
 DemoScene::~DemoScene ()

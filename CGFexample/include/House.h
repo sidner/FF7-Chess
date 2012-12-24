@@ -11,6 +11,7 @@
 #include "CGF/CGFobject.h"
 #include "Rectangle.h"
 #include <string>
+#include <iostream>
 #include "Model.h"
 
 using namespace std;
@@ -27,6 +28,7 @@ public:
     Rectangle * h;
     Model* model;
     char terrain;
+    bool isPicked;
 };
 
 #endif	/* HOUSE_H */

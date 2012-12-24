@@ -61,8 +61,8 @@ interface::processMouse (int button, int state, int x, int y)
             different location, then the coordinates are the average of both.
             xf = abs ((x + x2) / 2);
             yf = abs ((y + y2) / 2);*/
-            performPicking (x, y);
-       // }
+        performPicking (x, y);
+        // }
     }
 
 }
@@ -116,45 +116,69 @@ interface::performPicking (int x, int y)
     hits = glRenderMode (GL_RENDER);
     processHits (hits, selectBuf);
 }
-
-void interface::processHits (GLint hits, GLuint buffer[]) 
+void
+interface::processHits (GLint hits, GLuint buffer[])
 {
-	GLuint *ptr = buffer;
-	GLuint mindepth = 0xFFFFFFFF;
-	GLuint *selected=NULL;
-	GLuint nselected;
+    GLuint *ptr = buffer;
+    GLuint mindepth = 0xFFFFFFFF;
+    GLuint *selected = NULL;
+    GLuint nselected;
 
-	// iterate over the list of hits, and choosing the one closer to the viewer (lower depth)
-	for (int i=0;i<hits;i++) {
-		int num = *ptr; ptr++;
-		GLuint z1 = *ptr; ptr++;
-		ptr++;
-		if (z1 < mindepth && num>0) {
-			mindepth = z1;
-			selected = ptr;
-			nselected=num;
-		}
-		for (int j=0; j < num; j++) 
-			ptr++;
-	}
-	
-	// if there were hits, the one selected is in "selected", and it consist of nselected "names" (integer ID's)
-	if (selected!=NULL)
-	{
-        if(!((DemoScene*) scene)->cloud->isPicked)
-       ((DemoScene*) scene)-> cloud->isPicked = true;
-    else
+    // iterate over the list of hits, and choosing the one closer to the viewer (lower depth)
+    for (int i = 0; i < hits; i++)
     {
+        int num = *ptr;
+        ptr++;
+        GLuint z1 = *ptr;
+        ptr++;
+        ptr++;
+        if (z1 < mindepth && num > 0)
+        {
+            mindepth = z1;
+            selected = ptr;
+            nselected = num;
+        }
+        for (int j = 0; j < num; j++)
+            ptr++;
+    }
+
+    // if there were hits, the one selected is in "selected", and it consist of nselected "names" (integer ID's)
+    if (selected != NULL)
+    {
+        if(selected[0] >= 100) // A House was picked
+        {
+            cout << selected[0] << endl;
+            int i = (selected[0] - 100.0) / 14.0;
+            int j = (selected[0] - 100.0) - (14*i);
+            
+            if(!((DemoScene*) scene)->board->board[i][j]->isPicked)
+            {
+                ((DemoScene*) scene)->board->board[i][j]->isPicked= true;
+            }
+            else
+            {
+                ((DemoScene*) scene)->board->board[i][j]->isPicked= false;
+                if(((DemoScene*) scene)->board->board[i][j]->model != NULL)
+                    ((DemoScene*) scene)->board->board[i][j]->model->pos[1]=0;
+            }
+                
+        }
+        // this should be replaced by code handling the picked object's ID's (stored in "selected"), 
+        // possibly invoking a method on the scene class and passing "selected" and "nselected"
+        printf ("Picked ID's: ");
+        for (int i = 0; i < nselected; i++)
+            printf ("%d ", selected[i]);
+        printf ("\n");
+    }
+    else
+        printf ("Nothing selected while picking \n");
+}
+
+
+/*if (!((DemoScene*) scene)->cloud->isPicked)
+            ((DemoScene*) scene)-> cloud->isPicked = true;
+        else
+        {
             ((DemoScene*) scene)->cloud->isPicked = false;
             ((DemoScene*) scene)->cloud->pos[1] = 0;
-    }
-		// this should be replaced by code handling the picked object's ID's (stored in "selected"), 
-		// possibly invoking a method on the scene class and passing "selected" and "nselected"
-		printf("Picked ID's: ");
-		for (int i=0; i<nselected; i++)
-			printf("%d ",selected[i]);
-		printf("\n");
-	}
-	else
-		printf("Nothing selected while picking \n");	
-}
+        }*/

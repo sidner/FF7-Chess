@@ -1,5 +1,5 @@
 #include "Model.h"
-
+#include <iostream>
 
 Model::Model (string mod)
 {
@@ -36,12 +36,14 @@ Model::Model (string mod)
 }
 
 
-void Model::draw ()
+void Model::draw (float pos_h[3])
 {
     glPushMatrix();
     glCullFace (GL_FRONT);
     glTranslatef (pos[0],abs(sin(pos[1])),pos[2]);
-    glTranslatef(0.6,0.755,0.6);
+    
+    
+    glTranslatef(pos_h[0]+0.5,0.8,-pos_h[1]-0.5);
     glScaled (0.75,0.75,0.75);
     glRotatef(90,0,1,0);
     glmDraw(model, GLM_MATERIAL);
