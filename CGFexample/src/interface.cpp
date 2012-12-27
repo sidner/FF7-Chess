@@ -6,6 +6,7 @@ GLuint selectBuf[BUFSIZE];
 interface::interface ()
 {
     testVar = 0;
+    modelPicked=false;
 }
 void
 interface::initGUI ()
@@ -151,17 +152,55 @@ interface::processHits (GLint hits, GLuint buffer[])
             int i = (selected[0] - 100.0) / 14.0;
             int j = (selected[0] - 100.0) - (14*i);
             
-            if(!((DemoScene*) scene)->board->board[i][j]->isPicked)
+            if(!modelPicked)
             {
-                ((DemoScene*) scene)->board->board[i][j]->isPicked= true;
+                if(!((DemoScene*) scene)->board->board[i][j]->isPicked)
+                {
+                    if(((DemoScene*) scene)->board->board[i][j]->model != NULL)
+                    {
+                        ((DemoScene*) scene)->board->board[i][j]->isPicked= true;
+                        modelPicked = true;
+                        picked = ((DemoScene*) scene)->board->board[i][j];
+                    }
+                }
             }
             else
             {
-                ((DemoScene*) scene)->board->board[i][j]->isPicked= false;
-                if(((DemoScene*) scene)->board->board[i][j]->model != NULL)
-                    ((DemoScene*) scene)->board->board[i][j]->model->pos[1]=0;
+                //Picked the same house, so it de-selects the piece.
+                if(((DemoScene*) scene)->board->board[i][j] == picked)
+                {
+                    picked->isPicked = false;
+                    picked->model->pos[1] = 0;
+                    modelPicked = false;
+                    picked = NULL;
+                }
+                else //Picked a different house while a model was picked, so it checks path
+                {
+                    string answer;
+                    string request = ((DemoScene*) scene)->getEntireString (picked->model,((DemoScene*) scene)->board->board[i][j]);
+                              
+                    answer = ((DemoScene*) scene)->connection->speak (request);
+                    
+                 
+                    
+                    
+                    if(answer == "true.\n")
+                    {  
+                       ((DemoScene*) scene)->board->board[i][j]->model=picked->model;
+                       picked->model->pos[1] = 0;
+                       picked->model=NULL;
+                       picked->isPicked=false;
+                       picked=NULL;
+                       modelPicked=false;
+                        cout << true << endl;
+                        
+                    }
+                    else
+                    {
+                        cout << false << endl;
+                    }
+                }
             }
-                
         }
         // this should be replaced by code handling the picked object's ID's (stored in "selected"), 
         // possibly invoking a method on the scene class and passing "selected" and "nselected"

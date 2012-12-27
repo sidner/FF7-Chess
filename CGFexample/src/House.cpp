@@ -12,14 +12,16 @@ House::House (GLuint n)
     terrain = '_';
 
     h = new Rectangle (0, 1, 0, 1);
-    isPicked=false;
+    isPicked = false;
 }
-
-House::House (GLuint n,float p[3])
+House::House (GLuint n, float p[3], int c, int l)
 {
     pos[0] = p[0];
     pos[1] = p[1];
     pos[2] = p[2];
+
+    col = c;
+    line = l;
 
     name = n;
 
@@ -28,47 +30,48 @@ House::House (GLuint n,float p[3])
     terrain = '_';
 
     h = new Rectangle (0, 1, 0, 1);
-    
+
     isPicked = false;
 }
-
 void
 House::draw ()
 {
-    glPushName(name);
+    glPushName (name);
     glPushMatrix ();
-    glRotatef (-90.0,1,0,0);
-    
-    glTranslatef (pos[0],pos[1],pos[2]);
+    glRotatef (-90.0, 1, 0, 0);
+
+    glTranslatef (pos[0], pos[1], pos[2]);
     h->draw ();
-        
+
     glPopMatrix ();
-    glPopName();
-    
-    if(model != NULL)
+    glPopName ();
+
+    if (model != NULL)
     {
-        glLoadName(model->name);
-        glPushMatrix();
-        if(isPicked)
+        glLoadName (model->name);
+        glPushMatrix ();
+        if (isPicked)
             model->animate ();
-        model->draw(pos);
-        glPopMatrix();
-        glPopName();
+        model->draw (pos);
+        glPopMatrix ();
+        glPopName ();
     }
-        
+
 }
 string
 House::getString ()
 {
-    char temp[9];
+    char temp[12];
 
     if (model == NULL)
     {
-        sprintf (temp, "['%s','_']", model->prologRep);
+        printf ("['_','%c']",terrain);
+        sprintf (temp, "['_','%c']",terrain);
     }
     else
     {
-        sprintf (temp, "['_','%s']", terrain);
+
+        sprintf (temp, "['%c','%c']",model->prologRep, terrain);
     }
 
     return (string) temp;

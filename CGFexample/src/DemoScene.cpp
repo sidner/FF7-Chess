@@ -5,7 +5,10 @@
 #include "CGFappearance.h"
 DemoScene::DemoScene (char* nome)
 {
-    strcpy (this->nome, nome);  
+    strcpy (this->nome, nome);
+    mode = PLAY;
+    connection = new Connection ("localhost");
+    connection->connect_server ();
 }
 void
 DemoScene::activateCamera (int i)
@@ -15,8 +18,8 @@ DemoScene::activateCamera (int i)
 void
 DemoScene::init ()
 {
-    
-   
+
+
     lsf = new XMLScene (nome);
     //Globals
     glFrontFace (lsf->frontfaceorder);
@@ -40,7 +43,7 @@ DemoScene::init ()
     number = vec_cameras.size ();
     // Enables lighting computations
     glEnable (GL_LIGHTING);
-  
+
     // Sets up some lighting parameters
     glLightModelf (GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
     glLightModelfv (GL_LIGHT_MODEL_AMBIENT, CGFlight::background_ambient); // Define ambient light
@@ -51,22 +54,22 @@ DemoScene::init ()
         scene_lights.push_back ((*it).second);
     }
 
-    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-   GLfloat mat_shininess[] = { 50.0 };
-   GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };
-   glClearColor (0.0, 0.0, 0.0, 0.0);
+    GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1.0};
+    GLfloat mat_shininess[] = {50.0};
+    GLfloat light_position[] = {1.0, 1.0, 1.0, 0.0};
+    glClearColor (0.0, 0.0, 0.0, 0.0);
 
-   glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-   glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
-   glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+    glMaterialfv (GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv (GL_FRONT, GL_SHININESS, mat_shininess);
+    glLightfv (GL_LIGHT0, GL_POSITION, light_position);
 
-   glEnable(GL_LIGHT0);
-   glEnable(GL_DEPTH_TEST);
-   
+    glEnable (GL_LIGHT0);
+    glEnable (GL_DEPTH_TEST);
+
     nr = scene_lights.size ();
 
-//MODELS
-    
+    //MODELS
+
     //Argonath
 
     //argonathFront = new Appearance (emissiv, difuse, specular, shi_value);
@@ -76,13 +79,13 @@ DemoScene::init ()
     //skyboxFront->terrainAppearance = argonathFront;
 
     coiso = new Sphere (0.5, 12, 12);
-    
-    board = new Board();
-    
+
+    board = new Board ();
+
     // Defines a default normal
     glNormal3f (0, 0, 1);
 
-    setUpdatePeriod (30); 
+    setUpdatePeriod (30);
 }
 void
 DemoScene::update (long t) { }
@@ -105,13 +108,14 @@ DemoScene::display ()
 
     // Apply transformations corresponding to the camera position relative to the origin
     active->applyView ();
-    
+
     // Draw (and update) lights
     int x = 0;
-   for (list<CGFlight*>::iterator it = scene_lights.begin (); it != scene_lights.end (); it++, x++)
+    for (list<CGFlight*>::iterator it = scene_lights.begin (); it != scene_lights.end (); it++, x++)
     {
         if (lz[x])
         {
+            (*it)->draw ();
             (*it)->enable ();
         }
         else
@@ -122,7 +126,7 @@ DemoScene::display ()
     }
 
     // Draw axis
-   //axis.draw();
+    //axis.draw();
 
 
     // ---- END Background, camera and axis setup
@@ -132,25 +136,25 @@ DemoScene::display ()
     glPolygonMode (GL_FRONT_AND_BACK, lsf->mode);
 
     // ---- BEGIN drawing
-    
-    
-    glPushMatrix();
+
+
+    glPushMatrix ();
     board->draw ();
-    glPopMatrix();
-    
-    
+    glPopMatrix ();
+
+
     glPushMatrix ();
     glTranslatef (-50.0, 0, 0);
     glRotatef (-90.0, 0, 0, 1);
     glTranslatef (-25.0, 0, -25.0);
-    skyboxFront->draw ();
+    //skyboxFront->draw ();
     glPopMatrix ();
 
     glPushMatrix ();
     //coiso->draw ();
     glPopMatrix ();
 
-    
+
     // ---- END drawing
 
     // We have been drawing in a memory area that is not visible - the back buffer, 
@@ -175,11 +179,40 @@ DemoScene::display_select ()
     glPolygonMode (GL_FRONT_AND_BACK, lsf->mode);
 
     //Draw here the parts of the scene that we want to have picked.
-    
-    glPushMatrix();
+
+    glPushMatrix ();
     board->draw ();
-    glPopMatrix();
-    
+    glPopMatrix ();
+
+}
+string
+DemoScene::getEntireString (Model* model,House* picked)
+{
+
+
+    string ret;
+    char col [3];
+    char line [3];
+    sprintf (col, "%d", picked->col);
+    sprintf (line, "%d", picked->line);
+    string col_s = (string) col;
+    string line_s = (string) line;
+
+    if (mode == INSERT)
+    {
+        ret = "validate_insert(";
+    }
+    else if (mode == PLAY)
+    {
+        ret = "validate_move(";
+    }
+
+    char* temp = &model->prologRep;
+ 
+    ret += board->getPrologString ();
+    ret += ",'" + (string)temp;
+    ret += "'," + col_s + "," + line_s + ")";
+    return ret;
 }
 DemoScene::~DemoScene ()
 {

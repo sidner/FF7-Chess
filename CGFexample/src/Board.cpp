@@ -4,35 +4,35 @@ Board::Board ()
     GLuint name = SEED;
 
     float pos [3];
-    
-    
-    
+
+
+
     for (int i = 0; i < BOARDSIZE; i++)
     {
         vector<House*> temp;
         for (int j = 0; j < BOARDSIZE; j++)
         {
-            
-            pos[0] = 1.1*i;
-            pos[1] = 1.1*j;
+
+            pos[0] = 1.1 * i;
+            pos[1] = 1.1 * j;
             pos[2] = 0;
-            temp.push_back (new House (++name,pos));
+            temp.push_back (new House (++name, pos, j, i));
         }
         board.push_back (temp);
-        cout << temp.size();
+        cout << temp.size ();
     }
-    
-    cout << " " << board.size() << endl;
-    
-    board[5][5]->model = new Model("Cloud.obj");
-    
-  
+
+    cout << " " << board.size () << endl;
+
+    board[7][7]->model = new Model ("Cloud.obj");
+
+
 }
 void
 Board::draw ()
 {
     glPushMatrix ();
-    glTranslatef (0,0,BOARDSIZE*1.1);
+    glTranslatef (0, 0, BOARDSIZE * 1.1);
     for (int i = 0; i < BOARDSIZE; i++)
     {
         for (int j = 0; j < BOARDSIZE; j++)
@@ -46,17 +46,24 @@ string
 Board::getPrologString ()
 {
     string prolog = "[";
-  
+
     for (int i = 0; i < BOARDSIZE; i++)
     {
+
         prolog += "[";
         for (int j = 0; j < BOARDSIZE; j++)
+        {
+
             prolog += board[i][j]->getString ();
-        
+            if(j!= BOARDSIZE - 1)
+                prolog += ",";
+        }
         prolog += "]";
+        if(i!= BOARDSIZE - 1)
+                prolog += ",";
     }
-    
+
     prolog += "]";
-    
+
     return prolog;
 }

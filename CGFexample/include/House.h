@@ -20,7 +20,7 @@ class House: public CGFobject
 {
 public:
     House(GLuint name);
-    House(GLuint name,float pos[3]);
+    House(GLuint name,float pos[3],int col,int line);
     void draw();    
     float pos[3];
     GLuint name;
@@ -29,6 +29,7 @@ public:
     Model* model;
     char terrain;
     bool isPicked;
+    int col,line;
 };
 
 #endif	/* HOUSE_H */

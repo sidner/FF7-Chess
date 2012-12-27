@@ -38,24 +38,19 @@ tem de existir, pelo menos uma camara dos tipos seguintes (perspective ou ortho)
   
     <lighting doublesided="true" local="true" enabled="true">
         <!-- luz ambiente da cena -->
-        <ambient r="0.7" g="0.7" b="0.7" a="1" />
+        <ambient r="0.5" g="0.5" b="0.5" a="0" />
         <!-- informacao de fontes de luz -->
         <lights>
             <!-- Deve existir um ou mais blocos "light" -->
             <!-- Os identificadores "id" nao podem ser repetidos -->
             <light id="zero" enabled="false">
-                <location x="5" y="7" z="5" />
+                <location x="5" y="20" z="5" />
                 <ambient r="0.2" g="0.2" b="0.2" a="0" />
                 <diffuse r="0.2" g="0.2" b="0.2" a="0" />	
                 <specular r="0.2" g="0.2" b="0.2" a="0" />
-                <spot angle="20" exponent="2" dirx="-5.0" diry="-5.0" dirz="-5.0" />
+                <!--<spot angle="40" exponent="2" dirx="20.0" diry="-5.0" dirz="20.0" />-->
             </light>
-            <light id="one" enabled="true">
-                <location x="5.0" y="20.0" z="5.0" />
-                <ambient r="0.2" g="0.2" b="0.2" a="0" />
-                <diffuse r="0.2" g="0.2" b="0.2" a="0" />	
-                <specular r="0.2" g="0.2" b="0.2" a="0" />
-             </light>
+            
         </lights>
     </lighting>
     <!-- informacao de materiais; -->

@@ -85,6 +85,8 @@ string Connection::speak (string message)
 	
 	message.append(".\n");
 	
+    cout << "\nHere\n" << message.c_str () << "a." << endl;
+    
     write(socket_fd,message.c_str (),strlen (message.c_str ()));
 
     res = read(socket_fd,receive,RECEIVE_SIZE);

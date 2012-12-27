@@ -95,7 +95,7 @@ handle_service(In, Out) :-
 	    handle_service(In, Out)
 	).
 
-call_request(hello,'hello').
+call_request(hello,'hello').	
 
 call_request(disconnect,'Goodbye').
 
@@ -115,6 +115,7 @@ call_request(_,'Invalid').
 %*******************FEUDAL**********************
 
 validate_move(Board,Piece,Xf,Yf):-
+
 	get_coordinates(Board,Piece,Xi,Yi),
 	(	
 		(
@@ -333,7 +334,7 @@ abs(X,Y):-
 	X<0,
 	Y is -X.
 abs(X,X):-
-	X=<0.
+	X>=0.
 
 get_column(Board,X,Column):-
 	length(Board,Size),

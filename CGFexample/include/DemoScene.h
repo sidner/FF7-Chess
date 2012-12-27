@@ -8,39 +8,47 @@
 #include "interface.h"
 #include "Model.h"
 #include "Board.h"
+#include "Connection.h"
 
-class DemoScene : public CGFscene
-{
+//Game Mode definition. 1 - Insert Mode | 2 - Play Mode
+#define INSERT 1
+#define PLAY 2
+
+class DemoScene : public CGFscene {
     friend class interface;
-    
+
 public:
-	void init();
-	void display();
-        void display_select();
-	void update(long t);
-	void activateCamera(int i);
-	DemoScene(char* nome);
-	~DemoScene();
-	int lz[8];
-	int nr;
-	int number;
-	int nr_cams;
-        
+    void init();
+    void display();
+    void display_select();
+    void update(long t);
+    void activateCamera(int i);
+    string getEntireString(Model* model,House* picked);
+    DemoScene(char* nome);
+    ~DemoScene();
+    int lz[8];
+    int nr;
+    int number;
+    int nr_cams;
+    int mode;
+
+
 private:
-	CGFobject* obj;
-	CGFappearance* materialAppearance;
-	CGFappearance* textureAppearance;
-        Appearance* argonathFront;
-        Plane* skyboxFront;
-	CGFshader* shader;
-	XMLScene* lsf;
-	CGFcamera* def;
-	CGFcamera* active;
-	vector<CGFcamera*> vec_cameras;
-        char nome[40];
-        Sphere* coiso;
-        Model* cloud;
-        Board* board;
+    CGFobject* obj;
+    CGFappearance* materialAppearance;
+    CGFappearance* textureAppearance;
+    Appearance* argonathFront;
+    Plane* skyboxFront;
+    CGFshader* shader;
+    XMLScene* lsf;
+    CGFcamera* def;
+    CGFcamera* active;
+    vector<CGFcamera*> vec_cameras;
+    char nome[40];
+    Sphere* coiso;
+    Model* cloud;
+    Board* board;
+    Connection* connection;
 };
 
 #endif

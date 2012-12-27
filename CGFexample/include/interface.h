@@ -9,19 +9,24 @@
 #include <iostream>
 #include <cstring>
 #include <cmath>
+#include "House.h"
 
-class interface: public CGFscene, public CGFinterface {
-	public:
-		interface();
-                virtual void processMouse(int button, int state, int x, int y);	
-		void performPicking(int x, int y);
-		void processHits(GLint hits, GLuint buffer[]); 
-		virtual void initGUI();
-	//	virtual void processGUI(GLUI_Control *ctrl);
+class interface : public CGFscene, public CGFinterface {
+public:
+    interface();
+    virtual void processMouse(int button, int state, int x, int y);
+    void performPicking(int x, int y);
+    void processHits(GLint hits, GLuint buffer[]);
+    virtual void initGUI();
+    //	virtual void processGUI(GLUI_Control *ctrl);
 
-	//	virtual void processKeyboard(unsigned char key, int x, int y);
+    //	virtual void processKeyboard(unsigned char key, int x, int y);
 
-		int testVar;
+    int testVar;
+
+private:
+    bool modelPicked;
+    House* picked;
 };
 
 

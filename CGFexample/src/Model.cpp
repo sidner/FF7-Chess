@@ -32,7 +32,7 @@ Model::Model (string mod)
     isPicked = false;
     
     name = 10;
-    prologRep = '_';
+    prologRep = 'R';
 }
 
 
