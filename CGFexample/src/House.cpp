@@ -71,7 +71,7 @@ House::getString ()
     else
     {
 
-        sprintf (temp, "['%c','%c']",model->prologRep, terrain);
+        sprintf (temp, "['%s','%c']",model->prologRep, terrain);
     }
 
     return (string) temp;

@@ -14,8 +14,8 @@ name('E', 'Esquire').
 name('C', 'Castle').
 name('G', 'Green').
 name('A', 'Archer').
-name('L', 'Lancer1').
-name('L', 'Lancer2').
+name('L1', 'Lancer1').
+name('L2', 'Lancer2').
 name('r', 'king').
 name('d', 'duke').
 name('p', 'prince').
@@ -26,8 +26,8 @@ name('e', 'esquire').
 name('c', 'castle').
 name('g', 'green').
 name('a', 'archer').
-name('l', 'lancer1').
-name('l', 'lancer2').
+name('l1', 'lancer1').
+name('l1', 'lancer2').
 
 all_pieces(['R','D','P','K1','K2','S1','S2','E','A','L1','L2', 'r','d','p','k1','k2','s1','s2','e','a','l1','l2']).
 all_structs(['C','G', 'c','g']).
@@ -195,10 +195,12 @@ validate_move(Board,Piece,Xf,Yf):-
 		);
 		(	
 			(
-				Piece = Lancer1
-			);
-			(
-				Piece = Lancer2
+				(
+					Piece = Lancer1
+				);
+				(
+					Piece = Lancer2
+				)
 			),
 			(	
 				(

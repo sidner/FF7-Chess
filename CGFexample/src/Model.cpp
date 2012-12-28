@@ -1,7 +1,8 @@
 #include "Model.h"
 #include <iostream>
+#include <string.h>
 
-Model::Model (string mod)
+Model::Model (string mod, char prolog[2])
 {
     //Model
     model = NULL;
@@ -32,7 +33,7 @@ Model::Model (string mod)
     isPicked = false;
     
     name = 10;
-    prologRep = 'R';
+    strcpy (prologRep,prolog);
 }
 
 

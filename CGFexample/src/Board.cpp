@@ -22,9 +22,9 @@ Board::Board ()
         cout << temp.size ();
     }
 
-    cout << " " << board.size () << endl;
-
-    board[7][7]->model = new Model ("Cloud.obj");
+    
+    board[0][1]->model = new Model ("Cloud.obj","R");
+    //cout << board[0][1]->getString ()<<endl;
 
 
 }

@@ -7,7 +7,7 @@ DemoScene::DemoScene (char* nome)
 {
     strcpy (this->nome, nome);
     mode = PLAY;
-    connection = new Connection ("localhost");
+    connection = new Connection ("192.168.1.68");
     connection->connect_server ();
 }
 void
@@ -206,11 +206,9 @@ DemoScene::getEntireString (Model* model,House* picked)
     {
         ret = "validate_move(";
     }
-
-    char* temp = &model->prologRep;
  
     ret += board->getPrologString ();
-    ret += ",'" + (string)temp;
+    ret += ",'" + (string)model->prologRep;
     ret += "'," + col_s + "," + line_s + ")";
     return ret;
 }
