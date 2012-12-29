@@ -18,9 +18,8 @@ public:
     void performPicking(int x, int y);
     void processHits(GLint hits, GLuint buffer[]);
     virtual void initGUI();
-    //	virtual void processGUI(GLUI_Control *ctrl);
-
-    //	virtual void processKeyboard(unsigned char key, int x, int y);
+    void processHouse(GLuint* selected);
+    void processLogin(GLuint* selected);
 
     int testVar;
 

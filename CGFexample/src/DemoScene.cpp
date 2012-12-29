@@ -7,8 +7,6 @@ DemoScene::DemoScene (char* nome)
 {
     strcpy (this->nome, nome);
     mode = LOGIN;
-    connection = new Connection ("localhost");
-    connection->connect_server ();
 }
 void
 DemoScene::activateCamera (int i)
@@ -39,7 +37,7 @@ DemoScene::init ()
         vec_cameras.push_back ((*it).second);
     }
     cout << vec_cameras.size () << endl;
-   // active = vec_cameras[nr_cams];
+    // active = vec_cameras[nr_cams];
     number = vec_cameras.size ();
     // Enables lighting computations
     glEnable (GL_LIGHTING);
@@ -77,15 +75,17 @@ DemoScene::init ()
 
     skyboxFront = new Plane (100, "../textures/argonathFront.bmp");
     //skyboxFront->terrainAppearance = argonathFront;
-    login = new Rectangle (-12.0,12.0,-14.0,14.0);
+    login = new Rectangle (-12.0, 12.0, -14.0, 14.0);
+    pickingArea = new Rectangle(-2.0,6.0,-3.0,2.0);
+    
     
     float ambA[3] = {0.6, 0.6, 0.6};
     float difA[3] = {0.6, 0.6, 0.6};
     float specA[3] = {0.6, 0.6, 0.6};
     float shininessA = 0;
-    
-    materialAppearance = new CGFappearance (ambA,difA,specA,shininessA);
-    //materialAppearance->setTexture ("../textures/login2.jpg");
+
+    materialAppearance = new CGFappearance (ambA, difA, specA, shininessA);
+    materialAppearance->setTexture ("../textures/login.jpg");
 
 
     coiso = new Sphere (0.5, 12, 12);
@@ -102,6 +102,7 @@ DemoScene::update (long t) { }
 void
 DemoScene::display ()
 {
+    
     activateCamera (nr_cams);
     active->updateProjectionMatrix (CGFapplication::vpw, CGFapplication::vph);
     // ---- BEGIN Background, camera and axis setup
@@ -146,23 +147,37 @@ DemoScene::display ()
     glPolygonMode (GL_FRONT_AND_BACK, lsf->mode);
 
     // ---- BEGIN drawing
-    glPushMatrix ();
-    board->draw ();
-    glPopMatrix ();
 
 
- /*   glPushMatrix ();
-    glTranslatef (-50.0, 0, 0);
-    glRotatef (-90.0, 0, 0, 1);
-    glTranslatef (-25.0, 0, -25.0);
-    //skyboxFront->draw ();
-    glPopMatrix ();
-*/
-    glPushMatrix ();
-    //glRotatef (90,1,0,0);
-   // materialAppearance->apply ();
- //   login->draw ();
-    glPopMatrix ();
+
+    /*   glPushMatrix ();
+       glTranslatef (-50.0, 0, 0);
+       glRotatef (-90.0, 0, 0, 1);
+       glTranslatef (-25.0, 0, -25.0);
+       //skyboxFront->draw ();
+       glPopMatrix ();
+     */
+    
+    switch (mode)
+    {
+    case LOGIN:
+    {
+        
+        glPushMatrix ();
+        materialAppearance->apply ();
+        login->draw ();
+        glPopMatrix ();
+        break;
+    }
+    case PLAY:
+    {
+        glPushMatrix ();
+        board->draw ();
+        glPopMatrix ();
+        break;
+    }
+    }
+
 
 
     // ---- END drawing
@@ -190,9 +205,25 @@ DemoScene::display_select ()
 
     //Draw here the parts of the scene that we want to have picked.
 
-    glPushMatrix ();
-    board->draw ();
-    glPopMatrix ();
+    switch (mode)
+    {
+    case LOGIN:
+    {
+        glPushName(50);
+        glPushMatrix ();
+        pickingArea->draw();
+        glPopMatrix ();
+        glPopName();
+        break;
+    }
+    case PLAY:
+    {
+        glPushMatrix ();
+        board->draw ();
+        glPopMatrix ();
+        break;
+    }
+    }
 
 }
 string

@@ -51,6 +51,7 @@ private:
     Board* board;
     Connection* connection;
     Rectangle* login;
+    Rectangle* pickingArea;
     
 };
 
