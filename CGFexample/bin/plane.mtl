@@ -1,0 +1,72 @@
+# Blender MTL File: 'plane.blend'
+# Material Count: 6
+newmtl Material.001
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.501321 0.469960 0.048958
+Ks 0.289157 0.289157 0.289157
+Ni 1.000000
+d 1.000000
+illum 2
+
+
+newmtl leaf_mat_2_palm_leaf_full_02.png_palm_leaf_full_02.png
+Ns 92.156863
+Ka 0.000000 0.000000 0.000000
+Kd 0.005135 0.042641 0.000000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 2
+map_Kd /tmp/.fr-KVjoG0/Blender Textures/Trees/palm_leaf_full_02.png
+map_d /tmp/.fr-KVjoG0/Blender Textures/Trees/palm_leaf_full_02.png
+
+
+newmtl leaf_mat_palm_leaf_small_01.pn_palm_leaf_small_01.png
+Ns 92.156863
+Ka 0.000000 0.000000 0.000000
+Kd 0.012384 0.121710 0.000000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 2
+map_Kd /tmp/.fr-KVjoG0/Blender Textures/Trees/palm_leaf_small_01.png
+map_d /tmp/.fr-KVjoG0/Blender Textures/Trees/palm_leaf_small_01.png
+
+
+newmtl palm_leaf_mat_3_palm_leaf_full_03.png_palm_leaf_full_03.png
+Ns 92.156863
+Ka 0.000000 0.000000 0.000000
+Kd 0.007014 0.060997 0.000000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 2
+map_Kd /tmp/.fr-KVjoG0/Blender Textures/Trees/palm_leaf_full_03.png
+map_d /tmp/.fr-KVjoG0/Blender Textures/Trees/palm_leaf_full_03.png
+
+
+newmtl palm_tree_trunk_mat_palm_tree_bark.png_palm_tree_bark.png
+Ns 92.156863
+Ka 0.000000 0.000000 0.000000
+Kd 0.235027 0.166921 0.030399
+Ks 0.242281 0.102242 0.028426
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /tmp/.fr-KVjoG0/Blender Textures/Trees/palm tree bark.png
+map_Bump /tmp/.fr-KVjoG0/Blender Textures/Trees/palm tree bark_nor.png
+
+
+newmtl palm_tree_trunk_mat_trees_bark_001_col.jp_trees_bark_001_col.jpg
+Ns 92.156863
+Ka 0.000000 0.000000 0.000000
+Kd 0.235027 0.166921 0.030399
+Ks 0.242281 0.102242 0.028426
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /tmp/.fr-KVjoG0/yofrankie_1_1b_bge/textures/trees_bark_001_col.jpg
+map_Bump /tmp/.fr-KVjoG0/Blender Textures/Trees/palm tree bark_nor.png
+
+

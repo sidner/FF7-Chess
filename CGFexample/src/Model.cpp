@@ -40,7 +40,7 @@ Model::Model (string mod, char prolog[2])
 void Model::draw (float pos_h[3])
 {
     glPushMatrix();
-    glCullFace (GL_FRONT);
+    glCullFace (GL_BACK);
     glTranslatef (pos[0],abs(sin(pos[1])),pos[2]);
     
     
@@ -48,7 +48,7 @@ void Model::draw (float pos_h[3])
     glScaled (0.75,0.75,0.75);
     glRotatef(90,0,1,0);
     glmDraw(model, GLM_MATERIAL);
-    glCullFace (GL_BACK);
+    glCullFace (GL_FRONT);
     glPopMatrix();
 }
 
