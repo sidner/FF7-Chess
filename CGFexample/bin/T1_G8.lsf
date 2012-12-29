@@ -33,7 +33,7 @@ tem de existir, pelo menos uma camara dos tipos seguintes (perspective ou ortho)
             <to x="0" y="0" z="0" />
         </perspective>
         
-       <ortho id="or" near="50.0" far="-50.0" left="-50.0" right="50.0" top="50.0" bottom="-50.0" />-->
+       <ortho id="or" near="12.0" far="-12.0" left="-12.0" right="12.0" top="12.0" bottom="-12.0" />-->
     </cameras>
   
     <lighting doublesided="true" local="true" enabled="true">

@@ -11,6 +11,7 @@ class Plane : public Primitive {
 public:
     Appearance* terrainAppearance;
     Plane(int parts, string text);
+    Plane(int parts);
     GLfloat controlpoints[4][3];
     int parts;
     GLfloat textpoints[4][2];

@@ -212,12 +212,3 @@ interface::processHits (GLint hits, GLuint buffer[])
     else
         printf ("Nothing selected while picking \n");
 }
-
-
-/*if (!((DemoScene*) scene)->cloud->isPicked)
-            ((DemoScene*) scene)-> cloud->isPicked = true;
-        else
-        {
-            ((DemoScene*) scene)->cloud->isPicked = false;
-            ((DemoScene*) scene)->cloud->pos[1] = 0;
-        }*/

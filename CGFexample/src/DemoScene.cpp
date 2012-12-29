@@ -6,8 +6,8 @@
 DemoScene::DemoScene (char* nome)
 {
     strcpy (this->nome, nome);
-    mode = PLAY;
-    connection = new Connection ("192.168.1.68");
+    mode = LOGIN;
+    connection = new Connection ("localhost");
     connection->connect_server ();
 }
 void
@@ -32,14 +32,14 @@ DemoScene::init ()
     //Setting cameras
     def = activeCamera;
     vec_cameras.push_back (def);
-    nr_cams = 0;
+    nr_cams = 1;
 
     for (map<string, CGFcamera*>::iterator it = lsf->cameras.begin (); it != lsf->cameras.end (); it++)
     {
         vec_cameras.push_back ((*it).second);
     }
     cout << vec_cameras.size () << endl;
-    active = lsf->camera_init;
+   // active = vec_cameras[nr_cams];
     number = vec_cameras.size ();
     // Enables lighting computations
     glEnable (GL_LIGHTING);
@@ -77,6 +77,16 @@ DemoScene::init ()
 
     skyboxFront = new Plane (100, "../textures/argonathFront.bmp");
     //skyboxFront->terrainAppearance = argonathFront;
+    login = new Rectangle (-12.0,12.0,-14.0,14.0);
+    
+    float ambA[3] = {0.6, 0.6, 0.6};
+    float difA[3] = {0.6, 0.6, 0.6};
+    float specA[3] = {0.6, 0.6, 0.6};
+    float shininessA = 0;
+    
+    materialAppearance = new CGFappearance (ambA,difA,specA,shininessA);
+    //materialAppearance->setTexture ("../textures/login2.jpg");
+
 
     coiso = new Sphere (0.5, 12, 12);
 
@@ -115,7 +125,7 @@ DemoScene::display ()
     {
         if (lz[x])
         {
-            (*it)->draw ();
+            //(*it)->draw ();
             (*it)->enable ();
         }
         else
@@ -136,22 +146,22 @@ DemoScene::display ()
     glPolygonMode (GL_FRONT_AND_BACK, lsf->mode);
 
     // ---- BEGIN drawing
-
-
     glPushMatrix ();
     board->draw ();
     glPopMatrix ();
 
 
-    glPushMatrix ();
+ /*   glPushMatrix ();
     glTranslatef (-50.0, 0, 0);
     glRotatef (-90.0, 0, 0, 1);
     glTranslatef (-25.0, 0, -25.0);
     //skyboxFront->draw ();
     glPopMatrix ();
-
+*/
     glPushMatrix ();
-    //coiso->draw ();
+    //glRotatef (90,1,0,0);
+   // materialAppearance->apply ();
+ //   login->draw ();
     glPopMatrix ();
 
 
@@ -186,7 +196,7 @@ DemoScene::display_select ()
 
 }
 string
-DemoScene::getEntireString (Model* model,House* picked)
+DemoScene::getEntireString (Model* model, House* picked)
 {
 
 
@@ -206,9 +216,9 @@ DemoScene::getEntireString (Model* model,House* picked)
     {
         ret = "validate_move(";
     }
- 
+
     ret += board->getPrologString ();
-    ret += ",'" + (string)model->prologRep;
+    ret += ",'" + (string) model->prologRep;
     ret += "'," + col_s + "," + line_s + ")";
     return ret;
 }
@@ -223,4 +233,5 @@ DemoScene::~DemoScene ()
         delete(vec_cameras[i]);
     }
     delete(lsf);
+    delete(login);
 }

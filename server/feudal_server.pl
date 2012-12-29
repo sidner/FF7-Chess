@@ -530,7 +530,7 @@ validate_diagonal_move(Board,Piece,Xi,Yi,Xf,Yf):-
 		);
 		(
 			Yf < Yi,
-			Xf < Yi,
+			Xf < Xi,
 			Diffx is Xi-Xf,
 			Diffy is Yi-Yf,
 			WayX is 1,

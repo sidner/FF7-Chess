@@ -10,7 +10,8 @@
 #include "Board.h"
 #include "Connection.h"
 
-//Game Mode definition. 1 - Insert Mode | 2 - Play Mode
+//Game Mode definition. 0 -> Login | 1 -> Insert Mode | 2 -> Play Mode
+#define LOGIN 0
 #define INSERT 1
 #define PLAY 2
 
@@ -49,6 +50,8 @@ private:
     Model* cloud;
     Board* board;
     Connection* connection;
+    Rectangle* login;
+    
 };
 
 #endif

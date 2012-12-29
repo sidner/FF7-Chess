@@ -23,8 +23,12 @@ Board::Board ()
     }
 
     
-    board[0][1]->model = new Model ("Cloud.obj","R");
-    //cout << board[0][1]->getString ()<<endl;
+   board[0][1]->model = new Model ("Cloud.obj","R");
+    board[0][2]->model = new Model ("Red.obj","R");
+    board[0][3]->model = new Model ("Tifa.obj","R");
+    board[0][4]->model = new Model ("cid.obj","R");
+    board[0][5]->model = new Model ("Cait.obj","R");
+    board[0][6]->model = new Model ("YUFFIE.obj","R");
 
 
 }
