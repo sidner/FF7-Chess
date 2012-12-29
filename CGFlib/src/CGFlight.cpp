@@ -104,6 +104,7 @@ void CGFlight::disable() {
 }
 
 void CGFlight::update() {
+
 	glLightfv(id, GL_POSITION, position);
 	glLightfv(id, GL_SPOT_DIRECTION, direction);
 }

@@ -41,7 +41,9 @@ House::draw ()
     glRotatef (-90.0, 1, 0, 0);
 
     glTranslatef (pos[0], pos[1], pos[2]);
+
     h->draw ();
+
 
     glPopMatrix ();
     glPopName ();
