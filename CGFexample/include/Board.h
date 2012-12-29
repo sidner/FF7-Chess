@@ -24,6 +24,8 @@ public:
     string getPrologString();
     void draw();
     vector< vector<House*> > board;
+    vector<Model*> pieces1;
+    vector<Model*> pieces2;
     
 };
 #endif	/* BOARD_H */

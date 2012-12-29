@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string.h>
 
-Model::Model (string mod, char prolog[2])
+Model::Model (string mod, char prolog[2],float normal)
 {
     //Model
     model = NULL;
@@ -23,7 +23,7 @@ Model::Model (string mod, char prolog[2])
         // So if you can export these directly from you modeling tool do it and comment these line
         // 3DS Max can calculate these for you and GLM is perfectly capable of loading them
         glmFacetNormals (model);
-        glmVertexNormals (model, 90.0);
+        glmVertexNormals (model, normal);
     }
 
     pos[0] = 0.0;
@@ -46,7 +46,7 @@ void Model::draw (float pos_h[3])
     
     glTranslatef(pos_h[0]+0.5,0.8,-pos_h[1]-0.5);
     glScaled (0.75,0.75,0.75);
-    glRotatef(90,0,1,0);
+    glRotatef(angle,0,1,0);
     glmDraw(model, GLM_MATERIAL);
     glCullFace (GL_FRONT);
     glPopMatrix();

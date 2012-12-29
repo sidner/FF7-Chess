@@ -29,7 +29,7 @@ House::House (GLuint n, float p[3], int c, int l)
 
     terrain = '_';
 
-    h = new Rectangle (0, 1, 0, 1);
+    h = new Rectangle (1, 0, 1, 0);
 
     isPicked = false;
 }
@@ -39,12 +39,10 @@ House::draw ()
     glPushName (name);
     glPushMatrix ();
     glRotatef (-90.0, 1, 0, 0);
-
     glTranslatef (pos[0], pos[1], pos[2]);
-
+    glFrontFace(GL_CW);
     h->draw ();
-
-
+    glFrontFace(GL_CCW);
     glPopMatrix ();
     glPopName ();
 

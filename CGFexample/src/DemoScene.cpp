@@ -148,15 +148,6 @@ DemoScene::display ()
 
     // ---- BEGIN drawing
 
-
-
-    /*   glPushMatrix ();
-       glTranslatef (-50.0, 0, 0);
-       glRotatef (-90.0, 0, 0, 1);
-       glTranslatef (-25.0, 0, -25.0);
-       //skyboxFront->draw ();
-       glPopMatrix ();
-     */
     
     switch (mode)
     {

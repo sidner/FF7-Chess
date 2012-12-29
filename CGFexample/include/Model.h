@@ -18,7 +18,7 @@ using namespace std;
 
 class Model {
 public:
-    Model(string path,char prolog[2]);
+    Model(string path,char prolog[2],float normal);
     ~Model();
     void draw(float pos[3]);
     void animate();
@@ -27,6 +27,7 @@ public:
     bool isPicked;
     GLuint name;
     char prologRep[2];
+    float angle;
 };
 
 #endif	/* MODEL_H */
