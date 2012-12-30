@@ -11,10 +11,12 @@
 #include "Connection.h"
 #include "Play.h"
 
-//Game Mode definition. 0 -> Login | 1 -> Insert Mode | 2 -> Play Mode
+//Game Mode definition. 0 -> Login | 1 -> Free Camera | 2 -> Play Mode | 3 -> Insert Mode | 4 -> Locked while rotation
 #define LOGIN 0
-#define INSERT 1
+#define FREE 1
 #define PLAY 2
+#define INSERT 3
+#define LOCKED 4
 
 //Player definitions. 1 -> Player 1 | 2 -> Player 2
 #define PLAYER1 1

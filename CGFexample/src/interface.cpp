@@ -49,15 +49,23 @@ interface::initGUI ()
 
     addButtonToPanel (varPanel3, "Skip Piece", 4);
     addButtonToPanel (varPanel3, "Undo", 5);
-
     addColumnToPanel (varPanel3);
     addButtonToPanel (varPanel3, "Movie", 6);
+    addButtonToPanel(varPanel3,"Free/Lock Camera",1);
 }
 void
 interface::processGUI (GLUI_Control *ctrl)
 {
     switch (ctrl->user_id)
     {
+    case 1:
+    {
+        if(((DemoScene*)scene)->mode == PLAY)
+            ((DemoScene*)scene)->mode = FREE;
+        else if (((DemoScene*)scene)->mode == FREE)
+            ((DemoScene*)scene)->mode = PLAY;
+        break;
+    }
     case 4:
     {
         if (((DemoScene*) scene)->player == PLAYER1)
@@ -75,9 +83,7 @@ interface::processGUI (GLUI_Control *ctrl)
             {
                 ((DemoScene*) scene)->player = PLAYER1;
                 ((DemoScene*) scene)->moves1 = ((DemoScene*) scene)->board->pieces1.size ();
-            }
-                
-                
+            }       
         break;
     }
     case 5:

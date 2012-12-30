@@ -88,7 +88,7 @@ DemoScene::init ()
     materialAppearance = new CGFappearance (ambA, difA, specA, shininessA);
     materialAppearance->setTexture ("../textures/login.jpg");
 
-    
+
     environtments[0] = new CGFappearance (ambA, difA, specA, shininessA);
     environtments[1] = new CGFappearance (ambA, difA, specA, shininessA);
     environtments[1]->setTexture ("../textures/grass.jpg");
@@ -99,33 +99,49 @@ DemoScene::init ()
 
     board = new Board ();
     plays = new Play ();
-    ambi= new Rectangle (0,1,0,1);
-    
-    ambient =1;
-    
+    ambi = new Rectangle (0, 1, 0, 1);
+
+    ambient = 1;
+
     movie = false;
-    
+
     moves1 = board->pieces1.size ();
     moves2 = board->pieces2.size ();
 
-    
+
     // Defines a default normal
     glNormal3f (0, 0, 1);
 
     setUpdatePeriod (1000);
 }
 void
-DemoScene::update (long t) {
-    if(boardsMovie.size() > 1)
-        boardsMovie.pop();
+DemoScene::update (long t)
+{
+    if (boardsMovie.size () > 1)
+        boardsMovie.pop ();
     else
-        movie=false;
+        movie = false;
 }
 void
 DemoScene::display ()
-{ 
+{
+
+    if (mode == LOGIN)
+    {
+        nr_cams = 1;
+    }
+    else if (mode == PLAY)
+    {
+        if (player == PLAYER1)
+            nr_cams = 3;
+        else if (player == PLAYER2)
+            nr_cams = 2;
+    }
+    else if (mode == FREE)
+        nr_cams = 0;
 
     activateCamera (nr_cams);
+
     active->updateProjectionMatrix (CGFapplication::vpw, CGFapplication::vph);
     // ---- BEGIN Background, camera and axis setup
 
@@ -170,58 +186,56 @@ DemoScene::display ()
 
     // ---- BEGIN drawing
 
+
     
-    //Counters for moves so each player knows how many he has left
-    glPushMatrix ();
-    sprintf(m1,"%d",moves1);
-    
-    renderstring3d (m1,0,0,0,-5,5,-5);
-    glPopMatrix ();
-    
-    
-    glPushMatrix ();
-    sprintf(m2,"%d",moves2);
-    renderstring3d (m2,0,0,0,-5,5,10);
-    glPopMatrix ();
-    
-    
-    switch (mode)
-    {
-    case LOGIN:
+  
+    if (mode == LOGIN)
     {
         glPushMatrix ();
         materialAppearance->apply ();
         login->draw ();
         glPopMatrix ();
-        break;
     }
-    case PLAY:
-    {   
+    else if (mode == FREE || mode == PLAY)
+    {
         glPushMatrix ();
-        if(movie && !boardsMovie.empty ()){
+        if (movie && !boardsMovie.empty ())
+        {
             boardsMovie.top ()->resetY ();
             boardsMovie.top ()->draw ();
         }
-        else if(!movie)
+        else if (!movie)
         {
-            if(boardsMovie.size() == 1)
-                boardsMovie.pop();
-            
+            if (boardsMovie.size () == 1)
+                boardsMovie.pop ();
+
             board->draw ();
         }
         glPopMatrix ();
-        
-        
+
         glPushMatrix ();
-        glTranslated (-7.5,-0.1,-7.5);
-         glRotated (90,1,0,0);
-        glScaled (30,30,0);
+        glTranslated (-7.5, -0.1, -7.5);
+        glRotated (90, 1, 0, 0);
+        glScaled (30, 30, 0);
         environtments[ambient]->apply ();
         ambi->draw ();
         glPopMatrix ();
-        break;
     }
+    if (mode == PLAY)
+    {
+        //Counters for moves so each player knows how many he has left
+        glPushMatrix ();
+        sprintf (m1, "%d", moves1);
+        renderstring3d (m1, 0, 0, 0, -5, 5, -5);
+        glPopMatrix ();
+
+
+        glPushMatrix ();
+        sprintf (m2, "%d", moves2);
+        renderstring3d (m2, 0, 0, 0, -5, 5, 10);
+        glPopMatrix ();
     }
+
 
 
 
@@ -248,26 +262,20 @@ DemoScene::display_select ()
 
     //Draw here the parts of the scene that we want to have picked.
 
-    switch (mode)
-    {
-    case LOGIN:
+    if (mode == LOGIN)
     {
         glPushName (50);
         glPushMatrix ();
         pickingArea->draw ();
         glPopMatrix ();
         glPopName ();
-        break;
     }
-    case PLAY:
+    else if (mode == PLAY)
     {
         glPushMatrix ();
         board->draw ();
         glPopMatrix ();
-        break;
     }
-    }
-
 }
 string
 DemoScene::getEntireString (Model* model, House* picked)
@@ -307,15 +315,14 @@ DemoScene::~DemoScene ()
     delete(lsf);
     delete(login);
 }
-
-
-void DemoScene::renderstring3d(char string[], float r, float g, float b, float x, float y, float z)
+void
+DemoScene::renderstring3d (char string[], float r, float g, float b, float x, float y, float z)
 {
-    glDisable(GL_LIGHTING);
-    glColor3f(r, g, b);
+    glDisable (GL_LIGHTING);
+    glColor3f (r, g, b);
 
-    glRasterPos3f(x, y, z);
-    for(unsigned int i = 0; i < strlen(string); i++)
-        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, string[i]);
-    glEnable(GL_LIGHTING);
+    glRasterPos3f (x, y, z);
+    for (unsigned int i = 0; i < strlen (string); i++)
+        glutBitmapCharacter (GLUT_BITMAP_TIMES_ROMAN_24, string[i]);
+    glEnable (GL_LIGHTING);
 }

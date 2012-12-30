@@ -93,8 +93,33 @@ Board::Board ()
         pieces2[i]->angle = -90.0;
     }
     
+    Model* mountain = new Model("montanha.obj","M",0.0);
+    Model* forest = new Model("Pinheiro.obj","F",0.0);
     
+    //Insert Mountains here. 14 Mountains!!!
+    board[4][8]->model = mountain;
+    board[2][2]->model = mountain;
+    board[2][6]->model = mountain;
+    board[12][5]->model = mountain;
+    board[0][12]->model = mountain;
+    board[8][8]->model = mountain;
+    board[9][5]->model = mountain;
+    board[1][1]->model = mountain;
+    board[2][9]->model = mountain;
+    board[10][3]->model = mountain;
+    board[12][9]->model = mountain;
+    board[2][12]->model = mountain;
+    board[1][2]->model = mountain;
+    board[8][2]->model = mountain;
     
+    //Insert Forests here. 7 Forests!!!
+    board[9][9]->model = forest;
+    board[7][12]->model = forest;
+    board[13][13]->model = forest;
+    board[9][11]->model = forest;
+    board[3][9]->model = forest;
+    board[1][0]->model = forest;
+    board[3][2]->model = forest;
 }
 void
 Board::draw ()

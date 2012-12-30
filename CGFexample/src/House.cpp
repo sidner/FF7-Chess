@@ -8,6 +8,7 @@ House::House(House* house)
     pos[2] = house->pos[2];
     name = house->name;
     h = house->h;
+    terrain = house->terrain;
     model = house->model;
     terrain = house->terrain;
     isPicked = house->isPicked;
@@ -25,7 +26,7 @@ House::House (GLuint n)
 
     model = NULL;
 
-    terrain = '_';
+    terrain = NULL;
 
     h = new Rectangle (0, 1, 0, 1);
     isPicked = false;
@@ -43,7 +44,7 @@ House::House (GLuint n, float p[3], int c, int l)
 
     model = NULL;
 
-    terrain = '_';
+    terrain = NULL;
 
     h = new Rectangle (1, 0, 1, 0);
 
@@ -80,6 +81,14 @@ House::draw ()
         glPopMatrix ();
         glPopName ();
     }
+    
+    if(terrain != NULL)
+    {
+        glPushMatrix();
+        glScaled(0.8,0.8,0.8);
+        terrain->draw(pos);
+        glPopMatrix();
+    }
 }
 string
 House::getString ()
@@ -88,13 +97,12 @@ House::getString ()
 
     if (model == NULL)
     {
-        printf ("['_','%c']",terrain);
-        sprintf (temp, "['_','%c']",terrain);
+        sprintf (temp, "['_','%s']",terrain->prologRep);
     }
     else
     {
 
-        sprintf (temp, "['%s','%c']",model->prologRep, terrain);
+        sprintf (temp, "['%s','_']",model->prologRep);
     }
 
     return (string) temp;
