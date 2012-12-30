@@ -51,14 +51,14 @@ interface::initGUI ()
     addButtonToPanel (varPanel3, "Undo", 5);
     addColumnToPanel (varPanel3);
     addButtonToPanel (varPanel3, "Movie", 6);
-    addButtonToPanel(varPanel3,"Free/Lock Camera",1);
+    addButtonToPanel(varPanel3,"Free/Lock Camera",2);
 }
 void
 interface::processGUI (GLUI_Control *ctrl)
 {
     switch (ctrl->user_id)
     {
-    case 1:
+    case 2:
     {
         if(((DemoScene*)scene)->mode == PLAY)
             ((DemoScene*)scene)->mode = FREE;

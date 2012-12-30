@@ -49,12 +49,11 @@ House::House (GLuint n, float p[3], int c, int l)
     h = new Rectangle (1, 0, 1, 0);
 
     float ambA[3] = {0.1, 0.1, 0.1};
-    float difA[3] = {0.3, 0.3, 0.3};
-    float specA[3] = {0.3, 0.3, 0.3};
+    float difA[3] = {0.1, 0.1, 0.1};
+    float specA[3] = {0.1, 0.1, 0.1};
     float shininessA = 0;
 
     materialAppearance = new CGFappearance (ambA, difA, specA, shininessA);
-    
     isPicked = false;
 }
 void
