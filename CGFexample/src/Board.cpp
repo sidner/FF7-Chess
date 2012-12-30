@@ -1,12 +1,15 @@
 #include "Board.h"
-Board::Board(Board* b)
+Board::Board (Board* b)
 {
     board = b->board;
-    pieces1=b->pieces1;
-    pieces2=b->pieces2;
+
+    for (unsigned int i = 0; i < board.size (); i++)
+        for (unsigned int j = 0; j < board[i].size (); j++)
+            board[i][j] = new House (*(board[i][j]));
+
+    pieces1 = b->pieces1;
+    pieces2 = b->pieces2;
 }
-
-
 Board::Board ()
 {
     GLuint name = SEED;
@@ -20,7 +23,6 @@ Board::Board ()
         vector<House*> temp;
         for (int j = 0; j < BOARDSIZE; j++)
         {
-
             pos[0] = 1.1 * i;
             pos[1] = 1.1 * j;
             pos[2] = 0;
@@ -51,9 +53,11 @@ Board::Board ()
     board[0][7]->model = pieces1[6];
     board[0][8]->model = pieces1[7];
     board[2][2]->model = pieces1[8];
-    board[0][10]->model = new Model ("castelo.obj", "C", 0.0);
     board[1][10]->model = pieces1[9];
+    board[0][10]->model = new Model ("castelo.obj", "C", 0.0);
 
+    
+    
     for (int i = 0; i < pieces1.size (); i++)
     {
         pieces1[i]->angle = 90.0;
@@ -81,13 +85,16 @@ Board::Board ()
     board[13][7]->model = pieces2[6];
     board[13][8]->model = pieces2[7];
     board[11][2]->model = pieces2[8];
-    board[13][10]->model = new Model ("castelo.obj", "c", normal2);
     board[12][10]->model = pieces2[9];
+    board[13][10]->model = new Model ("castelo.obj", "c", normal2);
 
     for (int i = 0; i < pieces2.size (); i++)
     {
         pieces2[i]->angle = -90.0;
     }
+    
+    
+    
 }
 void
 Board::draw ()
@@ -161,7 +168,7 @@ Board::removePiece (int player, Model* toRemove)
         {
             if (toRemove == pieces2[i])
             {
-                pieces2.erase (pieces2.begin ()+i);
+                pieces2.erase (pieces2.begin () + i);
             }
         }
     }
@@ -171,7 +178,7 @@ Board::removePiece (int player, Model* toRemove)
         {
             if (toRemove == pieces1[i])
             {
-                pieces1.erase (pieces1.begin ()+i);
+                pieces1.erase (pieces1.begin () + i);
             }
         }
     }
@@ -186,5 +193,21 @@ Board::resetChecks ()
     for (unsigned int i = 0; i < pieces2.size (); i++)
     {
         pieces2[i]->checked = false;
+    }
+}
+void
+Board::resetY ()
+{
+    for (int i = 0; i < BOARDSIZE; i++)
+    {
+        for (int j = 0; j < BOARDSIZE; j++)
+        {
+            if(board[i][j]->model != NULL)
+            {
+                board[i][j]->model->isPicked = false;
+               board[i][j]->model->pos[1] = 0;
+                
+            }
+        }
     }
 }

@@ -1,4 +1,20 @@
 #include "House.h"
+
+
+House::House(House* house)
+{   
+    pos[0] = house->pos[0];
+    pos[1] = house->pos[1];
+    pos[2] = house->pos[2];
+    name = house->name;
+    h = house->h;
+    model = house->model;
+    terrain = house->terrain;
+    isPicked = house->isPicked;
+    col = house->col;
+    line = house->line;
+    materialAppearance=house->materialAppearance;    
+}
 House::House (GLuint n)
 {
     pos[0] = 0;
@@ -64,7 +80,6 @@ House::draw ()
         glPopMatrix ();
         glPopName ();
     }
-
 }
 string
 House::getString ()

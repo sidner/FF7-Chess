@@ -88,28 +88,43 @@ DemoScene::init ()
     materialAppearance = new CGFappearance (ambA, difA, specA, shininessA);
     materialAppearance->setTexture ("../textures/login.jpg");
 
-
-    coiso = new Sphere (0.5, 12, 12);
+    
+    environtments[0] = new CGFappearance (ambA, difA, specA, shininessA);
+    environtments[1] = new CGFappearance (ambA, difA, specA, shininessA);
+    environtments[1]->setTexture ("../textures/grass.jpg");
+    environtments[2] = new CGFappearance (ambA, difA, specA, shininessA);
+    environtments[2]->setTexture ("../textures/terra.jpg");
+    environtments[3] = new CGFappearance (ambA, difA, specA, shininessA);
+    environtments[3]->setTexture ("../textures/volcano.png");
 
     board = new Board ();
-    teste = new Board ();
-    plays = new Play (board);
-    te=1;
+    plays = new Play ();
+    ambi= new Rectangle (0,1,0,1);
     
-    moves1 = board->pieces1.size();
-    moves2 = board->pieces2.size();
+    ambient =1;
+    
+    movie = false;
+    
+    moves1 = board->pieces1.size ();
+    moves2 = board->pieces2.size ();
 
+    
     // Defines a default normal
     glNormal3f (0, 0, 1);
 
-    setUpdatePeriod (30);
+    setUpdatePeriod (1000);
 }
 void
-DemoScene::update (long t) { }
+DemoScene::update (long t) {
+    if(boardsMovie.size() > 1)
+        boardsMovie.pop();
+    else
+        movie=false;
+}
 void
 DemoScene::display ()
-{
-    
+{ 
+
     activateCamera (nr_cams);
     active->updateProjectionMatrix (CGFapplication::vpw, CGFapplication::vph);
     // ---- BEGIN Background, camera and axis setup
@@ -117,7 +132,7 @@ DemoScene::display ()
     //Setting background color
     glClearColor (lsf->colors[0], lsf->colors[1], lsf->colors[2], lsf->colors[3]);
 
-    // Clear image and depth buffer everytilme we update the scene
+    // Clear image and depth buffer everytime we update the scene
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Initialize Model-View matrix as identity (no transformation
@@ -155,12 +170,25 @@ DemoScene::display ()
 
     // ---- BEGIN drawing
 
-
+    
+    //Counters for moves so each player knows how many he has left
+    glPushMatrix ();
+    sprintf(m1,"%d",moves1);
+    
+    renderstring3d (m1,0,0,0,-5,5,-5);
+    glPopMatrix ();
+    
+    
+    glPushMatrix ();
+    sprintf(m2,"%d",moves2);
+    renderstring3d (m2,0,0,0,-5,5,10);
+    glPopMatrix ();
+    
+    
     switch (mode)
     {
     case LOGIN:
     {
-
         glPushMatrix ();
         materialAppearance->apply ();
         login->draw ();
@@ -168,12 +196,28 @@ DemoScene::display ()
         break;
     }
     case PLAY:
-    {
+    {   
         glPushMatrix ();
-         if(te==1)
-        board->draw ();
-        else if(te==2)
-            teste->draw ();
+        if(movie && !boardsMovie.empty ()){
+            boardsMovie.top ()->resetY ();
+            boardsMovie.top ()->draw ();
+        }
+        else if(!movie)
+        {
+            if(boardsMovie.size() == 1)
+                boardsMovie.pop();
+            
+            board->draw ();
+        }
+        glPopMatrix ();
+        
+        
+        glPushMatrix ();
+        glTranslated (-7.5,-0.1,-7.5);
+         glRotated (90,1,0,0);
+        glScaled (30,30,0);
+        environtments[ambient]->apply ();
+        ambi->draw ();
         glPopMatrix ();
         break;
     }
@@ -191,8 +235,6 @@ DemoScene::display ()
 void
 DemoScene::display_select ()
 {
-
-    teste= plays->getBoard ();
     // Initialize Model-View matrix as identity (no transformation
     glMatrixMode (GL_MODELVIEW);
     glLoadIdentity ();
@@ -220,10 +262,7 @@ DemoScene::display_select ()
     case PLAY:
     {
         glPushMatrix ();
-        if(te==1)
         board->draw ();
-        else if(te==2)
-            teste->draw ();
         glPopMatrix ();
         break;
     }
@@ -233,8 +272,6 @@ DemoScene::display_select ()
 string
 DemoScene::getEntireString (Model* model, House* picked)
 {
-
-
     string ret;
     char col [3];
     char line [3];
@@ -269,4 +306,16 @@ DemoScene::~DemoScene ()
     }
     delete(lsf);
     delete(login);
+}
+
+
+void DemoScene::renderstring3d(char string[], float r, float g, float b, float x, float y, float z)
+{
+    glDisable(GL_LIGHTING);
+    glColor3f(r, g, b);
+
+    glRasterPos3f(x, y, z);
+    for(unsigned int i = 0; i < strlen(string); i++)
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, string[i]);
+    glEnable(GL_LIGHTING);
 }

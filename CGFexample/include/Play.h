@@ -13,13 +13,25 @@
 class Play {
 public:
     Play(Board* board);
+
+    Play() {
+        sizeStacks = 0;
+    }
     Play(const Play& orig);
     virtual ~Play();
-    void insertBoard(Board* board);
-    bool removeBoard();
+    void insertPlay(Board* board, Model* model,House* house, int player);
+    bool removePlay();
     Board* getBoard();
+    Model* getModel();
+    House* getHouse();
+    stack<Board*> getBoards(){return boards;}
+    int getPlayer();
+    int sizeStacks;
 private:
-    stack<Board*> plays;
+    stack<Board*> boards;
+    stack<Model*> models;
+    stack<House*>houses;
+    stack<int> players;
 };
 
 #endif	/* PLAY_H */

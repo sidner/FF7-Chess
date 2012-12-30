@@ -28,6 +28,7 @@ public:
     bool checkPlayer(int player, House* house);
     void removePiece(int player, Model* toRemove);
     void resetChecks();
+    void resetY();
     vector< vector<House*> > board;
     vector<Model*> pieces1;
     vector<Model*> pieces2;

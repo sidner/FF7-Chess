@@ -1,0 +1,12 @@
+# Blender MTL File: 'montanha.blend'
+# Material Count: 1
+newmtl Material
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.156786 0.096087 0.065520
+Ks 0.500000 0.453333 0.114657
+Ni 1.000000
+d 1.000000
+illum 2
+
+

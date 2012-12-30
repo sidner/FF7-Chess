@@ -16,6 +16,7 @@ class House: public CGFobject
 public:
     House(GLuint name);
     House(GLuint name,float pos[3],int col,int line);
+    House(House* house);
     void draw();    
     float pos[3];
     GLuint name;

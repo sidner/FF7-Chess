@@ -29,7 +29,8 @@ public:
     void display_select();
     void update(long t);
     void activateCamera(int i);
-    string getEntireString(Model* model,House* picked);
+    void renderstring3d(char string[], float r, float g, float b, float x, float y, float z);
+    string getEntireString(Model* model, House* picked);
     DemoScene(char* nome);
     ~DemoScene();
     int lz[8];
@@ -61,8 +62,13 @@ private:
     int moves1;
     int moves2;
     Play* plays;
-    Board* teste;
-    int te;
+    stack<Board*> boardsMovie;
+    bool movie;
+    int ambient;
+    Rectangle * ambi;
+    CGFappearance* environtments[4];
+    char m1[2];
+    char m2[2];
 };
 
 #endif

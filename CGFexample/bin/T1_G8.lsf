@@ -6,7 +6,7 @@
         <!--
 a declaração dos atributos deste bloco e' obrigatoria
 -->
-        <background r="1.0" g="0.0" b="0.0" a="1" />
+        <background r="0.5" g="0.0" b="0.0" a="1" />
         <!-- Configuracao de desenho de poligonos e shading -->
         <!-- Valores para mode: "fill", "line", "point" -->
         <!-- Valores para shading: "flat", "gouraud") -->

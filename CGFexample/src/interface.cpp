@@ -23,7 +23,11 @@ interface::initGUI ()
     GLUI_Panel *varPanel3 = addPanel ("Options", 1);
 
     GLUI_Listbox *list = addListboxToPanel (varPanel2, "Cameras", &(((DemoScene*) scene)->nr_cams), 1);
-
+    GLUI_Listbox *apps = addListboxToPanel (varPanel2, "Ambiance", &(((DemoScene*) scene)->ambient), 1);
+    apps->add_item (0, "NADA");
+    apps->add_item (1, "Grass");
+    apps->add_item (2, "Earth");
+    apps->add_item (3, "Volcano Cracks");
 
     for (unsigned int i = 0; i < ((DemoScene*) scene)->number; i++)
     {
@@ -43,36 +47,95 @@ interface::initGUI ()
             addColumnToPanel (varPanel);
     }
 
+    addButtonToPanel (varPanel3, "Skip Piece", 4);
     addButtonToPanel (varPanel3, "Undo", 5);
+
+    addColumnToPanel (varPanel3);
+    addButtonToPanel (varPanel3, "Movie", 6);
 }
 void
 interface::processGUI (GLUI_Control *ctrl)
 {
     switch (ctrl->user_id)
     {
+    case 4:
+    {
+        if (((DemoScene*) scene)->player == PLAYER1)
+        {
+            ((DemoScene*) scene)->moves1--;
+            if (((DemoScene*) scene)->moves1 == 0)
+            {
+                ((DemoScene*) scene)->player = PLAYER2;
+                ((DemoScene*) scene)->moves2 = ((DemoScene*) scene)->board->pieces2.size ();
+            }
+        }
+        else if (((DemoScene*) scene)->player == PLAYER2)
+            ((DemoScene*) scene)->moves2--;
+            if (((DemoScene*) scene)->moves2 == 0)
+            {
+                ((DemoScene*) scene)->player = PLAYER1;
+                ((DemoScene*) scene)->moves1 = ((DemoScene*) scene)->board->pieces1.size ();
+            }
+                
+                
+        break;
+    }
     case 5:
-        
-    {((DemoScene*) scene)->te=2;
-        
-        if (((DemoScene*) scene)->plays->removeBoard ())
+    {
+        if (((DemoScene*) scene)->plays->sizeStacks > 0)
         {
             ((DemoScene*) scene)->board = ((DemoScene*) scene)->plays->getBoard ();
-             cout << ((DemoScene*)scene)->plays->getBoard ()->getPrologString ()<< endl;
+            ((DemoScene*) scene)->plays->getModel ()->checked = false;
+            ((DemoScene*) scene)->plays->getModel ()->pos[1] = 0;
+            ((DemoScene*) scene)->plays->getHouse ()->isPicked = false;
+            ((DemoScene*) scene)->plays->getHouse ()->model = ((DemoScene*) scene)->plays->getModel ();
+            int i = (((DemoScene*) scene)->plays->getHouse ()->name - 100.0) / 14.0;
+            int j = (((DemoScene*) scene)->plays->getHouse ()->name - 100.0) - (14 * i);
+
+            ((DemoScene*) scene)->board->board[i][j] = ((DemoScene*) scene)->plays->getHouse ();
+
+            ((DemoScene*) scene)->player = ((DemoScene*) scene)->plays->getPlayer ();
+            ((DemoScene*) scene)->moves1 = ((DemoScene*) scene)->board->pieces1.size ();
+            ((DemoScene*) scene)->moves2 = ((DemoScene*) scene)->board->pieces2.size ();
+            picked = NULL;
+            modelPicked = false;
+            if (((DemoScene*) scene)->plays->removePlay ())
+            {
+                cout << "Undo successfull\n";
+            }
         }
         else
         {
             cout << "Error. Trying to remove from an empty stack.\n";
         }
         break;
-    };
     }
+    case 6:
+    {
+        if (((DemoScene*) scene)->plays->sizeStacks > 0)
+        {
+            ((DemoScene*) scene)->movie = true;
+            stack<Board*> temp = ((DemoScene*) scene)->plays->getBoards ();
+            while (!temp.empty ())
+            {
 
+                temp.top ()->resetY ();
+                ((DemoScene*) scene)->boardsMovie.push (temp.top ());
+                ((DemoScene*) scene)->boardsMovie.top ()->resetY ();
+                temp.pop ();
+            }
+        }
+        else
+            cout << "There is no Movie as there are no plays!!\n";
+        break;
+    }
+    };
 }
 void
 interface::processMouse (int button, int state, int x, int y)
 {
     CGFinterface::processMouse (button, state, x, y);
-    int button2, state2, x2, y2, xf, yf;
+    //int button2, state2, x2, y2, xf, yf;
 
     // do picking on mouse press (GLUT_DOWN)
     // this could be more elaborate, e.g. only performing picking when there is a click (DOWN followed by UP) on the same place
@@ -190,8 +253,10 @@ interface::processHouse (GLuint* selected)
 
     if (!modelPicked)
     {
+        cout << "here\n";
         if (!((DemoScene*) scene)->board->board[i][j]->isPicked)
         {
+            cout << "then here\n";
             if (((DemoScene*) scene)->board->board[i][j]->model != NULL &&
                 ((DemoScene*) scene)->board->checkPlayer (((DemoScene*) scene)->player, ((DemoScene*) scene)->board->board[i][j]) &&
                 !((DemoScene*) scene)->board->board[i][j]->model->checked)
@@ -287,6 +352,7 @@ interface::processLogin (GLuint* selected)
 void
 interface::move (House* house)
 {
+    ((DemoScene*) scene)->plays->insertPlay (new Board (((DemoScene*) scene)->board), picked->model, picked, ((DemoScene*) scene)->player);
 
     if (house->model != NULL)
     {
@@ -299,5 +365,4 @@ interface::move (House* house)
     picked->isPicked = false;
     picked = NULL;
     modelPicked = false;
-    ((DemoScene*)scene)->plays->insertBoard (new Board(((DemoScene*)scene)->board));
 }
