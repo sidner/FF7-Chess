@@ -19,6 +19,8 @@ interface::initGUI ()
     GLUI_Panel *varPanel = addPanel ("Luzes", 1);
     addColumn ();
     GLUI_Panel *varPanel2 = addPanel ("Cameras", 1);
+    addColumn ();
+    GLUI_Panel *varPanel3 = addPanel ("Options", 1);
 
     GLUI_Listbox *list = addListboxToPanel (varPanel2, "Cameras", &(((DemoScene*) scene)->nr_cams), 1);
 
@@ -29,21 +31,42 @@ interface::initGUI ()
         list->add_item (i, c);
 
     }
-
-
     for (int i = 0; i < ((DemoScene *) scene)->nr; i++)
     {
 
 
         sprintf (l, "luz: %d", i);
         // You could also pass a reference to a variable from the scene class, if public
-
-
         addCheckboxToPanel (varPanel, l, &(((DemoScene *) scene)->lz[x]), 1);
         x++;
         if (x % 2 == 0)
             addColumnToPanel (varPanel);
     }
+
+    addButtonToPanel (varPanel3, "Undo", 5);
+}
+void
+interface::processGUI (GLUI_Control *ctrl)
+{
+    switch (ctrl->user_id)
+    {
+    case 5:
+        
+    {((DemoScene*) scene)->te=2;
+        
+        if (((DemoScene*) scene)->plays->removeBoard ())
+        {
+            ((DemoScene*) scene)->board = ((DemoScene*) scene)->plays->getBoard ();
+             cout << ((DemoScene*)scene)->plays->getBoard ()->getPrologString ()<< endl;
+        }
+        else
+        {
+            cout << "Error. Trying to remove from an empty stack.\n";
+        }
+        break;
+    };
+    }
+
 }
 void
 interface::processMouse (int button, int state, int x, int y)
@@ -146,9 +169,9 @@ interface::processHits (GLint hits, GLuint buffer[])
     // if there were hits, the one selected is in "selected", and it consist of nselected "names" (integer ID's)
     if (selected != NULL)
     {
-        if(selected[0] == 50)
+        if (selected[0] == 50)
         {
-            processLogin(selected);
+            processLogin (selected);
         }
         else if (selected[0] >= 100) // A House was picked
         {
@@ -169,8 +192,13 @@ interface::processHouse (GLuint* selected)
     {
         if (!((DemoScene*) scene)->board->board[i][j]->isPicked)
         {
-            if (((DemoScene*) scene)->board->board[i][j]->model != NULL)
+            if (((DemoScene*) scene)->board->board[i][j]->model != NULL &&
+                ((DemoScene*) scene)->board->checkPlayer (((DemoScene*) scene)->player, ((DemoScene*) scene)->board->board[i][j]) &&
+                !((DemoScene*) scene)->board->board[i][j]->model->checked)
             {
+                cout << "Player = " << ((DemoScene*) scene)->player << endl;
+                cout << "Moves1 = " << ((DemoScene*) scene)->moves1 << endl;
+                cout << "Moves2 = " << ((DemoScene*) scene)->moves2 << endl;
                 ((DemoScene*) scene)->board->board[i][j]->isPicked = true;
                 modelPicked = true;
                 picked = ((DemoScene*) scene)->board->board[i][j];
@@ -199,33 +227,77 @@ interface::processHouse (GLuint* selected)
 
             if (answer == "true.\n")
             {
-                ((DemoScene*) scene)->board->board[i][j]->model = picked->model;
-                picked->model->pos[1] = 0;
-                picked->model = NULL;
-                picked->isPicked = false;
-                picked = NULL;
-                modelPicked = false;
-                cout << true << endl;
+
+                if (((DemoScene*) scene)->player == PLAYER1)
+                {
+                    if (((DemoScene*) scene)->moves1 > 1)
+                    {
+                        move (((DemoScene*) scene)->board->board[i][j]);
+                        ((DemoScene*) scene)->moves1--;
+                    }
+                    else
+                    {
+                        move (((DemoScene*) scene)->board->board[i][j]);
+                        ((DemoScene*) scene)->moves2 = ((DemoScene*) scene)->board->pieces2.size ();
+                        ((DemoScene*) scene)->player = PLAYER2;
+                    }
+                }
+                else if (((DemoScene*) scene)->player == PLAYER2)
+                {
+                    if (((DemoScene*) scene)->moves2 > 1)
+                    {
+                        move (((DemoScene*) scene)->board->board[i][j]);
+                        ((DemoScene*) scene)->moves2--;
+                    }
+                    else
+                    {
+                        move (((DemoScene*) scene)->board->board[i][j]);
+                        ((DemoScene*) scene)->moves1 = ((DemoScene*) scene)->board->pieces1.size ();
+                        ((DemoScene*) scene)->board->resetChecks ();
+                        ((DemoScene*) scene)->player = PLAYER1;
+                    }
+                }
 
             }
             else
             {
+                picked->isPicked = false;
+                picked->model->pos[1] = 0;
+                modelPicked = false;
+                picked = NULL;
                 cout << false << endl;
             }
         }
     }
 }
-
-void interface::processLogin (GLuint* selected)
+void
+interface::processLogin (GLuint* selected)
 {
-   ((DemoScene*) scene)->connection = new Connection ("localhost");
-    if(((DemoScene*) scene)->connection->connect_server ())
+    ((DemoScene*) scene)->connection = new Connection ("localhost");
+    if (((DemoScene*) scene)->connection->connect_server ())
     {
         ((DemoScene*) scene)->mode = PLAY;
-         ((DemoScene*) scene)->nr_cams=0;
+        ((DemoScene*) scene)->nr_cams = 0;
     }
     else
     {
-        exit(-1);
+        exit (-1);
     }
+}
+void
+interface::move (House* house)
+{
+
+    if (house->model != NULL)
+    {
+        ((DemoScene*) scene)->board->removePiece (((DemoScene*) scene)->player, house->model);
+    }
+    house->model = picked->model;
+    picked->model->checked = true;
+    picked->model->pos[1] = 0;
+    picked->model = NULL;
+    picked->isPicked = false;
+    picked = NULL;
+    modelPicked = false;
+    ((DemoScene*)scene)->plays->insertBoard (new Board(((DemoScene*)scene)->board));
 }

@@ -31,6 +31,13 @@ House::House (GLuint n, float p[3], int c, int l)
 
     h = new Rectangle (1, 0, 1, 0);
 
+    float ambA[3] = {0.1, 0.1, 0.1};
+    float difA[3] = {0.3, 0.3, 0.3};
+    float specA[3] = {0.3, 0.3, 0.3};
+    float shininessA = 0;
+
+    materialAppearance = new CGFappearance (ambA, difA, specA, shininessA);
+    
     isPicked = false;
 }
 void
@@ -41,6 +48,7 @@ House::draw ()
     glRotatef (-90.0, 1, 0, 0);
     glTranslatef (pos[0], pos[1], pos[2]);
     glFrontFace(GL_CW);
+    materialAppearance->apply();
     h->draw ();
     glFrontFace(GL_CCW);
     glPopMatrix ();

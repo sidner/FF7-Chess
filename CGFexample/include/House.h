@@ -1,9 +1,3 @@
-/* 
- * File:   House.h
- * Author: sidner
- *
- * Created on December 23, 2012, 6:20 PM
- */
 
 #ifndef HOUSE_H
 #define	HOUSE_H
@@ -13,6 +7,7 @@
 #include <string>
 #include <iostream>
 #include "Model.h"
+#include "CGFappearance.h"
 
 using namespace std;
 
@@ -30,6 +25,7 @@ public:
     char terrain;
     bool isPicked;
     int col,line;
+    CGFappearance* materialAppearance;
 };
 
 #endif	/* HOUSE_H */

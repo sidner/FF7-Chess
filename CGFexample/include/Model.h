@@ -1,9 +1,3 @@
-/* 
- * File:   Model.h
- * Author: sidner
- *
- * Created on December 23, 2012, 5:35 PM
- */
 
 #ifndef MODEL_H
 #define	MODEL_H
@@ -18,7 +12,7 @@ using namespace std;
 
 class Model {
 public:
-    Model(string path,char prolog[2],float normal);
+    Model(string path, char prolog[2], float normal);
     ~Model();
     void draw(float pos[3]);
     void animate();
@@ -28,6 +22,7 @@ public:
     GLuint name;
     char prologRep[2];
     float angle;
+    bool checked;
 };
 
 #endif	/* MODEL_H */

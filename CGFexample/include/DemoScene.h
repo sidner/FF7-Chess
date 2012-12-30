@@ -9,11 +9,16 @@
 #include "Model.h"
 #include "Board.h"
 #include "Connection.h"
+#include "Play.h"
 
 //Game Mode definition. 0 -> Login | 1 -> Insert Mode | 2 -> Play Mode
 #define LOGIN 0
 #define INSERT 1
 #define PLAY 2
+
+//Player definitions. 1 -> Player 1 | 2 -> Player 2
+#define PLAYER1 1
+#define PLAYER2 2
 
 class DemoScene : public CGFscene {
     friend class interface;
@@ -52,7 +57,12 @@ private:
     Connection* connection;
     Rectangle* login;
     Rectangle* pickingArea;
-    
+    int player;
+    int moves1;
+    int moves2;
+    Play* plays;
+    Board* teste;
+    int te;
 };
 
 #endif

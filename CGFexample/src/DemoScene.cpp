@@ -7,6 +7,7 @@ DemoScene::DemoScene (char* nome)
 {
     strcpy (this->nome, nome);
     mode = LOGIN;
+    player = PLAYER1;
 }
 void
 DemoScene::activateCamera (int i)
@@ -76,9 +77,9 @@ DemoScene::init ()
     skyboxFront = new Plane (100, "../textures/argonathFront.bmp");
     //skyboxFront->terrainAppearance = argonathFront;
     login = new Rectangle (-12.0, 12.0, -14.0, 14.0);
-    pickingArea = new Rectangle(-2.0,6.0,-3.0,2.0);
-    
-    
+    pickingArea = new Rectangle (-2.0, 6.0, -3.0, 2.0);
+
+
     float ambA[3] = {0.6, 0.6, 0.6};
     float difA[3] = {0.6, 0.6, 0.6};
     float specA[3] = {0.6, 0.6, 0.6};
@@ -91,6 +92,12 @@ DemoScene::init ()
     coiso = new Sphere (0.5, 12, 12);
 
     board = new Board ();
+    teste = new Board ();
+    plays = new Play (board);
+    te=1;
+    
+    moves1 = board->pieces1.size();
+    moves2 = board->pieces2.size();
 
     // Defines a default normal
     glNormal3f (0, 0, 1);
@@ -148,12 +155,12 @@ DemoScene::display ()
 
     // ---- BEGIN drawing
 
-    
+
     switch (mode)
     {
     case LOGIN:
     {
-        
+
         glPushMatrix ();
         materialAppearance->apply ();
         login->draw ();
@@ -163,7 +170,10 @@ DemoScene::display ()
     case PLAY:
     {
         glPushMatrix ();
+         if(te==1)
         board->draw ();
+        else if(te==2)
+            teste->draw ();
         glPopMatrix ();
         break;
     }
@@ -182,7 +192,7 @@ void
 DemoScene::display_select ()
 {
 
-
+    teste= plays->getBoard ();
     // Initialize Model-View matrix as identity (no transformation
     glMatrixMode (GL_MODELVIEW);
     glLoadIdentity ();
@@ -200,17 +210,20 @@ DemoScene::display_select ()
     {
     case LOGIN:
     {
-        glPushName(50);
+        glPushName (50);
         glPushMatrix ();
-        pickingArea->draw();
+        pickingArea->draw ();
         glPopMatrix ();
-        glPopName();
+        glPopName ();
         break;
     }
     case PLAY:
     {
         glPushMatrix ();
+        if(te==1)
         board->draw ();
+        else if(te==2)
+            teste->draw ();
         glPopMatrix ();
         break;
     }

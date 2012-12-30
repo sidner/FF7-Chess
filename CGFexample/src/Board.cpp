@@ -1,4 +1,12 @@
 #include "Board.h"
+Board::Board(Board* b)
+{
+    board = b->board;
+    pieces1=b->pieces1;
+    pieces2=b->pieces2;
+}
+
+
 Board::Board ()
 {
     GLuint name = SEED;
@@ -19,22 +27,21 @@ Board::Board ()
             temp.push_back (new House (++name, pos, j, i));
         }
         board.push_back (temp);
-        cout << temp.size ();
     }
 
     //PLAYER 1
-    
-    pieces1.push_back (new Model ("Cloud.obj", "R",0.0));
-    pieces1.push_back (new Model ("Red.obj", "K",0.0));
-    pieces1.push_back (new Model ("Tifa.obj", "P",0.0));
-    pieces1.push_back (new Model ("cid.obj", "L1",0.0));
-    pieces1.push_back (new Model ("cid.obj", "L1",0.0));
-    pieces1.push_back (new Model ("YUFFIE.obj", "E",0.0));
-    pieces1.push_back (new Model ("Cait.obj", "S1",0.0));
-    pieces1.push_back (new Model ("Cait.obj", "S1",0.0));
-    pieces1.push_back (new Model ("Barret.obj", "D",0.0));
-    pieces1.push_back(new Model ("castelo.obj","C",0.0));
-    
+
+    pieces1.push_back (new Model ("Cloud.obj", "R", 0.0));
+    pieces1.push_back (new Model ("Red.obj", "K1", 0.0));
+    pieces1.push_back (new Model ("Tifa.obj", "P", 0.0));
+    pieces1.push_back (new Model ("cid.obj", "L1", 0.0));
+    pieces1.push_back (new Model ("cid.obj", "L2", 0.0));
+    pieces1.push_back (new Model ("YUFFIE.obj", "E", 0.0));
+    pieces1.push_back (new Model ("Cait.obj", "S1", 0.0));
+    pieces1.push_back (new Model ("Cait.obj", "S2", 0.0));
+    pieces1.push_back (new Model ("Barret.obj", "D", 0.0));
+    pieces1.push_back (new Model ("Red.obj", "K2", 0.0));
+
     board[0][1]->model = pieces1[0];
     board[0][2]->model = pieces1[1];
     board[0][3]->model = pieces1[2];
@@ -44,26 +51,27 @@ Board::Board ()
     board[0][7]->model = pieces1[6];
     board[0][8]->model = pieces1[7];
     board[2][2]->model = pieces1[8];
-    board[0][10]->model = pieces1[9];
+    board[0][10]->model = new Model ("castelo.obj", "C", 0.0);
+    board[1][10]->model = pieces1[9];
 
-    for(int i = 0; i<pieces1.size ();i++)
+    for (int i = 0; i < pieces1.size (); i++)
     {
-        pieces1[i]->angle=90.0;
+        pieces1[i]->angle = 90.0;
     }
 
     float normal2 = 90.0;
     //PLAYER 2
-    pieces2.push_back (new Model ("Cloud.obj", "r",normal2));
-    pieces2.push_back (new Model ("Red.obj", "k",normal2));
-    pieces2.push_back (new Model ("Tifa.obj", "p",normal2));
-    pieces2.push_back (new Model ("cid.obj", "l1",normal2));
-    pieces2.push_back (new Model ("cid.obj", "l1",normal2));
-    pieces2.push_back (new Model ("YUFFIE.obj", "e",normal2));
-    pieces2.push_back (new Model ("Cait.obj", "s1",normal2));
-    pieces2.push_back (new Model ("Cait.obj", "s1",normal2));
-    pieces2.push_back (new Model ("Barret.obj", "d",normal2));
-    pieces2.push_back (new Model ("castelo.obj", "c",normal2));
-    
+    pieces2.push_back (new Model ("Cloud.obj", "r", normal2));
+    pieces2.push_back (new Model ("Red.obj", "k1", normal2));
+    pieces2.push_back (new Model ("Tifa.obj", "p", normal2));
+    pieces2.push_back (new Model ("cid.obj", "l1", normal2));
+    pieces2.push_back (new Model ("cid.obj", "l2", normal2));
+    pieces2.push_back (new Model ("YUFFIE.obj", "e", normal2));
+    pieces2.push_back (new Model ("Cait.obj", "s1", normal2));
+    pieces2.push_back (new Model ("Cait.obj", "s2", normal2));
+    pieces2.push_back (new Model ("Barret.obj", "d", normal2));
+    pieces2.push_back (new Model ("Red.obj", "k2", normal2));
+
     board[13][1]->model = pieces2[0];
     board[13][2]->model = pieces2[1];
     board[13][3]->model = pieces2[2];
@@ -73,13 +81,13 @@ Board::Board ()
     board[13][7]->model = pieces2[6];
     board[13][8]->model = pieces2[7];
     board[11][2]->model = pieces2[8];
-    board[13][10]->model = pieces2[9];
+    board[13][10]->model = new Model ("castelo.obj", "c", normal2);
+    board[12][10]->model = pieces2[9];
 
-    for(int i = 0; i<pieces2.size ();i++)
+    for (int i = 0; i < pieces2.size (); i++)
     {
-        pieces2[i]->angle=-90.0;
+        pieces2[i]->angle = -90.0;
     }
-
 }
 void
 Board::draw ()
@@ -119,4 +127,64 @@ Board::getPrologString ()
     prolog += "]";
 
     return prolog;
+}
+bool
+Board::checkPlayer (int player, House* house)
+{
+
+    cout << "Player at checkPlayer = " << player << endl;
+    if (player == 1)
+    {
+        for (unsigned int i = 0; i < pieces1.size (); i++)
+        {
+            if (pieces1[i] == house->model)
+                return true;
+        }
+        return false;
+    }
+    else if (player == 2)
+    {
+        for (unsigned int i = 0; i < pieces2.size (); i++)
+        {
+            if (pieces2[i] == house->model)
+                return true;
+        }
+        return false;
+    }
+}
+void
+Board::removePiece (int player, Model* toRemove)
+{
+    if (player == 1)
+    {
+        for (unsigned int i = 0; i < pieces2.size (); i++)
+        {
+            if (toRemove == pieces2[i])
+            {
+                pieces2.erase (pieces2.begin ()+i);
+            }
+        }
+    }
+    else if (player == 2)
+    {
+        for (unsigned int i = 0; i < pieces1.size (); i++)
+        {
+            if (toRemove == pieces1[i])
+            {
+                pieces1.erase (pieces1.begin ()+i);
+            }
+        }
+    }
+}
+void
+Board::resetChecks ()
+{
+    for (unsigned int i = 0; i < pieces1.size (); i++)
+    {
+        pieces1[i]->checked = false;
+    }
+    for (unsigned int i = 0; i < pieces2.size (); i++)
+    {
+        pieces2[i]->checked = false;
+    }
 }

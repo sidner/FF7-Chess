@@ -18,9 +18,10 @@ public:
     void performPicking(int x, int y);
     void processHits(GLint hits, GLuint buffer[]);
     virtual void initGUI();
+    virtual void processGUI(GLUI_Control* ctrl);
     void processHouse(GLuint* selected);
     void processLogin(GLuint* selected);
-
+    void move(House* house);
     int testVar;
 
 private:

@@ -34,6 +34,7 @@ Model::Model (string mod, char prolog[2],float normal)
     
     name = 10;
     strcpy (prologRep,prolog);
+    checked= false;
 }
 
 

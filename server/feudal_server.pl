@@ -27,7 +27,7 @@ name('c', 'castle').
 name('g', 'green').
 name('a', 'archer').
 name('l1', 'lancer1').
-name('l1', 'lancer2').
+name('l2', 'lancer2').
 
 all_pieces(['R','D','P','K1','K2','S1','S2','E','A','L1','L2', 'r','d','p','k1','k2','s1','s2','e','a','l1','l2']).
 all_structs(['C','G', 'c','g']).
@@ -102,7 +102,10 @@ call_request(disconnect,'Goodbye').
 call_request(test,Term):-Term='teste'.
 
 call_request(validate_move(Board,Piece,Xf,Yf),Result):-
-	((validate_move(Board,Piece,Xf,Yf),Result = 'true');
+	((validate_move(Board,Piece,Xf,Yf),
+        get_element(Board,PieceatEnd,Xf,Yf,0),
+        checkPlayer(Piece,PieceatEnd),
+        Result = 'true');
 	(Result = 'false')).
 	
 call_request(validate_insert(Board,Piece,X,Y),Result):-
@@ -113,6 +116,25 @@ call_request(_,'Invalid').
 
 
 %*******************FEUDAL**********************
+
+
+checkPlayer(Piece,PieceatEnd):-
+        (
+            (
+                Piece = '_'
+            );
+            (
+                pieceP1(Pieces),
+                membro(Pieces,Piece),
+                \+membro(Pieces,PieceatEnd)
+            );
+            (
+                pieceP2(Pieces),
+                membro(Pieces,Piece),
+                \+membro(Pieces,PieceatEnd)
+            )
+        ).
+
 
 validate_move(Board,Piece,Xf,Yf):-
 
@@ -162,11 +184,13 @@ validate_move(Board,Piece,Xf,Yf):-
 		);
 		(
 			(
-				Piece = Sargent1
-			);
-			(
+                            (
+                            	Piece = Sargent1
+                            );
+                            (
 				Piece = Sargent2
-			),
+                            )
+                        ),
 			validate_diagonal_move(Board,Piece,Xf,Yf)
 		);
 		(
