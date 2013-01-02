@@ -87,7 +87,10 @@ DemoScene::init ()
 
     materialAppearance = new CGFappearance (ambA, difA, specA, shininessA);
     materialAppearance->setTexture ("../textures/login.jpg");
-
+    texturep1moves = new CGFappearance (ambA, difA, specA, shininessA);
+    texturep1moves->setTexture ("../textures/player1moves.jpg");
+    texturep2moves = new CGFappearance (ambA, difA, specA, shininessA);
+    texturep2moves->setTexture ("../textures/player2moves.jpg");
 
     environtments[0] = new CGFappearance (ambA, difA, specA, shininessA);
     environtments[1] = new CGFappearance (ambA, difA, specA, shininessA);
@@ -100,6 +103,8 @@ DemoScene::init ()
     board = new Board ();
     plays = new Play ();
     ambi = new Rectangle (0, 1, 0, 1);
+    movesBoardp1 = new Rectangle (0, 1, 0, 2);
+    movesBoardp2 = new Rectangle (0, 1, 0, 2);
 
     ambient = 1;
 
@@ -141,7 +146,6 @@ DemoScene::display ()
         nr_cams = 0;
 
     activateCamera (nr_cams);
-
     active->updateProjectionMatrix (CGFapplication::vpw, CGFapplication::vph);
     // ---- BEGIN Background, camera and axis setup
 
@@ -187,8 +191,7 @@ DemoScene::display ()
     // ---- BEGIN drawing
 
 
-    
-  
+
     if (mode == LOGIN)
     {
         glPushMatrix ();
@@ -213,6 +216,7 @@ DemoScene::display ()
         }
         glPopMatrix ();
 
+
         glPushMatrix ();
         glTranslated (-7.5, -0.1, -7.5);
         glRotated (90, 1, 0, 0);
@@ -225,17 +229,33 @@ DemoScene::display ()
     {
         //Counters for moves so each player knows how many he has left
         glPushMatrix ();
-        sprintf (m1, "%d", moves1);
-        renderstring3d (m1, 0, 0, 0, -5, 5, -5);
+        sprintf (m2, "%d", moves2);
+
+        renderstring3d (m2, 0, 0, 0, -5, 4.8, -5);
         glPopMatrix ();
 
 
         glPushMatrix ();
-        sprintf (m2, "%d", moves2);
-        renderstring3d (m2, 0, 0, 0, -5, 5, 10);
+        sprintf (m1, "%d", moves1);
+        renderstring3d (m1, 0, 0, 0, 25, 5, 23);
+        glPopMatrix ();
+
+        glPushMatrix ();
+        glRotated (-90, 0, 1, 0);
+        glTranslated (-10, 4, 7);
+        glScaled (7, 2, 2);
+        texturep2moves->apply ();
+        movesBoardp2->draw ();
+        glPopMatrix ();
+
+        glPushMatrix ();
+        glRotated (90, 0, 1, 0);
+        glTranslated (-28, 4.5, 26.7);
+        glScaled (7, 2, 2);
+        texturep1moves->apply ();
+        movesBoardp1->draw ();
         glPopMatrix ();
     }
-
 
 
 

@@ -46,6 +46,8 @@ private:
     CGFobject* obj;
     CGFappearance* materialAppearance;
     CGFappearance* textureAppearance;
+    CGFappearance* texturep1moves;
+    CGFappearance* texturep2moves;
     Appearance* argonathFront;
     Plane* skyboxFront;
     CGFshader* shader;
@@ -60,6 +62,8 @@ private:
     Connection* connection;
     Rectangle* login;
     Rectangle* pickingArea;
+    Rectangle* movesBoardp1;
+    Rectangle* movesBoardp2;
     int player;
     int moves1;
     int moves2;

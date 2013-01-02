@@ -23,7 +23,7 @@ public:
     string getString();
     Rectangle * h;
     Model* model;
-    Model* terrain;
+    char terrain;
     bool isPicked;
     int col,line;
     CGFappearance* materialAppearance;

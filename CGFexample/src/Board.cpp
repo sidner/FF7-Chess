@@ -98,7 +98,7 @@ Board::Board ()
     
     //Insert Mountains here. 14 Mountains!!!
     board[4][8]->model = mountain;
-    board[2][2]->model = mountain;
+    board[2][13]->model = mountain;
     board[2][6]->model = mountain;
     board[12][5]->model = mountain;
     board[0][12]->model = mountain;
