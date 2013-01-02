@@ -120,6 +120,30 @@ Board::Board ()
     board[3][9]->model = forest;
     board[1][0]->model = forest;
     board[3][2]->model = forest;
+    
+    board[4][8]->terrain = 'M';
+    board[2][13]->terrain = 'M';
+    board[2][6]->terrain = 'M';
+    board[12][5]->terrain = 'M';
+    board[0][12]->terrain = 'M';
+    board[8][8]->terrain = 'M';
+    board[9][5]->terrain = 'M';
+    board[1][1]->terrain = 'M';
+    board[2][9]->terrain = 'M';
+    board[10][3]->terrain = 'M';
+    board[12][9]->terrain = 'M';
+    board[2][12]->terrain = 'M';
+    board[1][2]->terrain = 'M';
+    board[8][2]->terrain = 'M';
+    
+    //Insert Forests here. 7 Forests!!!
+    board[9][9]->terrain = 'F';
+    board[7][12]->terrain = 'F';
+    board[13][13]->terrain = 'F';
+    board[9][11]->terrain = 'F';
+    board[3][9]->terrain = 'F';
+    board[1][0]->terrain = 'F';
+    board[3][2]->terrain = 'F';
 }
 void
 Board::draw ()
