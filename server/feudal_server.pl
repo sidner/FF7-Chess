@@ -247,6 +247,34 @@ validate_move(Board,Piece,Xf,Yf):-
 	).
 
 
+check_victory(Board,Player):-
+    (
+        (
+            Player = 2,
+            name(Castle,'Castle'),
+            name(King,'King'),
+            name(Duke,'Duke'),
+            name(Prince,'Prince')
+        );
+        (
+            Player = 1,
+            name(Castle,'castle'),
+            name(King,'king'),
+            name(Duke,'duke'),
+            name(Prince,'prince')
+        )
+    ),
+    (
+        (
+            \+get_coordinates(Board,Castle,_,_)
+        );
+        (
+            \+get_coordinates(Board,King,_,_),
+            \+get_coordinates(Board,Duke,_,_),
+            \+get_coordinates(Board,Prince,_,_)
+        )
+    ).
+            
 
 get_coordinates(Board,Piece,X,Y):-get_coordinates(Board,Piece,X,Y,0).
 
@@ -764,194 +792,3 @@ check_each_house(Line,Piece,Xi,Way,Diff):-
 	),
 	Diff1 is Diff - 1,
 	check_each_house(Line,Piece,Xf,Way,Diff1).
-			
-	
-mete_jogada_na_lista([],[[X,Y]],X,Y).
-mete_jogada_na_lista([H|T], [Hf|Tf], X,Y):-
-	junta([H|T],[[X,Y]],[Hf|Tf]).
-
-
-
-/*tista*/
-
-ve_jogadas(Board,Piece,Xi,Yi,ListaI,ListaF):-
-		ve_horizontal(Board,Piece,Xi,Yi,ListaI,ListaIntermedia1),
-		ve_vertical(Board,Piece,Xi,Yi,ListaI,ListaIntermedia2),	
-		junta(ListaIntermedia2,ListaIntermedia1,ListaInt),
-		ve_diagonais(Board,Piece,Xi,Yi,ListaI,ListaInt2),
-		junta(ListaInt,ListaInt2,ListaF).
-	
-
-
-ve_horizontal(Board,Piece,Xi,Yi,ListaI,ListaF):-!,
-	ve_horizontal_direita(Board,Piece,Xi,Yi,ListaI,ListaInter),!,
-	ve_horizontal_esquerda(Board,Piece,Xi,Yi,ListaI,ListaInter2),!,
-	junta(ListaInter2,ListaInter,ListaF).
-	
-	
-ve_vertical(Board,Piece,Xi,Yi,ListaI,ListaF):-!,
-	ve_vertical_top(Board,Piece,Xi,Yi,ListaI,ListaInter),!,
-	ve_vertical_bot(Board,Piece,Xi,Yi,ListaI,ListaInter2),!,
-	junta(ListaInter2,ListaInter,ListaF).
-
-
-ve_horizontal_direita(Board,Piece,Xi,Yi,Lista,Lista):-
-	\+ve_casa_lado_direita(Board,Piece,Xi,Yi,ListaI,ListaF).
-		
-
-ve_horizontal_direita(Board,Piece,Xi,Yi,ListaI,ListaF):-
-		ve_casa_lado_direita(Board,Piece,Xi,Yi,ListaI,ListaIntermedia),
-
-		/*mete_jogada_na_lista(ListaI,ListaInt,Xf,Yf).*/
-		
-		X is Xi+1,
-		ve_horizontal_direita(Board,Piece,X,Yi,ListaIntermedia,ListaF).
-
-
-
-ve_horizontal_esquerda(Board,Piece,Xi,Yi,Lista,Lista):-
-	\+ve_casa_lado_esquerda(Board,Piece,Xi,Yi,ListaI,ListaF).
-		
-
-ve_horizontal_esquerda(Board,Piece,Xi,Yi,ListaI,ListaF):-
-		ve_casa_lado_esquerda(Board,Piece,Xi,Yi,ListaI,ListaIntermedia),
-
-		/*mete_jogada_na_lista(ListaI,ListaInt,Xf,Yf).*/
-		
-		X is Xi-1,
-		ve_horizontal_esquerda(Board,Piece,X,Yi,ListaIntermedia,ListaF).
-	
-	
-ve_casa_lado_direita(Board,Piece,Xi,Yi,ListaI,ListaF):-
-	Xf is Xi+1,
-	validate_horizontal_move(Board,Piece,Xi,Yi,Xf,Yi),
-	mete_jogada_na_lista(ListaI,ListaF,Xf,Yi).
-	
-ve_casa_lado_esquerda(Board,Piece,Xi,Yi,ListaI,ListaF):-
-	Xf is Xi-1,
-	validate_horizontal_move(Board,Piece,Xi,Yi,Xf,Yi),
-	mete_jogada_na_lista(ListaI,ListaF,Xf,Yi).
-
-ve_vertical_bot(Board,Piece,Xi,Yi,Lista,Lista):-
-	\+ve_casa_vertical_bot(Board,Piece,Xi,Yi,ListaI,ListaF).
-		
-
-ve_vertical_bot(Board,Piece,Xi,Yi,ListaI,ListaF):-
-		ve_casa_vertical_bot(Board,Piece,Xi,Yi,ListaI,ListaIntermedia),
-
-		/*mete_jogada_na_lista(ListaI,ListaInt,Xf,Yf).*/
-		
-		Y is Yi+1,
-		ve_vertical_bot(Board,Piece,Xi,Y,ListaIntermedia,ListaF).
-
-
-
-ve_vertical_top(Board,Piece,Xi,Yi,Lista,Lista):-
-	\+ve_casa_vertical_top(Board,Piece,Xi,Yi,ListaI,ListaF).
-		
-
-ve_vertical_top(Board,Piece,Xi,Yi,ListaI,ListaF):-
-		ve_casa_vertical_top(Board,Piece,Xi,Yi,ListaI,ListaIntermedia),
-
-		/*mete_jogada_na_lista(ListaI,ListaInt,Xf,Yf).*/
-		
-		Y is Yi-1,
-		ve_vertical_top(Board,Piece,Xi,Y,ListaIntermedia,ListaF).
-
-
-
-
-	
-	ve_casa_vertical_top(Board,Piece,Xi,Yi,ListaI,ListaF):-
-		Yf is Yi-1,
-		validate_vertical_move(Board,Piece,Xi,Yi,Xf,Yf),
-		mete_jogada_na_lista(ListaI,ListaF,Xf,Yf).
-		
-	ve_casa_vertical_bot(Board,Piece,Xi,Yi,ListaI,ListaF):-
-		Yf is Yi+1,
-		validate_vertical_move(Board,Piece,Xi,Yi,Xf,Yf),
-		mete_jogada_na_lista(ListaI,ListaF,Xf,Yf).
-		
-
-
-ve_diagonais(Board,Piece,Xi,Yi,ListaI,ListaF):-!,
-	ve_diagonal_direita_top(Board,Piece,Xi,Yi,ListaI,ListaInter),!,
-	ve_diagonal_direita_bot(Board,Piece,Xi,Yi,ListaI,ListaInter2),!,
-	junta(ListaInter2,ListaInter,ListaX1),
-	ve_diagonal_esquerda_top(Board,Piece,Xi,Yi,ListaI,ListaInter3),!,
-	ve_diagonal_esquerda_bot(Board,Piece,Xi,Yi,ListaI,ListaInter4),!,
-	junta(ListaInter3,ListaInter4,ListaX2),
-	junta(ListaX1,ListaX2,ListaF).
-
-
-
-ve_diagonal_direita_bot(Board,Piece,Xi,Yi,Lista,Lista):-
-	\+ve_casa_diagonal_direita_bot(Board,Piece,Xi,Yi,ListaI,ListaF).
-		
-
-ve_diagonal_direita_bot(Board,Piece,Xi,Yi,ListaI,ListaF):-
-		ve_casa_diagonal_direita_bot(Board,Piece,Xi,Yi,ListaI,ListaIntermedia),
-		X is Xi+1,
-		Y is Yi+1,
-		ve_diagonal_direita_bot(Board,Piece,X,Y,ListaIntermedia,ListaF).
-
-%///////////////////////////////////////////////////////////////////////////////
-ve_diagonal_esquerda_bot(Board,Piece,Xi,Yi,Lista,Lista):-
-	\+ve_casa_diagonal_esquerda_bot(Board,Piece,Xi,Yi,ListaI,ListaF).
-		
-
-ve_diagonal_esquerda_bot(Board,Piece,Xi,Yi,ListaI,ListaF):-
-		ve_casa_diagonal_esquerda_bot(Board,Piece,Xi,Yi,ListaI,ListaIntermedia),
-		X is Xi-1,
-		Y is Yi+1,
-		ve_diagonal_direita_bot(Board,Piece,X,Y,ListaIntermedia,ListaF).
-
-%///////////////////////////////////////////////////////////////////////////////
-
-ve_diagonal_direita_top(Board,Piece,Xi,Yi,Lista,Lista):-
-	\+ve_casa_diagonal_direita_top(Board,Piece,Xi,Yi,ListaI,ListaF).
-		
-
-ve_diagonal_direita_top(Board,Piece,Xi,Yi,ListaI,ListaF):-
-		ve_casa_diagonal_direita_top(Board,Piece,Xi,Yi,ListaI,ListaIntermedia),
-		X is Xi+1,
-		Y is Yi-1,
-		ve_diagonal_direita_bot(Board,Piece,X,Y,ListaIntermedia,ListaF).
-
-
-%///////////////////////////////////////////////////////////////////////////////
-
-ve_diagonal_esquerda_top(Board,Piece,Xi,Yi,Lista,Lista):-
-	\+ve_casa_diagonal_esquerda_top(Board,Piece,Xi,Yi,ListaI,ListaF).
-		
-
-ve_diagonal_esquerda_top(Board,Piece,Xi,Yi,ListaI,ListaF):-
-		ve_casa_diagonal_esquerda_top(Board,Piece,Xi,Yi,ListaI,ListaIntermedia),
-		X is Xi-1,
-		Y is Yi-1,
-		ve_diagonal_esquerda_top(Board,Piece,X,Y,ListaIntermedia,ListaF).
-
-ve_casa_diagonal_direita_bot(Board,Piece,Xi,Yi,ListaI,ListaF):-
-		Yf is Yi+1,
-		Xf is Xi+1,
-		validate_diagonal_move(Board,Piece,Xi,Yi,Xf,Yf),
-		mete_jogada_na_lista(ListaI,ListaF,Xf,Yf).
-
-
-ve_casa_diagonal_esquerda_bot(Board,Piece,Xi,Yi,ListaI,ListaF):-
-		Yf is Yi+1,
-		Xf is Xi-1,
-		validate_diagonal_move(Board,Piece,Xi,Yi,Xf,Yf),
-		mete_jogada_na_lista(ListaI,ListaF,Xf,Yf).
-
-ve_casa_diagonal_direita_top(Board,Piece,Xi,Yi,ListaI,ListaF):-
-		Yf is Yi-1,
-		Xf is Xi+1,
-		validate_diagonal_move(Board,Piece,Xi,Yi,Xf,Yf),
-		mete_jogada_na_lista(ListaI,ListaF,Xf,Yf).
-
-ve_casa_diagonal_esquerda_top(Board,Piece,Xi,Yi,ListaI,ListaF):-
-		Yf is Yi-1,
-		Xf is Xi-1,
-		validate_diagonal_move(Board,Piece,Xi,Yi,Xf,Yf),
-		mete_jogada_na_lista(ListaI,ListaF,Xf,Yf).
