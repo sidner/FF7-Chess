@@ -112,6 +112,10 @@ call_request(validate_insert(Board,Piece,X,Y),Result):-
 	((validate_insert(Board,Piece,X,Y),Result = 'true');
 	(Result = 'false')).
 	
+call_request(check_victory(Board,Player),Result):-
+        ((check_victory(Board,Player),Result = 'true');
+        (Result = 'false')).
+
 call_request(_,'Invalid').
 
 

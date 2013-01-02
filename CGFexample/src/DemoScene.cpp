@@ -142,7 +142,7 @@ DemoScene::display ()
         else if (player == PLAYER2)
             nr_cams = 2;
     }
-    else if (mode == FREE)
+    else if (mode == FREE || mode == WIN)
         nr_cams = 0;
 
     activateCamera (nr_cams);
@@ -179,7 +179,7 @@ DemoScene::display ()
     }
 
     // Draw axis
-    //axis.draw();
+    axis.draw();
 
 
     // ---- END Background, camera and axis setup
@@ -192,7 +192,7 @@ DemoScene::display ()
 
 
 
-    if (mode == LOGIN)
+    if (mode == LOGIN || mode == WIN)
     {
         glPushMatrix ();
         materialAppearance->apply ();
@@ -225,6 +225,7 @@ DemoScene::display ()
         ambi->draw ();
         glPopMatrix ();
     }
+    
     if (mode == PLAY)
     {
         //Counters for moves so each player knows how many he has left
@@ -322,6 +323,19 @@ DemoScene::getEntireString (Model* model, House* picked)
     ret += "'," + col_s + "," + line_s + ")";
     return ret;
 }
+string
+DemoScene::getWinString ()
+{
+    string checkWin = "check_victory(";
+    checkWin += board->getPrologString ();
+    checkWin+=",";
+    if(player == PLAYER1)
+        checkWin +="1)";
+    else if(player == PLAYER2)
+        checkWin +="2)";
+    
+    return checkWin;
+}       
 DemoScene::~DemoScene ()
 {
     for (list<CGFlight*>::iterator it = scene_lights.begin (); it != scene_lights.end (); it++)

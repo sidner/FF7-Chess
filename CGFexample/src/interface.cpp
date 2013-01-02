@@ -304,11 +304,13 @@ interface::processHouse (GLuint* selected)
                     if (((DemoScene*) scene)->moves1 > 1)
                     {
                         move (((DemoScene*) scene)->board->board[i][j]);
+                        check_win ();
                         ((DemoScene*) scene)->moves1--;
                     }
                     else
                     {
                         move (((DemoScene*) scene)->board->board[i][j]);
+                        check_win ();
                         ((DemoScene*) scene)->moves2 = ((DemoScene*) scene)->board->pieces2.size ();
                         ((DemoScene*) scene)->player = PLAYER2;
                     }
@@ -318,11 +320,13 @@ interface::processHouse (GLuint* selected)
                     if (((DemoScene*) scene)->moves2 > 1)
                     {
                         move (((DemoScene*) scene)->board->board[i][j]);
+                        check_win ();
                         ((DemoScene*) scene)->moves2--;
                     }
                     else
                     {
                         move (((DemoScene*) scene)->board->board[i][j]);
+                        check_win ();
                         ((DemoScene*) scene)->moves1 = ((DemoScene*) scene)->board->pieces1.size ();
                         ((DemoScene*) scene)->board->resetChecks ();
                         ((DemoScene*) scene)->player = PLAYER1;
@@ -371,4 +375,16 @@ interface::move (House* house)
     picked->isPicked = false;
     picked = NULL;
     modelPicked = false;
+}
+void
+interface::check_win ()
+{
+    string win = ((DemoScene*)scene)->getWinString();
+    
+    string answer = ((DemoScene*)scene)->connection->speak (win);
+    
+    if(answer == "true.\n")
+    {
+        ((DemoScene*)scene)->mode = WIN;
+    }
 }

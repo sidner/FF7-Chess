@@ -33,6 +33,7 @@ public:
     void activateCamera(int i);
     void renderstring3d(char string[], float r, float g, float b, float x, float y, float z);
     string getEntireString(Model* model, House* picked);
+    string getWinString();
     DemoScene(char* nome);
     ~DemoScene();
     int lz[8];

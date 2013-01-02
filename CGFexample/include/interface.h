@@ -22,6 +22,7 @@ public:
     void processHouse(GLuint* selected);
     void processLogin(GLuint* selected);
     void move(House* house);
+    void check_win();
     int testVar;
 
 private:
