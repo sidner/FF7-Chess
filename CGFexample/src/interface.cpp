@@ -21,6 +21,8 @@ interface::initGUI ()
     GLUI_Panel *varPanel2 = addPanel ("Cameras", 1);
     addColumn ();
     GLUI_Panel *varPanel3 = addPanel ("Options", 1);
+    addColumn ();
+    GLUI_Panel *varPanel4 = addPanel("Mode",1);
 
     GLUI_Listbox *list = addListboxToPanel (varPanel2, "Cameras", &(((DemoScene*) scene)->nr_cams), 1);
     GLUI_Listbox *apps = addListboxToPanel (varPanel2, "Ambiance", &(((DemoScene*) scene)->ambient), 1);
@@ -52,6 +54,17 @@ interface::initGUI ()
     addColumnToPanel (varPanel3);
     addButtonToPanel (varPanel3, "Movie", 6);
     addButtonToPanel(varPanel3,"Free/Lock Camera",2);
+    
+    GLUI_Listbox *modes = addListboxToPanel (varPanel4,"Game Modes",&((DemoScene*)scene)->gameMode,1);
+    modes->add_item (0,"Player vs Player");
+    modes->add_item(1,"Player vs Machine");
+    modes->add_item (2,"Machine vs Machine");
+    
+    addColumnToPanel(varPanel4);
+    GLUI_Listbox *diff = addListboxToPanel (varPanel4,"Difficulty Level",&((DemoScene*)scene)->difficulty,1);
+    diff->add_item (0,"Easy");
+    diff->add_item(1,"Normal");
+    diff->add_item (2,"Sephiroth");
 }
 void
 interface::processGUI (GLUI_Control *ctrl)
@@ -385,6 +398,11 @@ interface::check_win ()
     
     if(answer == "true.\n")
     {
+        cout << "Player " << ((DemoScene*)scene)->player << " wins!!" << endl;
+        if(((DemoScene*)scene)->player == PLAYER1)
+            ((DemoScene*)scene)->materialAppearance->setTexture ("../textures/P1WINS.jpg");
+        else
+            ((DemoScene*)scene)->materialAppearance->setTexture ("../textures/P2WINS.jpg");
         ((DemoScene*)scene)->mode = WIN;
     }
 }

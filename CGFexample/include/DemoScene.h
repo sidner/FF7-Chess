@@ -76,6 +76,8 @@ private:
     CGFappearance* environtments[4];
     char m1[2];
     char m2[2];
+    int gameMode;
+    int difficulty;
 };
 
 #endif

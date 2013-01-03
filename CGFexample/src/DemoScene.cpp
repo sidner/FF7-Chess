@@ -131,7 +131,7 @@ void
 DemoScene::display ()
 {
 
-    if (mode == LOGIN)
+    if (mode == LOGIN || mode == WIN)
     {
         nr_cams = 1;
     }
@@ -142,7 +142,7 @@ DemoScene::display ()
         else if (player == PLAYER2)
             nr_cams = 2;
     }
-    else if (mode == FREE || mode == WIN)
+    else if (mode == FREE)
         nr_cams = 0;
 
     activateCamera (nr_cams);
@@ -179,7 +179,7 @@ DemoScene::display ()
     }
 
     // Draw axis
-    axis.draw();
+    //axis.draw();
 
 
     // ---- END Background, camera and axis setup
@@ -192,12 +192,21 @@ DemoScene::display ()
 
 
 
-    if (mode == LOGIN || mode == WIN)
+    if (mode == LOGIN)
     {
         glPushMatrix ();
         materialAppearance->apply ();
         login->draw ();
         glPopMatrix ();
+    }
+    else if(mode == WIN)
+    {
+        glFrontFace(GL_CW);
+        glPushMatrix ();
+        materialAppearance->apply ();
+        login->draw ();
+        glPopMatrix ();
+        glFrontFace(GL_CCW);
     }
     else if (mode == FREE || mode == PLAY)
     {
