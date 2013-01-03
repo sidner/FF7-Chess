@@ -69,7 +69,7 @@ bool Connection::connect_server()
     }
     else
     {
-        cout << "Connection stablished.\n";
+        cout << "Connection established.\n";
         connected = true;
 		speak("hello");
         return connected;
